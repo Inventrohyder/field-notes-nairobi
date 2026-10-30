@@ -1133,7 +1133,7 @@ SCENES['mosques'] = {
         placeGate(lerpProfile(TX, v), 'BY ' + fmt(v), 'time');
         setText('[data-mq-field]', 'Add a stop: Mosque · arrive by ' + fmt(v));
         setText('[data-mq-kind]', 'Mosque on your route');
-        setText('[data-mq-note]', 'Dhuhr congregation 13:30, set by the mosque');
+        setText('[data-mq-note]', 'Congregation 13:30, set by the mosque');
         setText(
           '[data-mq-result]',
           bm

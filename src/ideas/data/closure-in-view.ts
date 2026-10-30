@@ -27,7 +27,7 @@ export const idea: Idea = {
     'The app lets you close only roads within about 100 m, in your own direction.<sup class="fn"><a href="#src-closure-in-view-2" aria-label="Source 2">2</a></sup>',
   proposed: 'Tap a road in view, choose the direction that is closed, and send it.',
   howToday:
-    'The East African Community wiki: any Wazer can report a closure “only on roads connecting in the immediate vicinity (around 100m)” and “only in the driving direction of the wazer”.<sup class="fn"><a href="#src-closure-in-view-2" aria-label="Source 2">2</a></sup> In WME, closures need a rank 4 editor in their editable area, or an Area Manager in their own area.<sup class="fn"><a href="#src-closure-in-view-2" aria-label="Source 2">2</a></sup>',
+    'The East African Community wiki: any Wazer can report a closure “only on roads connecting in the immediate vicinity (around 100m)” and “only in the driving direction of the wazer”.<sup class="fn"><a href="#src-closure-in-view-2" aria-label="Source 2">2</a></sup> In WME, closures need a rank 4 editor in their editable area, or an editor who manages that area.<sup class="fn"><a href="#src-closure-in-view-2" aria-label="Source 2">2</a></sup>',
   howProposed:
     'Tap a road in view, choose the direction that is closed, and send it. In WME an editor can already close one direction of a two-way segment.<sup class="fn"><a href="#src-closure-in-view-3" aria-label="Source 3">3</a></sup>',
   elsewhere: [
