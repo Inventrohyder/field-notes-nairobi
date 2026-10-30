@@ -35,9 +35,9 @@ const START = [
   <section class="greet wrap" data-greet hidden aria-labelledby="greet-h">
     <div class="greet-card">
       <p class="eyebrow">A note for you</p>
-      <h2 id="greet-h" class="greet-line" data-greet-line>
+      <p id="greet-h" class="greet-line" data-greet-line>
         Hello
-      </h2>
+      </p>
       <ol class="tiles greet-tiles" data-greet-tiles></ol>
       <a class="btn primary greet-go" data-greet-go href={base}>
         Start here
@@ -74,7 +74,7 @@ const START = [
   </section>
 
   <div class="wrap home">
-    <section class="start" aria-labelledby="start-h">
+    <section class="start" id="start" aria-labelledby="start-h">
       <h2 id="start-h">Short on time? Start with these three</h2>
       <p class="muted">Each is small, and each can be tested in Kenya first.</p>
       <ol class="start-list">
@@ -148,12 +148,15 @@ const START = [
       </p>
       <p>
         Every screenshot here is my own, from my drives in Kenya. Number plates and other users'
-        names are blurred. I drew every scene myself. The phone screens are drawn in the style of
-        the app, with our own icons; none is a Waze screen.
+        names are blurred.
       </p>
       <p>
-        Numbers link to their sources, checked on 17 October 2026. Anything made up to show an idea
-        is marked Illustration.
+        The scenes and phone screens are original drawings in the style of the app. None is a Waze
+        screen.
+      </p>
+      <p>
+        Numbers link to their sources, checked in October 2026. Anything made up to show an idea is
+        marked Illustration.
       </p>
       <p>I would be glad to help test any of these with the Nairobi editing community.</p>
       <p>
