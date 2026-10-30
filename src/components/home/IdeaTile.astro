@@ -14,14 +14,14 @@ const H = `h${level}` as 'h3' | 'h4';
 
 <li class="tile" data-tile={idea.id}>
   <a href={`${base}${idea.id}/`}>
-    <span class="tile-pic">
+    <div class="tile-pic">
       <LegacyThumb id={idea.id} />
-    </span>
-    <span class="tile-body">
+    </div>
+    <div class="tile-body">
       <span class="tile-num">{idea.num}</span>
       <H class="tile-t">{idea.title}</H>
       <span class="tile-hook">{idea.hook}</span>
-    </span>
+    </div>
   </a>
 </li>
 

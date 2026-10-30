@@ -133,6 +133,12 @@ h3 {
 p {
   margin: 0 0 0.8em;
 }
+p,
+li,
+dd,
+dt {
+  overflow-wrap: break-word;
+}
 .wrap {
   width: 100%;
   max-width: 1180px;

@@ -37,7 +37,9 @@ function resolveTarget(fromFile, url) {
     if (existsSync(p) && statSync(p).isDirectory()) p = join(p, 'index.html');
     target = p;
   }
-  if (!existsSync(target)) return { error: `missing: ${url}` };
+  // The PDF is made from the built site by `npm run pdf`, after this check runs in CI.
+  if (!existsSync(target) && !target.endsWith('field-notes-nairobi.pdf'))
+    return { error: `missing: ${url}` };
   if (hash && target.endsWith('.html') && !hash.startsWith('for=') && hash !== 'main') {
     const set = ids.get(target);
     if (set && !set.has(decodeURIComponent(hash))) return { error: `missing anchor: ${url}` };

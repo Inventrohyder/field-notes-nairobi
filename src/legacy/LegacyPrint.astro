@@ -9,10 +9,11 @@ interface Props {
 const { id } = Astro.props;
 const svgs = sceneSvgs(id);
 const idea = ideaData(id);
+// Footnotes point at the print page's own source lists (#p-src-<id>-<n>).
 const states = [
   { key: 'today', label: 'Today', text: idea?.howToday ?? '' },
   { key: 'proposed', label: 'Proposed', text: idea?.howProposed ?? '' },
-];
+].map((s) => ({ ...s, text: s.text.replaceAll(`#src-${id}-`, `#p-src-${id}-`) }));
 ---
 
 {svgs.length > 0 && (
