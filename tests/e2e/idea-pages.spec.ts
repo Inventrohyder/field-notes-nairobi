@@ -56,6 +56,10 @@ for (const scheme of ['light', 'dark'] as const) {
         const next = dlg.locator('[data-st-next]');
         for (let i = 0; i < 12 && (await next.isVisible()); i++) await next.click();
         await expect(dlg.getByRole('heading', { name: 'End of the walkthrough' })).toBeVisible();
+        // Let the 0.24 s slide-in finish, so axe measures colours at full opacity.
+        await dlg
+          .locator('.st-col')
+          .evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
         expect(await seriousA11y(page)).toEqual([]);
         await dlg.getByRole('button', { name: 'Back to the idea' }).click();
         await expect(dlg).toBeHidden();
