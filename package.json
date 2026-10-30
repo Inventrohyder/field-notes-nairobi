@@ -1,0 +1,42 @@
+{
+  "name": "field-notes-nairobi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Field Notes from Nairobi: twenty-one small proposals to make Waze fit Kenyan roads.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.3"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "validate": "html-validate \"dist/**/*.html\"",
+    "linkcheck": "node scripts/linkcheck.mjs dist",
+    "pdf": "node scripts/make-pdf.mjs"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.0",
+    "@eslint/js": "^9.39.5",
+    "@fontsource/nunito": "^5.3.0",
+    "@playwright/test": "^1.64.1",
+    "astro": "^5.18.2",
+    "eslint": "^9.39.5",
+    "eslint-plugin-astro": "^1.7.0",
+    "globals": "^17.13.0",
+    "html-validate": "^11.17.0",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.0.5"
+  }
+}
