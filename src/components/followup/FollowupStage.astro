@@ -38,6 +38,7 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
       <CategorySheet
         title="What do you see?"
         footer="none"
+        note="First rows of the menu. More report types follow below."
         grab
         tiles={[
           { choice: 'traffic', label: 'Traffic', icon: 'traffic' },
@@ -103,7 +104,7 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   <div class="ph-screen" data-screen="red-a" hidden>
     <TurnBanner dist="150 m" street="Waiyaki Way" turn="keep-left" />
     <div class="ph-map">
-      <DriveMap layout="highway" label="Map: stopped at a red light in Westlands." />
+      <DriveMap layout="westlands" label="Map: stopped at a red light on Waiyaki Way, Westlands." />
       <div class="ph-pill-note">
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
           <rect x="7" y="2" width="10" height="20" rx="4" fill="#4a5258"></rect>
@@ -122,7 +123,11 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   {/* Parked, both scenarios */}
   <div class="ph-screen" data-screen="parked" hidden>
     <div class="ph-map">
-      <DriveMap layout="highway" parked label="Map: your car parked at Sarit Centre, Westlands." />
+      <DriveMap
+        layout="westlands"
+        parked
+        label="Map: your car parked at Sarit Centre, Westlands."
+      />
       <div class="ph-parked">
         <h4>You’ve arrived</h4>
         <p>Sarit Centre, Westlands</p>
@@ -148,13 +153,13 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
         <p class="who">Waze AI assistant</p>
         <p class="why">
           <span data-sc="hazard" hidden>
-            About the roadworks you reported at 4:11 pm · about 30 seconds
+            About the roadworks you reported at 4:11 pm
           </span>
           <span data-sc="map-issue" hidden>
-            Map editors need a little more detail on the turn you reported at 4:11 pm · about 30
-            seconds
+            Map editors need a little more detail on the turn you reported at 4:11 pm
           </span>
         </p>
+        <p class="why why-len">About 30 seconds</p>
       </div>
       <div style="width: 100%">
         <p class="ph-listen">
@@ -537,7 +542,12 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
 
   {/* Scenario A ending: what drivers approaching see */}
   <div class="ph-screen" data-screen="summary-a" hidden>
-    <div class="ph-plain">
+    <div
+      class="ph-plain"
+      tabindex="0"
+      role="region"
+      aria-label="What drivers see after your answers"
+    >
       <div class="ph-plain-head">
         What drivers approaching see now <Fragment set:html={proposed} />
       </div>
@@ -562,7 +572,9 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
           <dd data-var="dur"></dd>
         </dl>
       </div>
-      <div class="ph-plain-head">The next driver, just after passing</div>
+      <div class="ph-plain-head">
+        The next driver, just after passing <Fragment set:html={proposed} />
+      </div>
       <div class="ph-alert">
         <div class="ph-alert-top">
           <Fragment set:html={icon('construction', 34)} />
@@ -574,6 +586,7 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
           <span class="ph-pill blue">Still there</span>
           <span class="ph-pill grey">Not there</span>
         </div>
+        <p class="ph-idea-ref">From idea 06, Ask at the right moment</p>
       </div>
     </div>
   </div>
@@ -644,6 +657,7 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
           { choice: 'exit', label: 'Missing exit', icon: 'exit' },
           { choice: 'road', label: 'Missing road', icon: 'road' },
         ]}
+        note="Labels as on the Waze iOS app in Kenya, October 2026."
       />
     </div>
   </div>
@@ -886,6 +900,15 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
     font: 600 14px/1.4 var(--f-ui);
     color: var(--p-ink);
     margin: auto 4px 8px;
+  }
+  .ph-call .why-len {
+    margin-top: 4px;
+    font-weight: 700;
+  }
+  .ph-idea-ref {
+    margin: 8px 0 0;
+    font: 700 12px/1.3 var(--f-ui);
+    color: var(--p-muted);
   }
   .ph-hint {
     margin: 2px 0 4px;

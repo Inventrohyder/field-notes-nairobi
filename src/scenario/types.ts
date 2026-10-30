@@ -36,6 +36,8 @@ export interface Step {
   widget?: 'lanes' | 'turns';
   /** End steps: what changed, in one or two lines, for the ending block. */
   changed?: string;
+  /** A side trip (such as "Call me later") that does not move the step count on. */
+  detour?: boolean;
 }
 
 export interface Scenario {

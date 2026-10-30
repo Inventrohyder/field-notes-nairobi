@@ -103,6 +103,7 @@ const total = IDEAS.length;
             allHref={base}
           >
             <Stage />
+            {idea.id === 'report-followup' && <RulesBox slot="aside" compact />}
           </GuidedDemo>
           {idea.id === 'report-followup' && <RulesBox />}
         </>

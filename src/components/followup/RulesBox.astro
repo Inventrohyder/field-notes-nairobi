@@ -1,34 +1,47 @@
 ---
 /** "Rules beside the phone" for the follow-up call (plan section 5). */
+
+interface Props {
+  /** A collapsed version for the narrator column, beside the phone while playing. */
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const RULES: [string, string][] = [
+  ['Opt-in.', 'Only drivers who switch it on.'],
+  ['Says it is AI.', 'Every call and text opens with “This is Waze’s AI assistant”.'],
+  ['Parked only.', 'Never while moving or waiting in traffic.'],
+  ['One callback.', 'If it is missed, one text follows, then nothing more.'],
+  ['Three questions.', 'Under a minute.'],
+  ['Questions that fit.', 'Lanes for roadworks, the turn for a map issue.'],
+  ['Not for police or traffic.', 'Those reports expire within minutes.'],
+];
 ---
 
-<aside class="rules" aria-labelledby="rules-h">
-  <h3 id="rules-h">Rules beside the phone</h3>
-  <ul>
-    <li>
-      <b>Opt-in.</b> Only drivers who switch it on get a follow-up.
-    </li>
-    <li>
-      <b>Always says it is AI.</b> The caller always says it is an AI assistant.
-    </li>
-    <li>
-      <b>Never while moving.</b> Never while moving or waiting in traffic.
-    </li>
-    <li>
-      <b>One callback.</b> One callback at most.
-    </li>
-    <li>
-      <b>Three questions.</b> Three questions at most.
-    </li>
-    <li>
-      <b>Questions that fit.</b> Only questions that fit the report type.
-    </li>
-    <li>
-      <b>Not for short-lived reports.</b> No follow-up for police or traffic reports, which expire
-      within minutes.
-    </li>
-  </ul>
-</aside>
+{compact ? (
+  <details class="rules compact">
+    <summary>Rules beside the phone</summary>
+    <ul>
+      {RULES.map(([b, t]) => (
+        <li>
+          <b>{b}</b>
+          {` ${t}`}
+        </li>
+      ))}
+    </ul>
+  </details>
+) : (
+  <aside class="rules" aria-labelledby="rules-h">
+    <h3 id="rules-h">Rules beside the phone</h3>
+    <ul>
+      {RULES.map(([b, t]) => (
+        <li>
+          <b>{b}</b>
+          {` ${t}`}
+        </li>
+      ))}
+    </ul>
+  </aside>
+)}
 
 <style>
   .rules {
@@ -37,6 +50,22 @@
     border-radius: 14px;
     padding: 14px 16px 6px;
     margin-top: 16px;
+  }
+  .rules.compact {
+    padding: 0 14px;
+    margin-top: 10px;
+    box-shadow: none;
+  }
+  .rules summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    color: var(--green-ink);
+    cursor: pointer;
+  }
+  .rules.compact ul {
+    padding-bottom: 8px;
   }
   .rules h3 {
     font-size: 1.1rem;

@@ -36,6 +36,9 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
     <div class="play-grid">
       <div class="play-narr">
         <Narrator />
+        <div class="play-aside">
+          <slot name="aside" />
+        </div>
       </div>
       <div class="play-stage">
         <slot />
@@ -87,7 +90,13 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
       font-size: 0.98rem;
     }
   }
+  .play-aside {
+    display: none;
+  }
   @media (min-width: 900px) {
+    .play-aside {
+      display: block;
+    }
     .play-grid {
       grid-template-columns: minmax(300px, 1fr) minmax(340px, 400px);
       align-items: start;

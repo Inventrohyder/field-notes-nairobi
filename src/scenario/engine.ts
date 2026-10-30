@@ -55,27 +55,22 @@ function plain(html: string): string {
   return (d.textContent ?? '').replace(/\s+/g, ' ').trim();
 }
 
-/** Fewest steps from `id` to any end step, following enabled choices. */
-function distanceToEnd(sc: Scenario, id: string): number {
-  const seen = new Set([id]);
-  let frontier = [id];
-  let d = 0;
-  while (frontier.length) {
-    const next: string[] = [];
-    for (const f of frontier) {
-      const s = sc.steps[f];
-      if (s.end) return d;
-      for (const c of s.choices) {
-        if (!c.disabled && !seen.has(c.to)) {
-          seen.add(c.to);
-          next.push(c.to);
-        }
-      }
-    }
-    frontier = next;
-    d++;
+/**
+ * Most steps from `id` to an end step, following enabled choices without revisiting a step.
+ * Counting the longest way keeps the total steady: it only shrinks when a shorter branch is taken.
+ */
+export function longestToEnd(sc: Scenario, id: string, seen: Set<string> = new Set()): number {
+  const s = sc.steps[id];
+  if (!s || s.end) return 0;
+  seen.add(id);
+  let best = 0;
+  for (const c of s.choices) {
+    if (c.disabled || seen.has(c.to)) continue;
+    const w = sc.steps[c.to]?.detour ? 0 : 1;
+    best = Math.max(best, w + longestToEnd(sc, c.to, seen));
   }
-  return 0;
+  seen.delete(id);
+  return best;
 }
 
 export class Demo {
@@ -364,9 +359,10 @@ export class Demo {
     this.els.narrTag.dataset.tag = step.tag ?? 'today';
     this.els.back.disabled = this.history.length < 2;
 
-    // Progress dots: steps taken, then the fewest steps left to an ending.
-    const done = this.history.length;
-    const left = distanceToEnd(sc, step.id);
+    // Progress dots: steps taken, then the most steps that could be left to an ending.
+    // Detour steps (the "Call me later" side trip) keep the count where it was.
+    const done = this.history.filter((h) => !sc.steps[h.step].detour).length;
+    const left = longestToEnd(sc, step.id);
     const total = done + left;
     this.els.narrStep.textContent = `Step ${done} of ${total}`;
     this.els.dots.innerHTML = '';

@@ -20,11 +20,7 @@ const { intro, scenarios } = Astro.props;
         <h3 tabindex="-1">{s.title}</h3>
         <p>{s.who}</p>
         <button type="button" class="btn primary" data-start={s.id}>
-          Play:{' '}
-          {s.title
-            .toLowerCase()
-            .replace(/^a /, '')
-            .replace(/^./, (c) => c.toUpperCase())}
+          Play scenario {String.fromCharCode(65 + i)}
         </button>
       </article>
     ))}

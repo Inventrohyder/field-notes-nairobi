@@ -1275,3 +1275,9 @@
   width: 100%;
   height: 100%;
 }
+.ph-sheet-note {
+  margin: 6px 2px 4px;
+  text-align: center;
+  font: 600 11px/1.3 var(--f-ui);
+  color: var(--p-muted);
+}
