@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import { GROUPS, IDEAS } from '../ideas/index';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<BaseLayout
+  title="Field Notes from Nairobi"
+  description="Twenty-one small proposals from a Nairobi map editor to make Waze fit Kenyan roads."
+>
+  <div class="wrap narrow home">
+    <h1>Field Notes from Nairobi</h1>
+    <p class="lead">Small changes that would make Waze fit Kenyan roads.</p>
+    <p>
+      Haitham Alhad Hyder, volunteer map editor in Nairobi. First shown to Waze staff at the EMEA
+      Mega Meetup in Berlin, October 2026.
+    </p>
+    <p>
+      <a href={`${base}print/`}>Every idea on one printable page</a>
+    </p>
+    {GROUPS.map((g) => (
+      <section aria-labelledby={`g-${g.id}`}>
+        <h2 id={`g-${g.id}`}>{g.name}</h2>
+        <p class="sum">{g.summary}</p>
+        <ul class="ideas">
+          {IDEAS.filter((i) => i.group === g.id).map((i) => (
+            <li>
+              <a href={`${base}${i.id}/`}>
+                <span class="n">{i.num}</span>
+                <span>
+                  <b>{i.title}</b>
+                  <span class="hook">{i.hook}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .home {
+    padding-top: 24px;
+  }
+  h1 {
+    font: 800 clamp(2.4rem, 9vw, 4rem) / 0.95 var(--f-stencil);
+    text-transform: uppercase;
+  }
+  .lead {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .sum {
+    color: var(--muted);
+  }
+  .ideas {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .ideas a {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .ideas a:hover {
+    border-color: var(--sign);
+  }
+  .n {
+    font: 700 0.85rem/1 var(--f-mono);
+    background: var(--tarmac);
+    color: var(--yellow);
+    border-radius: 5px;
+    padding: 6px;
+  }
+  .hook {
+    display: block;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  section {
+    margin-top: 28px;
+  }
+</style>

@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../components/BaseLayout.astro';
+import { GROUPS, IDEAS } from '../ideas/index';
+---
+
+<BaseLayout
+  title="Field Notes from Nairobi: every idea"
+  description="All twenty-one ideas on one printable page, with sources."
+  path="print/"
+>
+  <div class="wrap narrow print">
+    <h1>Field Notes from Nairobi</h1>
+    <p>
+      Small changes that would make Waze fit Kenyan roads. Haitham Alhad Hyder, volunteer map editor
+      in Nairobi.
+    </p>
+    {IDEAS.map((i) => (
+      <article class="pi" aria-labelledby={`p-${i.id}`}>
+        <p class="eyebrow">
+          {i.num} · {GROUPS.find((g) => g.id === i.group)?.name}
+        </p>
+        <h2 id={`p-${i.id}`}>{i.title}</h2>
+        <p set:html={i.problem.replaceAll(`#src-${i.id}-`, `#p-src-${i.id}-`)} />
+        <p>
+          <b>You already know.</b>{' '}
+          <Fragment set:html={i.known.replaceAll(`#src-${i.id}-`, `#p-src-${i.id}-`)} />
+        </p>
+        <p>
+          <b>Today.</b>{' '}
+          <Fragment set:html={i.today.replaceAll(`#src-${i.id}-`, `#p-src-${i.id}-`)} />
+        </p>
+        <p>
+          <b>Proposed.</b>{' '}
+          <Fragment set:html={i.proposed.replaceAll(`#src-${i.id}-`, `#p-src-${i.id}-`)} />
+        </p>
+        <p>
+          <b>The ask.</b> {i.ask} For: {i.teams.join(' · ')}.
+        </p>
+        <ol class="src">
+          {i.sources.map((s) => (
+            <li id={`p-src-${i.id}-${s.n}`} value={s.n}>
+              <a href={s.url}>{s.label}</a> <span class="url">{s.url}</span>
+            </li>
+          ))}
+        </ol>
+      </article>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .print h1 {
+    font: 800 2.6rem/1 var(--f-stencil);
+    text-transform: uppercase;
+  }
+  .pi {
+    border-top: 2px solid var(--rule);
+    padding-top: 16px;
+    margin-top: 24px;
+  }
+  .src {
+    font-size: 0.85rem;
+  }
+  .url {
+    display: none;
+    word-break: break-all;
+  }
+  @media print {
+    @page {
+      size: A4;
+      margin: 14mm;
+    }
+    .pi {
+      break-before: page;
+    }
+    .url {
+      display: inline;
+      color: #4b5559;
+    }
+    :global(.topbar),
+    :global(.skip) {
+      display: none;
+    }
+  }
+</style>
