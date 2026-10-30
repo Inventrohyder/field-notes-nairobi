@@ -538,6 +538,12 @@ const byId = new Map(IDEAS.map((i) => [i.id, i]));
   .pk-idea[data-starred] {
     border-color: var(--yellow);
   }
+  .pk-idea:not([data-starred]) {
+    grid-template-areas: 'add add';
+  }
+  .pk-idea:not([data-starred]) .pk-stars {
+    display: none;
+  }
   .pk-add {
     grid-area: add;
     display: flex;
