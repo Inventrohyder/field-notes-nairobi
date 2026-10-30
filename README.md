@@ -24,7 +24,7 @@ npm run preview      # serve dist/
 | `npm run check`        | Type check (Astro and TypeScript, strict)                                                                         |
 | `npm run lint`         | ESLint                                                                                                            |
 | `npm run format:check` | Prettier                                                                                                          |
-| `npm test`             | Unit tests, including the scenario path walk                                                                      |
+| `npm test`             | Unit tests: the scenario path walk, personal links, and the public check of `dist/` (run after `npm run build`)   |
 | `npm run test:e2e`     | Playwright: plays each guided scenario at phone and laptop width, light and dark, with an axe accessibility check |
 | `npm run validate`     | HTML validation of `dist/`                                                                                        |
 | `npm run linkcheck`    | Internal links and anchors in `dist/`                                                                             |
@@ -52,11 +52,13 @@ A personal link carries a greeting and a short list of ideas after the `#`, for 
 
 ## Presenter mode
 
-Add `?presenter` to the address to open the presenter tools: make a personal link (name, up to three ideas, one line), keep a log of picks, and reset for the next person. A people list can be loaded from a local file. Everything in presenter mode stays in that browser's local storage on that device.
+Add `?presenter` to the address to show the presenter tools (the setting lasts for that browser tab): make a personal link (name, up to three ideas, one line, opening the main page or one idea), keep a log of visitors' picks, and save and reset for the next visitor. A people list can be loaded from a local JSON file (`[{"name": "…", "ideas": ["mosques"], "line": "…"}]`); typing a name then finds the closest match. Everything in presenter mode stays in that browser's local storage on that device, and no people data is kept in this repo.
 
 ## Privacy
 
-No analytics, no cookies, and no requests to other sites while you browse. Fonts are served from this site. The browser stores only your theme choice and, in presenter mode, the presenter's own data.
+No analytics, no cookies, and no requests to other sites while you browse. Fonts are served from this site. The browser stores only your theme choice and your picks and, in presenter mode, the presenter's own data.
+
+`tests/public-check.test.ts` scans the built site for anything that must not be public, such as email addresses or names from the meetup. It keeps those strings as hashes, so the list itself never appears in this repo.
 
 ## Deploying
 
