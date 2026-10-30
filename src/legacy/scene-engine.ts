@@ -1443,7 +1443,7 @@ const SHORT: Record<string, string> = {
   uses: 'Uses',
   elsewhere: 'Elsewhere',
   questions: 'Questions',
-  why: 'Why',
+  why: 'Why + ask',
   ask: 'Ask',
 };
 const MONTHS =

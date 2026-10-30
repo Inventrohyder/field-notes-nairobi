@@ -2068,6 +2068,19 @@ html.lg-reduce .lg .motion-btn {
 .lg .st-bar.is-on b {
   color: var(--yellow);
 }
+@media (max-width: 559px) {
+  .lg .st-bar b {
+    visibility: hidden;
+  }
+  .lg .st-bar.is-on b {
+    visibility: visible;
+    overflow: visible;
+    width: max-content;
+  }
+  .lg .st-bars .st-bar:nth-last-child(-n + 2).is-on b {
+    justify-self: end;
+  }
+}
 .lg .st-body {
   overflow-y: auto;
   overflow-x: hidden;
