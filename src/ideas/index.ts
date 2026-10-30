@@ -19,11 +19,10 @@ function collect(): IdeaEntry[] {
   for (const mod of Object.values(modules)) {
     if (mod.idea) byId.set(mod.idea.id, { ...mod.idea, scenarios: mod.scenarios?.length ? mod.scenarios : undefined });
   }
-  // Idea 10 carries the guided scenarios written for it here. Its page text comes from
-  // src/ideas/data/report-followup.ts when present, otherwise from followup-content.ts.
-  const base = byId.get(followupIdea.id) ?? followupIdea;
+  // Idea 10 is rebuilt as guided scenarios. Its page text and sources live with the scenarios
+  // in followup-content.ts, because the scenario narration cites the same numbered sources.
   byId.set(followupIdea.id, {
-    ...base,
+    ...followupIdea,
     scenarios: followupScenarios,
     scenarioIntro: FOLLOWUP_INTRO,
   });

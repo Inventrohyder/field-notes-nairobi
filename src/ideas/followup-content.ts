@@ -160,6 +160,7 @@ const hazard: Scenario = {
       narrator: 'Waze calls roadworks Construction.',
       action: 'Tap Construction, then Report.',
       choices: [
+        off('hazard-default', 'Hazard', 'Roadworks go under Construction'),
         { id: 'construction', label: 'Construction', to: 'a-hazard-picked' },
         off('car-shoulder', 'Car on shoulder'),
         off('traffic-light', 'Broken traffic light'),
@@ -174,7 +175,16 @@ const hazard: Scenario = {
       screen: 'hazard',
       narrator: 'Construction is selected.',
       action: 'Tap Report.',
-      choices: [{ id: 'send', label: 'Report', to: 'a-reported' }, off('cancel', 'Cancel')],
+      choices: [
+        off('hazard-default', 'Hazard', 'Roadworks go under Construction'),
+        off('construction', 'Construction', 'Selected'),
+        off('car-shoulder', 'Car on shoulder'),
+        off('traffic-light', 'Broken traffic light'),
+        off('pothole', 'Pothole'),
+        off('object', 'Object'),
+        off('cancel', 'Cancel'),
+        { id: 'send', label: 'Report', to: 'a-reported' },
+      ],
     },
     'a-reported': {
       id: 'a-reported',
@@ -328,7 +338,7 @@ const hazard: Scenario = {
         { id: 'dur-today', label: 'Just today', to: 'a-end', set: { dur: 'Expected to clear today' } },
         { id: 'dur-days', label: 'A few days', to: 'a-end', set: { dur: 'Likely a few days' } },
         { id: 'dur-weeks', label: 'Weeks or more', to: 'a-end', set: { dur: 'Weeks or more' } },
-        { id: 'dur-unsure', label: 'Couldn’t tell', to: 'a-end', set: { dur: 'How long: not known' } },
+        { id: 'dur-unsure', label: 'Couldn’t tell', to: 'a-end', set: { dur: 'Not known' } },
       ],
     },
     'a-end': {
