@@ -4,7 +4,7 @@ import BaseLayout from '../components/BaseLayout.astro';
 import GuidedDemo from '../components/demo/GuidedDemo.astro';
 import FollowupStage from '../components/followup/FollowupStage.astro';
 import RulesBox from '../components/followup/RulesBox.astro';
-import LegacyScenePlaceholder from '../components/LegacyScenePlaceholder.astro';
+import LegacyScene from '../legacy/LegacyScene.astro';
 import CopyLink from '../components/CopyLink.astro';
 import { GROUPS, IDEAS, type IdeaEntry } from '../ideas/index';
 
@@ -24,12 +24,6 @@ const { idea, prev, next } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const group = GROUPS.find((g) => g.id === idea.group);
 const hasScenarios = !!idea.scenarios?.length;
-
-// The legacy scene for ideas without guided scenarios, when it is available.
-const legacy = import.meta.glob<{ default: AstroComponentFactory }>('../legacy/LegacyScene.astro', {
-  eager: true,
-});
-const LegacyScene = Object.values(legacy)[0]?.default ?? LegacyScenePlaceholder;
 
 // Stages for ideas with guided scenarios, keyed by idea id.
 const STAGES: Record<string, AstroComponentFactory> = { 'report-followup': FollowupStage };
@@ -109,7 +103,9 @@ const total = IDEAS.length;
           {idea.id === 'report-followup' && <RulesBox />}
         </>
       ) : (
-        <LegacyScene idea={idea} />
+        <div class="legacy-wrap">
+          <LegacyScene id={idea.id} />
+        </div>
       )}
     </div>
 
@@ -118,6 +114,25 @@ const total = IDEAS.length;
         <section aria-labelledby="moment-h">
           <h2 id="moment-h">The moment</h2>
           <p set:html={idea.moment.text} />
+          {idea.moment.shots && idea.moment.shots.length > 0 && (
+            <div class="shots">
+              {idea.moment.shots.map((shot) => (
+                <figure class="shot">
+                  <a href={base + shot.src} target="_blank" rel="noopener">
+                    <img
+                      src={base + shot.src}
+                      alt={shot.alt}
+                      width="600"
+                      height="880"
+                      decoding="async"
+                    />
+                    <span class="visually-hidden"> (opens the full screenshot)</span>
+                  </a>
+                  <figcaption>{shot.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
         </section>
       )}
 
@@ -359,8 +374,39 @@ const total = IDEAS.length;
   .more {
     max-width: 860px !important;
   }
+  .legacy-wrap {
+    max-width: 828px;
+    margin: 0 auto;
+  }
   .more section {
     margin-top: 32px;
+  }
+  .shots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .shot {
+    margin: 0;
+    flex: 0 1 170px;
+    max-width: 200px;
+  }
+  .shot a {
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+  }
+  .shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .shot figcaption {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 6px;
   }
   .how {
     display: grid;
