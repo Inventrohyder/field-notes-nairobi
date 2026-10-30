@@ -1,0 +1,45 @@
+<div class="scene-block" data-scene="alert-timing" data-state="today">
+<div class="seg-row"><div class="seg" role="group" aria-label="Show today or proposed"><button type="button" id="alert-timing-today" data-set="today" aria-pressed="true">Today</button><button type="button" id="alert-timing-proposed" data-set="proposed" aria-pressed="false">Proposed</button></div><span class="seg-hint">Tap to compare</span><button type="button" class="foot-btn walk-btn screen-only" data-walk="alert-timing">Walk me through it</button></div>
+<div class="scene"><svg class="sv" viewBox="0 0 320 164" role="img" aria-label="A straight road with a police report ahead. In Today the prompt appears about 10 km before the report. In Proposed it appears just after the car passes it.">
+<rect class="sv-map" width="320" height="164"/>
+<rect class="sv-verge" x="0" y="80" width="320" height="4"/>
+<rect class="sv-verge" x="0" y="106" width="320" height="4"/>
+<rect class="sv-roadf" x="0" y="84" width="320" height="22"/>
+<line class="sv-mark" x1="0" y1="95" x2="320" y2="95"/>
+<g transform="translate(236 89.5)"><circle class="sv-hud" r="9"/><path class="sv-wh" d="M0 -5.5 L4.6 -3.6 L4.6 0.8 C4.6 3.6 2.4 5.4 0 6.3 C-2.4 5.4 -4.6 3.6 -4.6 0.8 L-4.6 -3.6 Z"/></g>
+<text class="sv-lbl" x="226" y="122" text-anchor="middle">POLICE REPORT</text>
+<line class="sv-axis" x1="20" y1="134" x2="300" y2="134"/>
+<g class="sv-ticks"><line x1="40" y1="130" x2="40" y2="138"/><line x1="140" y1="130" x2="140" y2="138"/><line x1="236" y1="130" x2="236" y2="138"/><line x1="276" y1="130" x2="276" y2="138"/></g>
+<text class="sv-lbl" x="40" y="150" text-anchor="middle">10 KM</text>
+<text class="sv-lbl" x="140" y="150" text-anchor="middle">5 KM</text>
+<text class="sv-lbl" x="236" y="150" text-anchor="middle">REPORT</text>
+<text class="sv-lbl" x="278" y="150" text-anchor="middle">+200 M</text>
+<text class="sv-lbl" x="20" y="161">NOT TO SCALE</text>
+<g class="ask-mk mk-t"><path d="M34 122 L46 122 L40 129 Z"/></g>
+<g class="ask-mk mk-p"><path d="M270 122 L282 122 L276 129 Z"/></g>
+<g class="sv-verdict sv-t"><path class="vd-x" d="M8.0 68.8 l6 6 m0 -6 l-6 6"/><text class="sv-note" x="18.0" y="76.0">Asked 10 km before passing</text></g>
+<g class="sv-verdict sv-p" style="--d:1"><path class="vd-ok" d="M8.0 72.2 l2.4 2.6 l4.6 -6.2"/><text class="sv-okn" x="18.0" y="76.0">Asked right after passing</text></g>
+<g class="sv-you sv-t" transform="translate(42 89.5) rotate(90)" data-a="at"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<g class="sv-you sv-p" transform="translate(262 89.5) rotate(90)" data-a="at"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<g class="prompt prompt-early sv-t">
+<rect class="sv-hud" x="8" y="8" width="304" height="50" rx="10"/>
+<text class="sv-t1" x="20" y="28">Police · in 10.2 km</text>
+<text class="sv-t2" x="20" y="44">Mombasa Rd · 30 min ago</text>
+<circle class="sv-ok" cx="288" cy="33" r="13"/>
+<path class="sv-check" d="M282 33 L286.5 37.5 L294 29"/>
+</g>
+<g class="prompt prompt-after sv-p">
+<rect class="sv-hud" x="8" y="8" width="304" height="50" rx="10" data-focus/>
+<text class="sv-t1" x="20" y="28">You just passed: police</text>
+<text class="sv-t2b" x="20" y="44">Still there?</text>
+<rect class="sv-btn-yes" x="206" y="20" width="46" height="26" rx="13"/><text class="sv-btnt" x="229" y="37" text-anchor="middle">Yes</text>
+<rect class="sv-btn-no" x="258" y="20" width="46" height="26" rx="13"/><text class="sv-btnt" x="281" y="37" text-anchor="middle">No</text>
+</g>
+</svg></div>
+<div class="controls">
+  <label for="at-scrub">Drive along the road</label>
+  <input type="range" id="at-scrub" min="0" max="100" step="1" value="8">
+  <div class="range-ends" aria-hidden="true"><span>10 km before</span><span>Just past</span></div>
+  <div class="result"><button type="button" class="play" id="at-play" aria-pressed="true">Pause</button><span data-at-out aria-live="polite">Prompt shown 10 km before the report</span></div>
+</div>
+</div>

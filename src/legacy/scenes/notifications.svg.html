@@ -1,0 +1,26 @@
+<div class="scene-block" data-scene="notifications" data-state="today">
+<div class="seg-row"><div class="seg" role="group" aria-label="Show today or proposed"><button type="button" id="notifications-today" data-set="today" aria-pressed="true">Today</button><button type="button" id="notifications-proposed" data-set="proposed" aria-pressed="false">Proposed</button></div><span class="seg-hint">Tap to compare</span><button type="button" class="foot-btn walk-btn screen-only" data-walk="notifications">Walk me through it</button></div>
+<div class="scene"><svg class="sv" viewBox="0 0 320 300" role="img" aria-label="An example phone lock screen with Waze notifications for example drives and a clock moving from Wednesday to Sunday. Today every notification stays. Proposed clears each reminder once its leave-by time passes and each summary the next day.">
+<rect class="sv-map" width="320" height="300"/>
+<rect class="nt-phone" x="34" y="4" width="252" height="292" rx="28"/>
+<rect class="nt-screen" x="40" y="10" width="240" height="280" rx="23"/>
+<text class="nt-clock" data-nt-time x="160" y="50" text-anchor="middle">00:45</text>
+<text class="nt-date" data-nt-day x="160" y="66" text-anchor="middle">SUNDAY</text>
+<g class="nt-stack">
+<g class="nt" data-nt="n6" data-post="990" data-exp="1080" transform="translate(0 78)"><rect class="nt-card" x="48" y="0" width="224" height="30" rx="8"/><circle class="nt-ic" cx="60" cy="15" r="6.5"/><circle class="nt-icd" cx="60" cy="15" r="2.2"/><text class="nt-title" x="72" y="12">Waze</text><text class="nt-when" x="266" y="12" text-anchor="end">Wed 16:30</text><text class="nt-body" x="72" y="24">Plan to leave by 18:00 for Gym.</text></g>
+<g class="nt" data-nt="s2" data-post="965" data-exp="1440" transform="translate(0 112)"><rect class="nt-card" x="48" y="0" width="224" height="30" rx="8"/><circle class="nt-ic" cx="60" cy="15" r="6.5"/><circle class="nt-icd" cx="60" cy="15" r="2.2"/><text class="nt-title" x="72" y="12">You are awesome!</text><text class="nt-when" x="266" y="12" text-anchor="end">Wed 16:05</text><text class="nt-body" x="72" y="24">You helped 135 drivers by reporting today.</text></g>
+<g class="nt" data-nt="n4" data-post="890" data-exp="900" transform="translate(0 146)"><rect class="nt-card" x="48" y="0" width="224" height="30" rx="8"/><circle class="nt-ic" cx="60" cy="15" r="6.5"/><circle class="nt-icd" cx="60" cy="15" r="2.2"/><text class="nt-title" x="72" y="12">Waze</text><text class="nt-when" x="266" y="12" text-anchor="end">Wed 14:50</text><text class="nt-body" x="72" y="24">Time to go! Start driving by 15:00 for School pick-up.</text></g>
+<g class="nt" data-nt="s1" data-post="850" data-exp="1440" transform="translate(0 180)"><rect class="nt-card" x="48" y="0" width="224" height="30" rx="8"/><circle class="nt-ic" cx="60" cy="15" r="6.5"/><circle class="nt-icd" cx="60" cy="15" r="2.2"/><text class="nt-title" x="72" y="12">You are awesome!</text><text class="nt-when" x="266" y="12" text-anchor="end">Wed 14:10</text><text class="nt-body" x="72" y="24">You helped 120 drivers by reporting today.</text></g>
+<g class="nt" data-nt="n2" data-post="810" data-exp="900" transform="translate(0 214)"><rect class="nt-card" x="48" y="0" width="224" height="30" rx="8"/><circle class="nt-ic" cx="60" cy="15" r="6.5"/><circle class="nt-icd" cx="60" cy="15" r="2.2"/><text class="nt-title" x="72" y="12">Waze</text><text class="nt-when" x="266" y="12" text-anchor="end">Wed 13:30</text><text class="nt-body" x="72" y="24">Plan to leave by 15:00 for School pick-up.</text></g>
+<g class="nt" data-nt="n1" data-post="440" data-exp="450" transform="translate(0 248)"><rect class="nt-card" x="48" y="0" width="224" height="30" rx="8"/><circle class="nt-ic" cx="60" cy="15" r="6.5"/><circle class="nt-icd" cx="60" cy="15" r="2.2"/><text class="nt-title" x="72" y="12">Waze</text><text class="nt-when" x="266" y="12" text-anchor="end">Wed 07:20</text><text class="nt-body" x="72" y="24">Time to go! Start driving by 07:30 for Office.</text></g>
+</g>
+<text class="nt-clear sv-p" data-nt-clear x="160" y="168" text-anchor="middle">NOTHING OUT OF DATE</text>
+<text class="sv-ill" x="276" y="284" text-anchor="end">ILLUSTRATION</text>
+</svg></div>
+<div class="controls">
+  <label for="nt-clock">Move the clock</label>
+  <input type="range" id="nt-clock" min="0" max="100" step="1" value="0" aria-valuetext="Wednesday 07:20">
+  <div class="range-ends" aria-hidden="true"><span>Wed 07:20</span><span>Sun 00:45</span></div>
+  <div class="result"><button type="button" class="play" id="nt-play" aria-pressed="true">Pause</button><span data-nt-out aria-live="polite">Wednesday 07:20: 1 notification</span></div>
+</div>
+</div>

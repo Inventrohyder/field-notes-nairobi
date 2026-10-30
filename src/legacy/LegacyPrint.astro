@@ -1,0 +1,34 @@
+---
+/** The idea's scene as a static Today and Proposed pair, side by side, for the print page. */
+import './legacy.css';
+import { sceneSvgs, ideaData } from './scenes';
+
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const svgs = sceneSvgs(id);
+const idea = ideaData(id);
+const states = [
+  { key: 'today', label: 'Today', text: idea?.howToday ?? '' },
+  { key: 'proposed', label: 'Proposed', text: idea?.howProposed ?? '' },
+];
+---
+
+{svgs.length > 0 && (
+  <div class="lg">
+    <div class="lg-print">
+      {states.map((s) => (
+        <figure data-state={s.key}>
+          <p class="pp-label">{s.label}</p>
+          <div class={svgs.length > 1 ? 'scene-print qa-thumb' : 'scene-print'}>
+            {svgs.map((svg) => (
+              <Fragment set:html={svg} />
+            ))}
+          </div>
+          <div class="pp-cap" set:html={s.text} />
+        </figure>
+      ))}
+    </div>
+  </div>
+)}

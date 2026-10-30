@@ -1,0 +1,41 @@
+<div class="scene-block" data-scene="bump-speed" data-state="today" data-motion="both">
+<div class="seg-row has-motion"><div class="seg" role="group" aria-label="Show today or proposed"><button type="button" id="bump-speed-today" data-set="today" aria-pressed="true">Today</button><button type="button" id="bump-speed-proposed" data-set="proposed" aria-pressed="false">Proposed</button></div><button type="button" class="motion-btn screen-only" data-motion-btn aria-label="Pause the moving picture" title="Pause"><svg class="ic-pause" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="3" height="9" rx="1"/><rect x="7" y="1.5" width="3" height="9" rx="1"/></svg><svg class="ic-replay" viewBox="0 0 12 12" aria-hidden="true"><path d="M10.2 6.3A4.2 4.2 0 1 1 8.9 3.1M9.3 0.9v2.6H6.7"/></svg><span class="mb-label vh">Pause</span></button><span class="seg-hint">Tap to compare</span><button type="button" class="foot-btn walk-btn screen-only" data-walk="bump-speed">Walk me through it</button></div>
+<div class="scene"><svg class="sv" viewBox="0 0 320 214" role="img" aria-label="A road climbs to a sharp right-hand bend. A chart shows speed while approaching the bend: braking late in Today, slowing early and smoothly in Proposed.">
+<rect class="sv-map" width="320" height="214"/>
+<rect class="sv-blk" x="8" y="8" width="70" height="40" rx="4"/>
+<rect class="sv-blk" x="8" y="58" width="70" height="40" rx="4"/>
+<rect class="sv-park" x="8" y="108" width="70" height="30" rx="6"/>
+<path class="sv-road" stroke-width="16" d="M96 222 L96 100 Q96 64 132 64 L330 64"/>
+<path class="sv-mark" d="M96 222 L96 100 Q96 64 132 64 L330 64"/>
+<path class="sv-bendhl sv-p" style="--d:1" d="M96 116 L96 100 Q96 64 132 64 L150 64"/>
+<path class="cp" data-path="b" d="M92 222 L92 100 Q92 60 132 60 L200 60"/>
+<g class="sv-you sv-t" transform="translate(92 146.4) rotate(0)" data-a="bt"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<g class="sv-you sv-p" transform="translate(92 116.2) rotate(0)" data-a="bp"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<circle class="sv-hud" cx="42" cy="172" r="23"/>
+<text class="sv-spd sv-t" data-spd="t" x="42" y="175.5" text-anchor="middle">50</text>
+<text class="sv-spd sv-p" data-spd="p" x="42" y="175.5" text-anchor="middle">38</text>
+<text class="sv-t2" x="42" y="187" text-anchor="middle">km/h</text>
+<g class="sv-p">
+<rect class="sv-hud" x="94" y="8" width="218" height="40" rx="9"/>
+<path class="sv-hud-arrow" d="M106 41 L106 28 Q106 21 113 21 L116 21"/>
+<polygon class="sv-hud-ink" points="121,21 115.5,16.5 115.5,25.5"/>
+<text class="sv-t1" x="127" y="25">Sharp bend in 200 m</text>
+<text class="sv-t2b" x="127" y="39" data-focus>Most drivers slow to 25 km/h</text>
+</g>
+<g class="sv-t"><rect class="sv-nohud" x="94" y="8" width="218" height="40" rx="9"/><text class="sv-lbl" x="203" y="31" text-anchor="middle">NO WARNING ON SCREEN</text></g>
+<rect class="sv-panel" x="144" y="92" width="168" height="114" rx="8"/>
+<text class="sv-lbl" x="154" y="106">SPEED, KM/H</text>
+<line class="sv-axis" x1="168" y1="192" x2="302" y2="192"/>
+<line class="sv-axis" x1="248.4" y1="112" x2="248.4" y2="192" stroke-dasharray="2 3"/>
+<text class="sv-lbl" x="248.4" y="202" text-anchor="middle">BEND</text>
+<text class="sv-lbl" x="163" y="125" text-anchor="end">50</text>
+<text class="sv-lbl" x="163" y="160" text-anchor="end">25</text>
+<polyline class="c-today" points="168,122 232.3,122 240.4,127.6 248.4,154.2 302,150"/>
+<polyline class="c-prop sv-p" style="--d:2" points="168,122 197.5,122 218.9,133.2 235,150 248.4,157 302,150"/>
+<circle class="ph ph-t sv-t" r="3.2" cx="168" cy="122"/>
+<circle class="ph ph-p sv-p" r="3.2" cx="168" cy="122"/>
+<text class="sv-ill" x="312" y="86" text-anchor="end">ILLUSTRATION</text>
+<g class="sv-verdict sv-t"><path class="vd-x" d="M8.0 200.8 l6 6 m0 -6 l-6 6"/><text class="sv-note" x="18.0" y="208.0">Brakes late</text></g>
+<g class="sv-verdict sv-p" style="--d:3"><path class="vd-ok" d="M8.0 204.2 l2.4 2.6 l4.6 -6.2"/><text class="sv-okn" x="18.0" y="208.0">Slows early</text></g>
+</svg></div>
+</div>

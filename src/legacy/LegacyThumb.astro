@@ -1,0 +1,23 @@
+---
+/** A small static picture of the idea's scene in its Proposed state, for tiles. */
+import './legacy.css';
+import { sceneSvgs } from './scenes';
+
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const svgs = sceneSvgs(id);
+---
+
+{svgs.length > 0 && (
+  <div class="lg" aria-hidden="true">
+    <div class="lg-thumb" data-state="proposed">
+      <div class={svgs.length > 1 ? 'qa-thumb' : undefined}>
+        {svgs.map((s) => (
+          <Fragment set:html={s} />
+        ))}
+      </div>
+    </div>
+  </div>
+)}

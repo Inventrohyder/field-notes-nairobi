@@ -1,0 +1,50 @@
+<div class="scene-block" data-scene="closure-in-view" data-state="today" data-motion="proposed">
+<div class="seg-row has-motion"><div class="seg" role="group" aria-label="Show today or proposed"><button type="button" id="closure-in-view-today" data-set="today" aria-pressed="true">Today</button><button type="button" id="closure-in-view-proposed" data-set="proposed" aria-pressed="false">Proposed</button></div><button type="button" class="motion-btn screen-only" data-motion-btn aria-label="Pause the moving picture" title="Pause"><svg class="ic-pause" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="3" height="9" rx="1"/><rect x="7" y="1.5" width="3" height="9" rx="1"/></svg><svg class="ic-replay" viewBox="0 0 12 12" aria-hidden="true"><path d="M10.2 6.3A4.2 4.2 0 1 1 8.9 3.1M9.3 0.9v2.6H6.7"/></svg><span class="mb-label vh">Pause</span></button><span class="seg-hint">Tap to compare</span><button type="button" class="foot-btn walk-btn screen-only" data-walk="closure-in-view">Walk me through it</button></div>
+<div class="scene"><svg class="sv" viewBox="0 0 320 214" role="img" aria-label="The driver’s road runs north. A side road ahead is closed beyond reach of the closure tool. In Proposed the driver selects that road and picks the closed direction.">
+<rect class="sv-map" width="320" height="214"/>
+<rect class="sv-park" x="8" y="8" width="40" height="198" rx="6"/>
+<rect class="sv-blk" x="96" y="8" width="64" height="54" rx="4"/>
+<rect class="sv-blk" x="168" y="8" width="64" height="54" rx="4"/>
+<rect class="sv-blk" x="240" y="8" width="72" height="54" rx="4"/>
+<rect class="sv-blk" x="96" y="110" width="60" height="32" rx="4"/>
+<rect class="sv-roadf" x="56" y="0" width="32" height="214"/>
+<rect class="sv-roadf" x="88" y="70" width="232" height="32"/>
+<line class="sv-mark" x1="72" y1="0" x2="72" y2="214"/>
+<line class="sv-mark" x1="96" y1="86" x2="320" y2="86"/>
+<rect class="cl-x on" data-dir="east" x="140" y="72" width="178" height="12" rx="2"/>
+<rect class="cl-x" data-dir="west" x="140" y="88" width="178" height="12" rx="2"/>
+<g transform="translate(252 78)"><rect class="sv-hot" x="-10" y="-5.5" width="20" height="11" rx="1.5"/><rect class="sv-wh" x="-5.5" y="-5.5" width="3" height="11"/><rect class="sv-wh" x="2.5" y="-5.5" width="3" height="11"/></g>
+<text class="sv-lbl" x="252" y="63" text-anchor="middle">CLOSED, IN VIEW</text>
+<g class="sv-t">
+<circle class="sv-reach" cx="64" cy="150" r="72"/>
+<rect class="sv-out" x="140" y="70" width="180" height="32"/>
+<g class="sv-tool"><circle cx="64" cy="140" r="9"/><path d="M64 145 L64 135 M60 139 L64 135 L68 139"/></g>
+<g class="sv-tool"><circle cx="110" cy="78" r="9"/><path d="M105 78 L115 78 M111 74 L115 78 L111 82"/></g>
+<rect class="sv-hud" x="120" y="150" width="192" height="54" rx="10"/>
+<text class="sv-t1" x="132" y="170">Tap an arrow to close</text>
+<text class="sv-t2" x="132" y="186">Only your road and direction</text>
+</g>
+<g class="sv-p">
+<rect class="sv-sel" x="137" y="67" width="182" height="38" rx="5" data-focus/>
+<circle class="sv-tap pulse" cx="214" cy="86" r="10"/>
+</g>
+<g class="sv-p" style="--d:1">
+<rect class="sv-hud" x="120" y="150" width="192" height="54" rx="10"/>
+<text class="sv-t1" x="132" y="170">Closure on road in view</text>
+<text class="sv-t2b" data-ci-hud x="132" y="186">Eastbound only · sent</text>
+</g>
+<g class="sv-you" transform="translate(64 176) rotate(0)"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<text class="sv-lbl" transform="translate(99 206) rotate(-90)">YOUR ROAD</text>
+<text class="sv-lbl" x="316" y="116" text-anchor="end">ROAD IN VIEW</text>
+<g class="sv-verdict sv-t"><path class="vd-x" d="M162.0 133.8 l6 6 m0 -6 l-6 6"/><text class="sv-note" x="172.0" y="141.0">Too far: over 100 m</text></g>
+<g class="sv-verdict sv-p" style="--d:2"><path class="vd-ok" d="M162.0 137.2 l2.4 2.6 l4.6 -6.2"/><text class="sv-okn" x="172.0" y="141.0">Road in view, closed</text></g>
+</svg></div>
+<div class="controls p-show">
+  <span class="lbl" id="ci-label">Which direction is closed?</span>
+  <div class="pickers" role="group" aria-labelledby="ci-label">
+    <button type="button" class="pick dir" id="ci-east" data-dir="east" aria-pressed="true">Eastbound</button>
+    <button type="button" class="pick dir" id="ci-west" data-dir="west" aria-pressed="false">Westbound</button>
+    <button type="button" class="pick dir" id="ci-both" data-dir="both" aria-pressed="false">Both</button>
+  </div>
+</div>
+</div>

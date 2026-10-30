@@ -1,0 +1,102 @@
+---
+/**
+ * The idea's Field Notes scene: Today and Proposed toggle, its own controls and captions,
+ * and a "Walk me through it" guided mode that follows the idea's sections.
+ */
+import './legacy.css';
+import type { Idea } from '../ideas/types';
+import { sceneHtml, ideaData } from './scenes';
+
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const raw = sceneHtml(id);
+const idea: Idea | undefined = ideaData(id);
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+let html = raw ?? '';
+if (raw && idea && id !== 'quick-asks') {
+  const caption =
+    '<div class="scene-caption" aria-live="polite">' +
+    `<p class="t-show"><b>Today.</b> ${idea.today}</p>` +
+    `<p class="p-show"><b>Proposed.</b> ${idea.proposed}</p>` +
+    '</div>';
+  const at = html.lastIndexOf('</div>');
+  html = html.slice(0, at) + caption + html.slice(at);
+}
+
+const story = idea
+  ? JSON.stringify({
+      id: idea.id,
+      num: idea.num,
+      title: idea.title,
+      known: idea.known,
+      problem: idea.problem,
+      moment: idea.moment
+        ? {
+            text: idea.moment.text,
+            shots: (idea.moment.shots ?? []).map((s) => ({ ...s, src: base + s.src })),
+          }
+        : undefined,
+      also: idea.also ?? [],
+      elsewhere: idea.elsewhere,
+      questions: idea.questions ?? [],
+      why: idea.why,
+      ask: idea.ask,
+      teams: idea.teams,
+      sources: idea.sources,
+    }).replace(/</g, '\\u003c')
+  : '';
+---
+
+{raw && idea && (
+  <div class="lg lg-scene">
+    <Fragment set:html={html} />
+    <script type="application/json" data-lg-story set:html={story} />
+    <dialog class="lg lg-story" aria-labelledby="lg-story-h">
+      <div class="st-sheet">
+        <div class="st-head">
+          <div class="st-head-in">
+            <button type="button" class="st-close" data-story-close>
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M4 4l8 8M12 4l-8 8" />
+              </svg>
+              <span>Close</span>
+            </button>
+            <p class="st-progress">
+              <span data-st-idea></span>
+            </p>
+          </div>
+          <div class="st-bars" data-st-bars aria-hidden="true"></div>
+        </div>
+        <div class="st-body" data-st-body>
+          <div class="st-col" data-st-content></div>
+        </div>
+        <div class="st-foot">
+          <div class="st-foot-in">
+            <button type="button" class="btn-quiet st-back" data-st-back>
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M10 3L5 8l5 5" />
+              </svg>
+              <span>Back</span>
+            </button>
+            <button type="button" class="btn-primary st-next" data-st-next>
+              <span data-st-next-label>Next</span>
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M6 3l5 5-5 5" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="st-hold" data-st-hold hidden></div>
+        <p class="vh" aria-live="polite" data-st-live></p>
+      </div>
+    </dialog>
+  </div>
+)}
+
+<script>
+  import { initLegacy } from './scene-engine';
+  initLegacy();
+</script>

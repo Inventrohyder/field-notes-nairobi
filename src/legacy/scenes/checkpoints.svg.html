@@ -1,0 +1,47 @@
+<div class="scene-block" data-scene="checkpoints" data-state="today">
+<div class="seg-row"><div class="seg" role="group" aria-label="Show today or proposed"><button type="button" id="checkpoints-today" data-set="today" aria-pressed="true">Today</button><button type="button" id="checkpoints-proposed" data-set="proposed" aria-pressed="false">Proposed</button></div><span class="seg-hint">Tap to compare</span><button type="button" class="foot-btn walk-btn screen-only" data-walk="checkpoints">Walk me through it</button></div>
+<div class="scene"><svg class="sv" viewBox="0 0 320 200" role="img" aria-label="A highway with a stretch where checks are frequent, and a speed trace below. Today a police report appears late and the speed drops sharply. Proposed shows a calm note well ahead and the speed eases down gently.">
+<rect class="sv-map" width="320" height="200"/>
+<rect class="sv-verge" x="0" y="86" width="320" height="4"/>
+<rect class="sv-verge" x="0" y="112" width="320" height="4"/>
+<rect class="sv-roadf" x="0" y="90" width="320" height="22"/>
+<line class="sv-mark" x1="0" y1="101" x2="320" y2="101"/>
+<rect class="cp-zone" x="170" y="84" width="110" height="34" rx="4"/>
+<text class="sv-lbl" x="225" y="128" text-anchor="middle">STRETCH WITH FREQUENT CHECKS</text>
+<g class="sv-t"><g class="cp-late" transform="translate(236 95.5)"><circle class="sv-hud" r="8.5"/><path class="sv-wh" d="M0 -5.2 L4.4 -3.4 L4.4 0.8 C4.4 3.4 2.3 5.1 0 6 C-2.3 5.1 -4.4 3.4 -4.4 0.8 L-4.4 -3.4 Z"/></g></g>
+<g class="sv-you sv-t" transform="translate(200 95.5) rotate(90)" data-a="cp"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<g class="sv-you sv-p" transform="translate(120 95.5) rotate(90)" data-a="cp"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<g class="sv-t">
+<g class="cp-late">
+<rect class="sv-hud" x="8" y="8" width="226" height="40" rx="9"/>
+<circle class="sv-hot" cx="26" cy="28" r="9"/><path class="sv-wh" d="M26 22.4 L30.3 24.1 L30.3 28.2 C30.3 30.8 28.3 32.5 26 33.4 C23.7 32.5 21.7 30.8 21.7 28.2 L21.7 24.1 Z"/>
+<text class="sv-t1" x="42" y="26">Police reported ahead</text>
+<text class="sv-t2" x="42" y="40">Seen late, close to the check</text>
+</g>
+</g>
+<g class="sv-p">
+<g class="cp-early">
+<rect class="sv-hud" x="8" y="8" width="304" height="44" rx="10" data-focus/>
+<circle class="sv-route-f" cx="26" cy="30" r="9"/><text class="sv-bang" x="26" y="34.2" text-anchor="middle">i</text>
+<text class="sv-t1" x="44" y="27">Frequent checks on this stretch</text>
+<text class="sv-t2b" x="44" y="42">Slow down and keep your documents ready</text>
+</g>
+</g>
+<rect class="sv-panel" x="8" y="136" width="304" height="58" rx="8"/>
+<text class="sv-lbl" x="16" y="148">SPEED</text>
+<line class="sv-axis" x1="20" y1="188" x2="300" y2="188"/>
+<polyline class="c-today" points="20,154 200,154 210,166 220,182 230,178 250,165 300,154"/>
+<polyline class="c-prop sv-p" style="--d:1" points="20,154 80,154 130,161 170,168 270,168 300,156"/>
+<circle class="ph ph-t sv-t" r="3.2" cx="20" cy="154"/>
+<circle class="ph ph-p sv-p" r="3.2" cx="20" cy="154"/>
+<text class="sv-ill" x="304" y="148" text-anchor="end">ILLUSTRATION</text>
+<g class="sv-verdict sv-t"><path class="vd-x" d="M8.0 64.8 l6 6 m0 -6 l-6 6"/><text class="sv-note" x="18.0" y="72.0">Seen late: hard braking</text></g>
+<g class="sv-verdict sv-p" style="--d:2"><path class="vd-ok" d="M8.0 68.2 l2.4 2.6 l4.6 -6.2"/><text class="sv-okn" x="18.0" y="72.0">Shown early, gentle slowdown</text></g>
+</svg></div>
+<div class="controls">
+  <label for="cp-scrub">Drive along the road</label>
+  <input type="range" id="cp-scrub" min="0" max="100" step="1" value="5">
+  <div class="range-ends" aria-hidden="true"><span>Before the stretch</span><span>Past it</span></div>
+  <div class="result"><button type="button" class="play" id="cp-play" aria-pressed="true">Pause</button><span data-cp-out aria-live="polite">No warning yet</span></div>
+</div>
+</div>
