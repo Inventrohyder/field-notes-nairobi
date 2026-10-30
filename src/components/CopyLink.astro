@@ -1,0 +1,49 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = 'Copy link to this idea' } = Astro.props;
+---
+
+<div class="copylink">
+  <button type="button" class="btn" data-copy-link>
+    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"
+      ><path
+        d="M8 12l4-4M7 9.5L5 11.5a2.8 2.8 0 0 0 4 4l2-2M13 10.5l2-2a2.8 2.8 0 0 0-4-4l-2 2"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"></path></svg
+    >
+    {label}
+  </button>
+  <span class="copy-status" role="status" data-copy-status></span>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-link]').forEach((b) => {
+    b.addEventListener('click', async () => {
+      const status = b.parentElement?.querySelector('[data-copy-status]');
+      const url = location.origin + location.pathname;
+      try {
+        await navigator.clipboard.writeText(url);
+        if (status) status.textContent = 'Link copied.';
+      } catch {
+        if (status) status.textContent = url;
+      }
+    });
+  });
+</script>
+
+<style>
+  .copylink {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .copy-status {
+    font-size: 0.9rem;
+    word-break: break-all;
+  }
+</style>

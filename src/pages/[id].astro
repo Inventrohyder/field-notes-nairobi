@@ -1,0 +1,475 @@
+---
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+import BaseLayout from '../components/BaseLayout.astro';
+import GuidedDemo from '../components/demo/GuidedDemo.astro';
+import FollowupStage from '../components/followup/FollowupStage.astro';
+import RulesBox from '../components/followup/RulesBox.astro';
+import LegacyScenePlaceholder from '../components/LegacyScenePlaceholder.astro';
+import CopyLink from '../components/CopyLink.astro';
+import { GROUPS, IDEAS, type IdeaEntry } from '../ideas/index';
+
+export function getStaticPaths() {
+  return IDEAS.map((idea, i) => ({
+    params: { id: idea.id },
+    props: { idea, prev: IDEAS[i - 1], next: IDEAS[i + 1] },
+  }));
+}
+
+interface Props {
+  idea: IdeaEntry;
+  prev?: IdeaEntry;
+  next?: IdeaEntry;
+}
+const { idea, prev, next } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const group = GROUPS.find((g) => g.id === idea.group);
+const hasScenarios = !!idea.scenarios?.length;
+
+// The legacy scene for ideas without guided scenarios, when it is available.
+const legacy = import.meta.glob<{ default: AstroComponentFactory }>('../legacy/LegacyScene.astro', {
+  eager: true,
+});
+const LegacyScene = Object.values(legacy)[0]?.default ?? LegacyScenePlaceholder;
+
+// Stages for ideas with guided scenarios, keyed by idea id.
+const STAGES: Record<string, AstroComponentFactory> = { 'report-followup': FollowupStage };
+const Stage = STAGES[idea.id];
+const total = IDEAS.length;
+---
+
+<BaseLayout
+  title={`${idea.num} ${idea.title} · Field Notes from Nairobi`}
+  description={idea.hook}
+  path={`${idea.id}/`}
+>
+  <Fragment slot="nav">
+    <a class="navlink" href={base}>All ideas</a>
+  </Fragment>
+
+  <nav class="ideabar no-print" aria-label="Ideas">
+    <div class="wrap ideabar-in">
+      {
+        prev ? (
+          <a class="pn" href={`${base}${prev.id}/`} rel="prev">
+            <span aria-hidden="true">‹</span>
+            <span class="visually-hidden">Previous idea: </span>
+            <span class="pn-num">{prev.num}</span>
+            <span class="pn-t">{prev.short}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      <span class="ideabar-num">Idea {idea.num} of {total}</span>
+      {
+        next ? (
+          <a class="pn pn-next" href={`${base}${next.id}/`} rel="next">
+            <span class="visually-hidden">Next idea: </span>
+            <span class="pn-t">{next.short}</span>
+            <span class="pn-num">{next.num}</span>
+            <span aria-hidden="true">›</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+    </div>
+  </nav>
+
+  <article class="idea" aria-labelledby="idea-h">
+    <header class="wrap idea-head">
+      <p class="kicker">
+        <span class="num">{idea.num}</span>
+        <span>{group?.name}</span>
+      </p>
+      <h1 id="idea-h">{idea.title}</h1>
+      <p class="oneline">{idea.hook}</p>
+      <p class="problem" set:html={idea.problem} />
+      <div class="known">
+        <span class="known-tag">You already know</span>
+        <p set:html={idea.known} />
+      </div>
+      <p class="for">For: {idea.teams.map((t, i) => (i ? [' · ', <b>{t}</b>] : <b>{t}</b>))}</p>
+    </header>
+
+    <div class="wrap">
+      {
+        hasScenarios && Stage ? (
+          <>
+            <GuidedDemo
+              ideaId={idea.id}
+              intro={idea.scenarioIntro ?? 'Which do you want to play?'}
+              scenarios={idea.scenarios ?? []}
+              ask={idea.ask}
+              nextHref={next ? `${base}${next.id}/` : undefined}
+              nextLabel={next?.short}
+              allHref={base}
+            >
+              <Stage />
+            </GuidedDemo>
+            {idea.id === 'report-followup' && <RulesBox />}
+          </>
+        ) : (
+          <LegacyScene idea={idea} />
+        )
+      }
+    </div>
+
+    <div class="wrap more">
+      {
+        idea.moment && (
+          <section aria-labelledby="moment-h">
+            <h2 id="moment-h">The moment</h2>
+            <p set:html={idea.moment.text} />
+          </section>
+        )
+      }
+
+      <section aria-labelledby="how-h">
+        <h2 id="how-h">How it works</h2>
+        <div class="how">
+          <div class="how-col">
+            <p class="eyebrow">Today</p>
+            <Fragment set:html={idea.howToday} />
+          </div>
+          <div class="how-col proposed">
+            <p class="eyebrow">Proposed <span class="tag tag-proposed">Proposed</span></p>
+            <Fragment set:html={idea.howProposed} />
+          </div>
+        </div>
+        {
+          idea.also && idea.also.length > 0 && (
+            <>
+              <h3>It would also</h3>
+              <ul>
+                {idea.also.map((a) => (
+                  <li set:html={a} />
+                ))}
+              </ul>
+            </>
+          )
+        }
+      </section>
+
+      {
+        idea.why.length > 0 && (
+          <section aria-labelledby="why-h">
+            <h2 id="why-h">Why it matters</h2>
+            <ul class="facts">
+              {idea.why.map((w) => (
+                <li set:html={w} />
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <section aria-labelledby="else-h">
+        <h2 id="else-h">Elsewhere</h2>
+        <ul class="facts">
+          {
+            idea.elsewhere.map((e) => (
+              <li class:list={{ gap: e.gap }}>
+                {e.gap && <span class="tag tag-illus">Not found</span>} <Fragment set:html={e.text} />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {
+        idea.questions && idea.questions.length > 0 && (
+          <section aria-labelledby="q-h">
+            <h2 id="q-h">Questions you will ask</h2>
+            <dl class="qa">
+              {idea.questions.map((q) => (
+                <div>
+                  <dt>{q.q}</dt>
+                  <dd set:html={q.a} />
+                </div>
+              ))}
+            </dl>
+          </section>
+        )
+      }
+
+      <section class="askbox" aria-labelledby="ask-h">
+        <h2 id="ask-h">The ask</h2>
+        <p class="ask" set:html={idea.ask} />
+        <p class="for">For: {idea.teams.map((t, i) => (i ? [' · ', <b>{t}</b>] : <b>{t}</b>))}</p>
+      </section>
+
+      <section aria-labelledby="src-h">
+        <h2 id="src-h">Sources</h2>
+        <ol class="sources">
+          {
+            idea.sources.map((s) => (
+              <li id={`src-${idea.id}-${s.n}`} value={s.n}>
+                <a href={s.url} rel="noopener" target="_blank">
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="checked">
+          Numbers in the text link to these sources. Anything made up to show the idea is marked
+          Illustration.
+        </p>
+      </section>
+    </div>
+  </article>
+
+  <Fragment slot="footer">
+    <div class="idea-foot no-print">
+      <CopyLink />
+      <p class="foot-nav">
+        {prev && <a href={`${base}${prev.id}/`}>Previous: {prev.num} {prev.short}</a>}
+        <a href={base}>All ideas</a>
+        {next && <a href={`${base}${next.id}/`}>Next: {next.num} {next.short}</a>}
+      </p>
+    </div>
+  </Fragment>
+</BaseLayout>
+
+<style>
+  .navlink {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+    color: var(--tarmac-ink);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-radius: 8px;
+  }
+  .navlink:hover {
+    background: var(--tarmac-2);
+  }
+  .ideabar {
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--rule);
+  }
+  .ideabar-in {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+  }
+  .ideabar-num {
+    font: 700 0.78rem/1 var(--f-mono);
+    color: var(--muted);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .pn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    min-width: 0;
+  }
+  .pn-next {
+    justify-self: end;
+  }
+  .pn-num {
+    font: 700 0.78rem/1 var(--f-mono);
+    background: var(--tarmac);
+    color: var(--yellow);
+    border-radius: 4px;
+    padding: 4px 5px;
+  }
+  .pn-t {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (max-width: 560px) {
+    .pn-t {
+      display: none;
+    }
+  }
+  .idea-head {
+    padding-top: 22px;
+    padding-bottom: 8px;
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .kicker {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font: 700 0.8rem/1 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .kicker .num {
+    background: var(--sign);
+    color: var(--sign-ink);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 0.95rem;
+  }
+  h1 {
+    font: 800 clamp(2.2rem, 7vw, 3.4rem) / 1 var(--f-display);
+    text-transform: uppercase;
+    margin: 10px 0 10px;
+  }
+  .oneline {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .problem {
+    color: var(--muted);
+  }
+  .known {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 10px;
+    background: var(--surface);
+    border-left: 5px solid var(--yellow);
+    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    margin: 12px 0;
+  }
+  .known p {
+    margin: 0;
+  }
+  .known-tag {
+    font: 700 0.72rem/1 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--yellow-ink);
+  }
+  .for {
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .for b {
+    color: var(--ink);
+  }
+  .idea > .wrap:not(.idea-head) {
+    max-width: 1180px;
+  }
+  .more {
+    max-width: 860px !important;
+  }
+  .more section {
+    margin-top: 32px;
+  }
+  .how {
+    display: grid;
+    gap: 14px;
+  }
+  @media (min-width: 760px) {
+    .how {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .how-col {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 14px 16px 4px;
+  }
+  .how-col.proposed {
+    border-color: var(--sign);
+  }
+  .how-col .eyebrow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .facts {
+    padding-left: 1.2em;
+  }
+  .facts li {
+    margin-bottom: 8px;
+  }
+  .facts li.gap {
+    list-style: none;
+    margin-left: -1.2em;
+  }
+  .qa {
+    margin: 0;
+  }
+  .qa > div {
+    border-top: 1px solid var(--rule);
+    padding: 10px 0;
+  }
+  .qa dt {
+    font-weight: 700;
+  }
+  .qa dd {
+    margin: 4px 0 0;
+  }
+  .askbox {
+    background: var(--tarmac);
+    color: var(--tarmac-ink);
+    border-radius: 14px;
+    padding: 18px 16px 8px;
+    border-left: 8px solid var(--yellow);
+  }
+  .askbox h2 {
+    color: var(--yellow);
+  }
+  .askbox .ask {
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+  .askbox .for {
+    color: var(--tarmac-muted);
+  }
+  .askbox .for b {
+    color: var(--tarmac-ink);
+  }
+  .sources {
+    padding-left: 1.6em;
+    font-size: 0.93rem;
+  }
+  .sources li {
+    margin-bottom: 6px;
+    scroll-margin-top: 90px;
+  }
+  .sources li:target {
+    background: var(--surface-2);
+    outline: 2px solid var(--yellow);
+    border-radius: 4px;
+  }
+  .sources a {
+    word-break: break-word;
+  }
+  .checked {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .idea-foot {
+    border-bottom: 1px solid var(--tarmac-2);
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+  .idea-foot :global(.btn) {
+    border-color: var(--tarmac-ink);
+    color: var(--tarmac-ink);
+  }
+  .foot-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 18px;
+    margin: 10px 0 0;
+  }
+  .foot-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>
