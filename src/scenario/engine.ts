@@ -300,8 +300,8 @@ export class Demo {
     const bar = 64;
     if (Math.abs(top - bar) > 8 && window.innerWidth < 900) {
       window.scrollBy({ top: top - bar, behavior: 'auto' });
-    } else if (top < 0 && window.innerWidth >= 900) {
-      window.scrollBy({ top: top - 80, behavior: 'auto' });
+    } else if (window.innerWidth >= 900 && (top < 64 || top > window.innerHeight / 2)) {
+      window.scrollBy({ top: top - 120, behavior: 'auto' });
     }
   }
 

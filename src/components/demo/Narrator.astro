@@ -198,6 +198,15 @@
     color: var(--sign-ink);
   }
   @media (max-width: 899px) {
+    .narr-dots {
+      gap: 3px;
+      flex-wrap: nowrap;
+    }
+    .narr-dots :global(.dot) {
+      width: 6px;
+      height: 6px;
+      flex: none;
+    }
     .narrator {
       padding: 10px 12px 4px;
       border-radius: 14px;

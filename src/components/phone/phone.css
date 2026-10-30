@@ -1115,7 +1115,7 @@
 }
 .wme-map {
   position: relative;
-  height: 150px;
+  height: 180px;
   background: var(--p-map);
 }
 .wme-map > svg {
