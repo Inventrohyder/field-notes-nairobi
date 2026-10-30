@@ -1,0 +1,23 @@
+---
+/**
+ * A phone (or, with kind="editor", a laptop-style editor window) that holds stage screens.
+ * The status-bar clock is filled by the scenario engine through [data-clock].
+ */
+interface Props {
+  kind?: 'phone' | 'editor';
+  label: string;
+  clock?: string;
+}
+const { kind = 'phone', label, clock = '' } = Astro.props;
+---
+
+<div class="device" data-kind={kind} data-device role="group" aria-label={label}>
+  <div class="device-screen">
+    <div class="ph-status" aria-hidden="true">
+      <span data-clock>{clock}</span>
+      <span class="ph-island"></span>
+      <span class="ph-example">Example</span>
+    </div>
+    <slot />
+  </div>
+</div>

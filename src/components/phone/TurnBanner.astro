@@ -1,0 +1,29 @@
+---
+interface Props {
+  dist: string;
+  street: string;
+  turn?: 'right' | 'left' | 'straight' | 'keep-left';
+  muted?: boolean;
+}
+const { dist, street, turn = 'right', muted = false } = Astro.props;
+const paths: Record<string, string> = {
+  right: 'M7 22V13c0-2.8 2.2-5 5-5h8M16 3.5l4.5 4.5-4.5 4.5',
+  left: 'M21 22V13c0-2.8-2.2-5-5-5H8M12 3.5L7.5 8l4.5 4.5',
+  straight: 'M14 23V5M9.5 9.5L14 5l4.5 4.5',
+  'keep-left': 'M17 23v-7c0-3-3-5-6-7l-2-1.5M7 4.5v5h5',
+};
+---
+
+<div class:list={['ph-banner', { muted }]}>
+  <svg viewBox="0 0 28 26" width="30" height="28" aria-hidden="true">
+    <path
+      d={paths[turn]}
+      fill="none"
+      stroke="#fff"
+      stroke-width="3.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+  <b>{dist}</b>
+  <span class="street">{street}</span>
+</div>

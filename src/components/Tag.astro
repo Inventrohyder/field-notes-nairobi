@@ -1,0 +1,15 @@
+---
+interface Props {
+  kind: 'proposed' | 'illustration' | 'example';
+  label?: string;
+}
+const { kind, label } = Astro.props;
+const text = label ?? { proposed: 'Proposed', illustration: 'Illustration', example: 'Example' }[kind];
+const title = {
+  proposed: 'A proposed option, not in the app today',
+  illustration: 'Made up to show the idea',
+  example: 'Places and times are examples',
+}[kind];
+---
+
+<span class:list={['tag', kind === 'proposed' ? 'tag-proposed' : kind === 'illustration' ? 'tag-illus' : 'tag-example']} title={title}>{text}</span>

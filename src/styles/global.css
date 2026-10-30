@@ -99,3 +99,12 @@ sup.fn a { text-decoration: none; font-weight: 700; padding: 0 2px; }
 @media print {
   .no-print { display: none !important; }
 }
+[hidden] { display: none !important; }
+.tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font: 700 0.68rem/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase;
+  border-radius: 5px; padding: 4px 6px; vertical-align: middle; white-space: nowrap;
+}
+.tag-proposed { background: #fde68a; color: #4a3500; }
+.tag-illus { background: var(--surface-2); color: var(--muted); border: 1px solid var(--rule); }
+.tag-example { background: var(--surface-2); color: var(--muted); border: 1px dashed var(--muted); }

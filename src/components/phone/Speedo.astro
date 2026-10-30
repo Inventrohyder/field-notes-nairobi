@@ -1,0 +1,10 @@
+---
+interface Props {
+  speed: number;
+}
+const { speed } = Astro.props;
+---
+
+<div class="ph-speedo" aria-label={`Speed ${speed} kilometres per hour`} role="img">
+  <b>{speed}</b><span>km/h</span>
+</div>

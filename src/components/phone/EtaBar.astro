@@ -1,0 +1,17 @@
+---
+interface Props {
+  arrive: string;
+  mins: string;
+  to: string;
+}
+const { arrive, mins, to } = Astro.props;
+---
+
+<div class="ph-eta">
+  <span class="grab" aria-hidden="true"></span>
+  <div>
+    <b>{arrive}</b>
+    <span>{mins}</span>
+  </div>
+  <span>{to}</span>
+</div>
