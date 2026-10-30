@@ -83,6 +83,13 @@ const canonical = new URL(base + path, Astro.site).href;
     <script>
       import { initTheme } from '../scripts/theme';
       initTheme();
+      if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register(`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}sw.js`)
+          .catch(() => {
+            /* offline support is optional */
+          });
+      }
     </script>
   </body>
 </html>
