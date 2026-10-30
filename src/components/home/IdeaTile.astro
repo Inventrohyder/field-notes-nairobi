@@ -1,0 +1,87 @@
+---
+import LegacyThumb from '../../legacy/LegacyThumb.astro';
+import type { IdeaEntry } from '../../ideas/index';
+
+interface Props {
+  idea: IdeaEntry;
+  /** Heading level for the title inside the tile. */
+  level?: 3 | 4;
+}
+const { idea, level = 3 } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const H = `h${level}` as 'h3' | 'h4';
+---
+
+<li class="tile" data-tile={idea.id}>
+  <a href={`${base}${idea.id}/`}>
+    <span class="tile-pic">
+      <LegacyThumb id={idea.id} />
+    </span>
+    <span class="tile-body">
+      <span class="tile-num">{idea.num}</span>
+      <H class="tile-t">{idea.title}</H>
+      <span class="tile-hook">{idea.hook}</span>
+    </span>
+  </a>
+</li>
+
+<style>
+  .tile a {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 12px;
+    align-items: start;
+    height: 100%;
+    padding: 10px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      border-color 0.2s,
+      transform 0.2s;
+  }
+  .tile a:hover {
+    border-color: var(--sign);
+    transform: translateY(-2px);
+  }
+  .tile-pic {
+    display: block;
+    min-width: 0;
+  }
+  .tile-body {
+    display: grid;
+    gap: 4px;
+    justify-items: start;
+    min-width: 0;
+  }
+  .tile-num {
+    font: 700 0.8rem/1 var(--f-mono);
+    background: var(--tarmac);
+    color: var(--yellow);
+    border-radius: 4px;
+    padding: 5px 6px;
+  }
+  .tile-t {
+    margin: 2px 0 0;
+    font: 800 1.2rem/1.1 var(--f-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .tile-hook {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.4;
+  }
+  @media (min-width: 760px) {
+    .tile a {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tile a:hover {
+      transform: none;
+    }
+  }
+</style>

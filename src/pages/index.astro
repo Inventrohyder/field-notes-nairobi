@@ -1,93 +1,407 @@
 ---
 import BaseLayout from '../components/BaseLayout.astro';
-import { GROUPS, IDEAS } from '../ideas/index';
+import Picker from '../components/home/Picker.astro';
+import IdeaTile from '../components/home/IdeaTile.astro';
+import { GROUPS, IDEAS, ideaById } from '../ideas/index';
+
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+const START = [
+  {
+    id: 'alert-timing',
+    line: 'Ask “Still there?” just after drivers pass a report, so the people who just saw it answer.',
+  },
+  {
+    id: 'police-undivided',
+    line: 'On a two-way road with no divider, warn drivers in both directions about police.',
+  },
+  {
+    id: 'mosques',
+    line: 'Mosque, church and temple sub-categories, as the first step to stops by time or distance.',
+  },
+].map((s) => ({ ...s, idea: ideaById(s.id)! }));
 ---
 
 <BaseLayout
   title="Field Notes from Nairobi"
-  description="Twenty-one small proposals from a Nairobi map editor to make Waze fit Kenyan roads."
+  description="Twenty-one small proposals from a volunteer map editor in Nairobi to make Waze fit Kenyan roads."
 >
-  <div class="wrap narrow home">
-    <h1>Field Notes from Nairobi</h1>
-    <p class="lead">Small changes that would make Waze fit Kenyan roads.</p>
-    <p>
-      Haitham Alhad Hyder, volunteer map editor in Nairobi. First shown to Waze staff at the EMEA
-      Mega Meetup in Berlin, October 2026.
-    </p>
-    <p>
-      <a href={`${base}print/`}>Every idea on one printable page</a>
-    </p>
-    {GROUPS.map((g) => (
-      <section aria-labelledby={`g-${g.id}`}>
-        <h2 id={`g-${g.id}`}>{g.name}</h2>
-        <p class="sum">{g.summary}</p>
-        <ul class="ideas">
-          {IDEAS.filter((i) => i.group === g.id).map((i) => (
-            <li>
-              <a href={`${base}${i.id}/`}>
-                <span class="n">{i.num}</span>
-                <span>
-                  <b>{i.title}</b>
-                  <span class="hook">{i.hook}</span>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))}
+  <Fragment slot="nav">
+    <a class="navlink" href="#ideas">
+      All 21 ideas
+    </a>
+  </Fragment>
+
+  <section class="greet wrap" data-greet hidden aria-labelledby="greet-h">
+    <div class="greet-card">
+      <p class="eyebrow">A note for you</p>
+      <h2 id="greet-h" class="greet-line" data-greet-line></h2>
+      <ol class="tiles greet-tiles" data-greet-tiles></ol>
+      <a class="btn primary greet-go" data-greet-go href={base}>
+        Start here
+      </a>
+    </div>
+  </section>
+
+  <section class="hero" aria-labelledby="page-title">
+    <div class="wrap hero-in">
+      <h1 id="page-title">
+        <span>Field notes</span>
+        <span>from Nairobi</span>
+      </h1>
+      <div class="lane-line" aria-hidden="true"></div>
+      <p class="thesis">
+        Twenty-one small proposals from a volunteer map editor in Nairobi to make Waze fit Kenyan
+        roads.
+      </p>
+      <p class="first">
+        First shown to Waze staff at the EMEA Mega Meetup in Berlin, October 2026.
+      </p>
+      <p class="byline">
+        <b>Haitham Alhad Hyder</b> · Volunteer map editor in Nairobi
+      </p>
+      <p class="hero-links">
+        <a class="hero-pick" href="#pick" data-hero-pick hidden>
+          Pick what you want to see
+        </a>
+        <a class="hero-all" href="#ideas">
+          See all 21 ideas
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap home">
+    <section class="start" aria-labelledby="start-h">
+      <h2 id="start-h">Short on time? Start with these three</h2>
+      <p class="muted">Each is small, and each can be tested in Kenya first.</p>
+      <ol class="start-list">
+        {START.map((s) => (
+          <li>
+            <a href={`${base}${s.idea.id}/`}>
+              <span class="num">{s.idea.num}</span>
+              <span>
+                <b>{s.idea.title}</b>
+                <span class="start-line">{s.line}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p>
+        <a
+          class="btn"
+          href={`${base}${START[0].idea.id}/?tour=${START.map((s) => s.id).join(',')}`}
+          data-start-tour
+        >
+          Walk me through these three
+        </a>
+      </p>
+    </section>
+
+    <Picker />
+
+    <section class="all" id="ideas" aria-labelledby="ideas-h">
+      <h2 id="ideas-h">Twenty-one ideas in six groups</h2>
+      <p class="muted">
+        Each idea has its own page: what Waze does today, the idea, and a short walk-through.
+      </p>
+      {GROUPS.map((g) => {
+        const ideas = IDEAS.filter((i) => i.group === g.id);
+        return (
+          <section class="grp" id={`g-${g.id}`} aria-labelledby={`gh-${g.id}`}>
+            <div class="grp-sign">
+              <h3 id={`gh-${g.id}`}>{g.name}</h3>
+              <p>{g.summary}</p>
+            </div>
+            <ul class="tiles">
+              {ideas.map((i) => (
+                <IdeaTile idea={i} level={4} />
+              ))}
+            </ul>
+          </section>
+        );
+      })}
+    </section>
+
+    <section class="keep" aria-labelledby="keep-h">
+      <h2 id="keep-h">Keep a copy</h2>
+      <p>Every idea on one page, with its sources, ready to print or save.</p>
+      <p class="keep-links">
+        <a class="btn primary" href={`${base}field-notes-nairobi.pdf`}>
+          Download the PDF
+        </a>
+        <a class="btn" href={`${base}print/`}>
+          Open the printable page
+        </a>
+      </p>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="about-h">
+      <h2 id="about-h">About</h2>
+      <p>
+        I'm Haitham Alhad Hyder, a software engineer in Nairobi and a volunteer Waze map editor (WME
+        and Waze Discuss: Inventrohyder). This is a community member's proposal and carries no Waze
+        endorsement.
+      </p>
+      <p>
+        Every screenshot here is my own, from my drives in Kenya. Number plates and other users'
+        names are blurred. I drew every scene myself. The phone screens are drawn in the style of
+        the app, with our own icons; none is a Waze screen.
+      </p>
+      <p>
+        Numbers link to their sources, checked on 17 October 2026. Anything made up to show an idea
+        is marked Illustration.
+      </p>
+      <p>I would be glad to help test any of these with the Nairobi editing community.</p>
+      <p>
+        Contact:{' '}
+        <a href="https://github.com/Inventrohyder" rel="me">
+          github.com/Inventrohyder
+        </a>
+      </p>
+    </section>
   </div>
 </BaseLayout>
 
+<script>
+  import { initHome } from '../scripts/home';
+  initHome();
+</script>
+
 <style>
-  .home {
-    padding-top: 24px;
-  }
-  h1 {
-    font: 800 clamp(2.4rem, 9vw, 4rem) / 0.95 var(--f-stencil);
-    text-transform: uppercase;
-  }
-  .lead {
-    font-size: 1.2rem;
+  .navlink {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+    color: var(--tarmac-ink);
     font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-radius: 8px;
   }
-  .sum {
+  .navlink:hover {
+    background: var(--tarmac-2);
+  }
+  .hero {
+    background: var(--tarmac);
+    color: var(--tarmac-ink);
+    border-bottom: 5px solid var(--yellow);
+  }
+  .hero-in {
+    display: grid;
+    gap: 14px;
+    padding-top: 28px;
+    padding-bottom: 30px;
+    max-width: 1044px;
+  }
+  .hero h1 {
+    margin: 0;
+    font-family: var(--f-stencil);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--yellow);
+    font-size: clamp(3.3rem, 16.5vw, 7.4rem);
+    line-height: 0.84;
+    letter-spacing: 0.01em;
+  }
+  .hero h1 span {
+    display: block;
+  }
+  .lane-line {
+    height: 5px;
+    width: 100%;
+    max-width: 560px;
+    background: repeating-linear-gradient(90deg, var(--tarmac-ink) 0 30px, transparent 30px 50px);
+    opacity: 0.85;
+    border-radius: 2px;
+  }
+  .thesis {
+    font-size: 1.3rem;
+    font-weight: 700;
+    max-width: 34ch;
+    margin: 0;
+  }
+  .first {
+    color: var(--tarmac-muted);
+    margin: 0;
+  }
+  .byline {
+    margin: 0;
+    color: var(--tarmac-muted);
+  }
+  .byline b {
+    color: var(--tarmac-ink);
+  }
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 6px 0 0;
+  }
+  .hero-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font: 700 0.8rem/1 var(--f-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .hero-pick {
+    background: var(--yellow);
+    color: #14181a;
+  }
+  .hero-pick:hover {
+    background: var(--sign-yellow);
+  }
+  .hero-all {
+    color: var(--tarmac-ink);
+    border: 2px solid var(--tarmac-muted);
+  }
+  .hero-all:hover {
+    border-color: var(--tarmac-ink);
+  }
+  .home {
+    max-width: 1044px;
+    display: grid;
+    gap: 40px;
+    padding-top: 28px;
+  }
+  .muted {
     color: var(--muted);
   }
-  .ideas {
+  .greet {
+    max-width: 1044px;
+    padding-top: 20px;
+  }
+  .greet-card {
+    background: var(--surface);
+    border: 2px solid var(--sign);
+    border-radius: 18px;
+    padding: 18px 16px;
+    animation: greet-in 0.5s ease both;
+  }
+  @keyframes greet-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+  .greet-line {
+    font: 700 1.35rem/1.3 var(--f-body);
+    text-transform: none;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+  .greet-tiles {
+    margin: 12px 0 14px;
+  }
+  .start-list {
     list-style: none;
     padding: 0;
+    margin: 0 0 12px;
     display: grid;
-    gap: 8px;
+    gap: 10px;
   }
-  .ideas a {
+  @media (min-width: 760px) {
+    .start-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .start-list a {
     display: flex;
     gap: 12px;
-    align-items: flex-start;
-    padding: 12px 14px;
+    height: 100%;
+    padding: 14px;
     background: var(--surface);
     border: 1px solid var(--rule);
+    border-left: 6px solid var(--yellow);
     border-radius: 12px;
     color: var(--ink);
     text-decoration: none;
   }
-  .ideas a:hover {
+  .start-list a:hover {
     border-color: var(--sign);
+    border-left-color: var(--yellow);
   }
-  .n {
+  .start-line {
+    display: block;
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-top: 4px;
+  }
+  .num {
+    flex: none;
+    align-self: flex-start;
     font: 700 0.85rem/1 var(--f-mono);
     background: var(--tarmac);
     color: var(--yellow);
     border-radius: 5px;
     padding: 6px;
   }
-  .hook {
-    display: block;
-    color: var(--muted);
-    font-size: 0.95rem;
+  .grp {
+    margin-top: 26px;
   }
-  section {
-    margin-top: 28px;
+  .grp-sign {
+    background: var(--sign);
+    color: var(--sign-ink);
+    border-radius: 12px;
+    padding: 12px 16px;
+    border: 3px solid var(--sign);
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.85);
+    margin-bottom: 12px;
+  }
+  .grp-sign h3 {
+    margin: 0 0 4px;
+    font-size: 1.5rem;
+  }
+  .grp-sign p {
+    margin: 0;
+    opacity: 0.92;
+  }
+  .tiles,
+  .home :global(.tiles) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  @media (min-width: 760px) {
+    .tiles,
+    .home :global(.tiles) {
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    }
+  }
+  .greet :global(.tiles) {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  @media (min-width: 760px) {
+    .greet :global(.tiles) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .keep {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 18px 16px 8px;
+  }
+  .keep-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .about {
+    border-top: 3px dashed var(--rule);
+    padding-top: 22px;
+    max-width: 70ch;
   }
 </style>

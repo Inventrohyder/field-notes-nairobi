@@ -1,0 +1,617 @@
+---
+/**
+ * The picker: how the five stars work, an optional team for suggestions, then six groups where
+ * each tap adds a star. Everything is rendered here; src/scripts/home.ts only switches states.
+ */
+import Star from './Star.astro';
+import { GROUPS, IDEAS, TEAMS } from '../../ideas/index';
+
+const STEPS = ['how', 'team', 'groups'] as const;
+const byId = new Map(IDEAS.map((i) => [i.id, i]));
+---
+
+<section class="picker" id="pick" aria-labelledby="pick-h" data-picker hidden>
+  <div class="pk-head">
+    <p class="eyebrow">Pick what you want to see</p>
+    <ol class="pk-dots" aria-label="Steps">
+      {STEPS.map((s, i) => (
+        <li data-dot={s}>
+          <span class="visually-hidden">Step {i + 1} of 3</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+
+  <!-- Step 1: how the stars work -->
+  <div class="pk-step" data-pk-step="how">
+    <h2 id="pick-h" tabindex="-1">
+      You have five stars
+    </h2>
+    <div class="pk-demo" aria-hidden="true">
+      <svg viewBox="0 0 320 128" class="pk-anim">
+        <rect class="d-tray" x="70" y="6" width="180" height="30" rx="15"></rect>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <g class={`d-star d-s${i}`} style={`--x:${100 + i * 30}px`}>
+            <path
+              transform="translate(-12 -12)"
+              d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"
+            />
+          </g>
+        ))}
+        {[0, 1, 2].map((i) => (
+          <g transform={`translate(${14 + i * 102} 60)`}>
+            <rect class="d-tile" width="88" height="60" rx="10" />
+            <rect class="d-num" x="10" y="10" width="20" height="12" rx="3" />
+            <rect class="d-line" x="10" y="30" width="62" height="6" rx="3" />
+            <rect class="d-line" x="10" y="42" width="44" height="6" rx="3" />
+          </g>
+        ))}
+      </svg>
+    </div>
+    <p class="pk-lead">
+      Put your stars on the ideas you would like to see. Put them all on one idea, or spread them
+      out. Tap − to take a star back.
+    </p>
+    <p class="pk-lead">The ideas come in six small groups, so you never see all 21 at once.</p>
+    <div class="pk-actions">
+      <button type="button" class="btn primary" data-go="team">
+        Next
+      </button>
+      <button type="button" class="btn" data-go="groups">
+        Skip to the groups
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 2: optional team -->
+  <div class="pk-step" data-pk-step="team" hidden>
+    <h2 tabindex="-1">Which team are you closest to?</h2>
+    <p class="pk-lead">
+      Optional. I will suggest three ideas for that team. You can still put your stars anywhere.
+    </p>
+    <div class="pk-chips" role="group" aria-label="Teams">
+      {TEAMS.map((t, i) => (
+        <button
+          type="button"
+          class="chip"
+          data-team={String(i)}
+          data-team-name={t.team}
+          data-team-ideas={t.ideas.map((x) => x.id).join(',')}
+          aria-pressed="false"
+        >
+          {t.team}
+        </button>
+      ))}
+    </div>
+    {TEAMS.map((t, i) => (
+      <div class="pk-sugg" data-team-sugg={String(i)} hidden>
+        <h3 class="pk-sugg-h">Suggested for {t.team}</h3>
+        <ol class="pk-sugg-list">
+          {t.ideas.map((s) => {
+            const idea = byId.get(s.id);
+            return idea ? (
+              <li>
+                <span class="num">{idea.num}</span>
+                <span>
+                  <b>{idea.title}</b>
+                  <span class="why">{s.reason}</span>
+                </span>
+              </li>
+            ) : null;
+          })}
+        </ol>
+      </div>
+    ))}
+    <div class="pk-actions">
+      <button type="button" class="btn primary" data-go="groups">
+        Show me the groups
+      </button>
+      <button type="button" class="btn" data-go="how">
+        Back
+      </button>
+    </div>
+  </div>
+
+  <!-- Step 3: the groups -->
+  <div class="pk-step" data-pk-step="groups" hidden>
+    <h2 tabindex="-1">Put your stars on what you'd like to see</h2>
+    <p class="pk-lead">Tap a group to open it, then tap an idea to add a star.</p>
+    <div class="pk-tray" data-tray>
+      <span class="pk-meter" aria-hidden="true">
+        {[0, 1, 2, 3, 4].map(() => (
+          <Star class="tray-star" />
+        ))}
+      </span>
+      <span class="pk-left" data-left>
+        5 stars left
+      </span>
+    </div>
+    <p class="visually-hidden" aria-live="polite" data-pk-live></p>
+    <div class="pk-groups">
+      {GROUPS.map((g) => {
+        const ideas = IDEAS.filter((i) => i.group === g.id);
+        return (
+          <div class="pk-group" data-group={g.id}>
+            <h3 class="pk-group-h">
+              <button
+                type="button"
+                class="pk-group-btn"
+                aria-expanded="false"
+                aria-controls={`pkg-${g.id}`}
+                data-group-btn={g.id}
+              >
+                <span class="pk-gname">{g.name}</span>
+                <span class="pk-gmeta">
+                  <span class="pk-count">
+                    {ideas.length} {ideas.length === 1 ? 'idea' : 'ideas'}
+                  </span>
+                  <span class="pk-gsugg" data-gsugg hidden />
+                  <span class="pk-gstars" data-gstars hidden />
+                </span>
+                <span class="pk-gsum">{g.summary}</span>
+                <svg class="chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                  <path d="M4 6l4 4 4-4" />
+                </svg>
+              </button>
+            </h3>
+            <ul class="pk-list" id={`pkg-${g.id}`} hidden>
+              {ideas.map((i) => (
+                <li class="pk-idea" data-idea={i.id}>
+                  <button
+                    type="button"
+                    class="pk-add"
+                    data-add={i.id}
+                    aria-describedby={`pkst-${i.id}`}
+                  >
+                    <span class="num">{i.num}</span>
+                    <span class="pk-it">
+                      <b>{i.title}</b>
+                      <span class="tag tag-sugg" data-sugg-badge hidden>
+                        Suggested for your team
+                      </span>
+                      <span class="hook">{i.hook}</span>
+                    </span>
+                    <span class="visually-hidden">Add a star.</span>
+                  </button>
+                  <span class="pk-stars" id={`pkst-${i.id}`} data-stars>
+                    <span class="visually-hidden" data-stars-text>
+                      No stars
+                    </span>
+                  </span>
+                  <button
+                    type="button"
+                    class="pk-minus"
+                    data-minus={i.id}
+                    aria-label={`Take a star from ${i.title}`}
+                    hidden
+                  >
+                    −
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+    <p class="pk-full" data-full hidden>
+      All five stars are placed. Walk through your picks, or tap − on an idea to move a star.
+    </p>
+    <div class="pk-actions pk-walk">
+      <button type="button" class="btn primary" data-walk-picks disabled>
+        Walk me through my picks
+      </button>
+      <button type="button" class="btn" data-clear-picks>
+        Start again
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .picker {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    padding: 18px 16px 20px;
+    box-shadow: 0 6px 20px var(--shade);
+  }
+  .pk-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .pk-head .eyebrow {
+    margin: 0;
+  }
+  .pk-dots {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pk-dots li {
+    width: 22px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--rule);
+    transition: background 0.3s;
+  }
+  .pk-dots li[data-on] {
+    background: var(--sign);
+  }
+  .pk-step {
+    animation: pk-in 0.35s ease both;
+  }
+  @keyframes pk-in {
+    from {
+      opacity: 0;
+      transform: translateX(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .pk-step h2 {
+    font-size: 1.7rem;
+    margin-top: 8px;
+    outline: none;
+  }
+  .pk-lead {
+    color: var(--muted);
+    max-width: 56ch;
+  }
+  .pk-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .pk-demo {
+    max-width: 420px;
+    margin: 4px 0 12px;
+  }
+  .pk-anim {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .d-tray {
+    fill: var(--surface-2);
+    stroke: var(--rule);
+  }
+  .d-tile {
+    fill: var(--bg);
+    stroke: var(--rule);
+  }
+  .d-num {
+    fill: var(--tarmac);
+  }
+  .d-line {
+    fill: var(--rule);
+  }
+  .d-star path {
+    fill: var(--yellow);
+    stroke: var(--yellow-ink);
+    stroke-width: 1;
+  }
+  .d-star {
+    transform: translate(var(--x), 21px);
+    animation: fly 6s ease-in-out infinite;
+  }
+  .d-s0 {
+    --to: translate(78px, 104px);
+  }
+  .d-s1 {
+    --to: translate(90px, 104px);
+    animation-delay: 0.5s;
+  }
+  .d-s2 {
+    --to: translate(170px, 104px);
+    animation-delay: 1s;
+  }
+  .d-s3 {
+    --to: translate(182px, 104px);
+    animation-delay: 1.5s;
+  }
+  .d-s4 {
+    --to: translate(284px, 104px);
+    animation-delay: 2s;
+  }
+  @keyframes fly {
+    0%,
+    8% {
+      transform: translate(var(--x), 21px);
+    }
+    28%,
+    85% {
+      transform: var(--to) scale(0.8);
+    }
+    100% {
+      transform: translate(var(--x), 21px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .d-star {
+      animation: none;
+      transform: var(--to) scale(0.8);
+    }
+  }
+  .pk-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    min-height: 44px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--rule);
+    background: var(--bg);
+    color: var(--ink);
+    font: 700 0.92rem/1.2 var(--f-body);
+    cursor: pointer;
+  }
+  .chip:hover {
+    border-color: var(--sign);
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--sign);
+    border-color: var(--sign);
+    color: var(--sign-ink);
+  }
+  .pk-sugg {
+    margin-top: 16px;
+    border-left: 5px solid var(--sign);
+    background: var(--bg);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 14px 4px;
+    animation: pk-in 0.35s ease both;
+  }
+  .pk-sugg-h {
+    font-size: 1.1rem;
+  }
+  .pk-sugg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pk-sugg-list li {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .why {
+    display: block;
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+  .num {
+    flex: none;
+    align-self: flex-start;
+    font: 700 0.85rem/1 var(--f-mono);
+    background: var(--tarmac);
+    color: var(--yellow);
+    border-radius: 5px;
+    padding: 6px;
+  }
+  .pk-tray {
+    position: sticky;
+    top: 62px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--tarmac);
+    color: var(--tarmac-ink);
+    border-radius: 999px;
+    padding: 8px 16px;
+    margin: 8px 0 14px;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .pk-meter {
+    display: inline-flex;
+    gap: 2px;
+  }
+  .pk-meter :global(.star) {
+    fill: var(--yellow);
+    stroke: var(--yellow);
+    stroke-width: 1.5;
+    transition:
+      fill 0.25s,
+      transform 0.25s;
+  }
+  .pk-meter :global(.star.used) {
+    fill: transparent;
+    stroke: var(--tarmac-muted);
+    transform: scale(0.85);
+  }
+  .pk-left {
+    font: 700 0.8rem/1 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .pk-groups {
+    display: grid;
+    gap: 10px;
+  }
+  .pk-group {
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .pk-group-h {
+    margin: 0;
+    font: inherit;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .pk-group-btn {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    width: 100%;
+    min-height: 56px;
+    text-align: left;
+    padding: 12px 44px 12px 14px;
+    background: transparent;
+    border: 0;
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+  }
+  .pk-group-btn:hover {
+    background: var(--surface-2);
+  }
+  .pk-gname {
+    font: 800 1.3rem/1.1 var(--f-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .pk-gmeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .pk-count,
+  .pk-gsugg,
+  .pk-gstars {
+    font: 700 0.72rem/1 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+    padding: 4px 6px;
+    background: var(--surface-2);
+    color: var(--muted);
+  }
+  .pk-gsugg {
+    background: var(--sign);
+    color: var(--sign-ink);
+  }
+  .pk-gstars {
+    background: var(--yellow);
+    color: #14181a;
+  }
+  .pk-gsum {
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+  .chev {
+    position: absolute;
+    right: 14px;
+    top: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    transition: transform 0.25s;
+  }
+  [aria-expanded='true'] .chev {
+    transform: rotate(180deg);
+  }
+  .pk-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 10px 10px;
+    display: grid;
+    gap: 8px;
+    animation: pk-in 0.3s ease both;
+  }
+  .pk-idea {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 'add add' 'stars minus';
+    align-items: center;
+    gap: 4px 8px;
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 12px;
+    padding: 4px 6px 6px;
+    transition: border-color 0.2s;
+  }
+  .pk-idea[data-starred] {
+    border-color: var(--yellow);
+  }
+  .pk-add {
+    grid-area: add;
+    display: flex;
+    gap: 10px;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    padding: 8px;
+    color: var(--ink);
+    font: inherit;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .pk-add:hover {
+    background: var(--surface-2);
+  }
+  .pk-add[aria-disabled='true'] {
+    cursor: default;
+  }
+  .pk-it {
+    display: grid;
+    gap: 3px;
+    justify-items: start;
+  }
+  .hook {
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+  .tag-sugg {
+    background: var(--sign);
+    color: var(--sign-ink);
+  }
+  .pk-stars {
+    grid-area: stars;
+    display: flex;
+    gap: 2px;
+    padding-left: 8px;
+    min-height: 22px;
+    align-items: center;
+  }
+  .pk-stars :global(.star) {
+    fill: var(--yellow);
+    stroke: var(--yellow-ink);
+    stroke-width: 1;
+    animation: pop 0.35s ease both;
+  }
+  @keyframes pop {
+    from {
+      transform: scale(0.2) translateY(-12px);
+      opacity: 0;
+    }
+  }
+  .pk-minus {
+    grid-area: minus;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1.5px solid var(--rule);
+    background: var(--bg);
+    color: var(--ink);
+    font: 800 1.4rem/1 var(--f-body);
+    cursor: pointer;
+  }
+  .pk-minus:hover {
+    border-color: var(--ink);
+  }
+  .pk-full {
+    margin-top: 12px;
+    font-weight: 700;
+  }
+  @media (min-width: 760px) {
+    .picker {
+      padding: 24px 28px 28px;
+    }
+  }
+</style>

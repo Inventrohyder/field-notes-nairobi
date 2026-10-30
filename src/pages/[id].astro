@@ -6,6 +6,7 @@ import FollowupStage from '../components/followup/FollowupStage.astro';
 import RulesBox from '../components/followup/RulesBox.astro';
 import LegacyScene from '../legacy/LegacyScene.astro';
 import CopyLink from '../components/CopyLink.astro';
+import IdeaBars from '../components/IdeaBars.astro';
 import { GROUPS, IDEAS, type IdeaEntry } from '../ideas/index';
 
 export function getStaticPaths() {
@@ -87,6 +88,9 @@ const total = IDEAS.length;
     </header>
 
     <div class="wrap">
+      <div class="bars-wrap">
+        <IdeaBars id={idea.id} />
+      </div>
       {hasScenarios && Stage ? (
         <>
           <GuidedDemo
@@ -373,6 +377,10 @@ const total = IDEAS.length;
   }
   .more {
     max-width: 860px !important;
+  }
+  .bars-wrap {
+    max-width: 828px;
+    margin: 0 auto;
   }
   .legacy-wrap {
     max-width: 828px;

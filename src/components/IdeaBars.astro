@@ -1,0 +1,87 @@
+---
+/**
+ * Above the demo on an idea page: a greeting for visitors who came through a personal link, and
+ * the tour bar for visitors walking through their picks. Both stay hidden unless the address asks.
+ */
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+---
+
+<div class="ibars" data-ibars={id}>
+  <p class="greetbar" data-greetbar hidden></p>
+  <nav class="tourbar" data-tourbar aria-label="Your picks" hidden>
+    <p class="tour-pos" data-tour-pos></p>
+    <a class="btn primary tour-next" data-tour-next href="./">
+      Next pick
+    </a>
+    <div class="tour-end" data-tour-end hidden>
+      <p>
+        <b>That's all your picks.</b>
+      </p>
+      <a class="btn primary" data-tour-all href="../#ideas">
+        See all 21 ideas
+      </a>
+    </div>
+  </nav>
+</div>
+
+<script>
+  import { initIdeaBars } from '../scripts/idea-bars';
+  initIdeaBars();
+</script>
+
+<style>
+  .ibars {
+    display: grid;
+    gap: 10px;
+    margin: 4px 0 14px;
+  }
+  .ibars:not(:has(> :not([hidden]))) {
+    display: none;
+  }
+  .greetbar {
+    margin: 0;
+    background: var(--surface);
+    border-left: 5px solid var(--sign);
+    border-radius: 0 12px 12px 0;
+    padding: 10px 14px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .tourbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--tarmac);
+    color: var(--tarmac-ink);
+    border-radius: 12px;
+    padding: 8px 8px 8px 14px;
+  }
+  .tourbar[hidden] {
+    display: none;
+  }
+  .tour-pos {
+    margin: 0;
+    font: 700 0.8rem/1.3 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tour-end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .tour-end p {
+    margin: 0;
+  }
+  .tourbar .btn.primary {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: #14181a;
+  }
+</style>
