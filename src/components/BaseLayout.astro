@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { IDEAS } from '../ideas/index';
+import Presenter from './Presenter.astro';
 
 interface Props {
   title: string;
@@ -85,6 +86,7 @@ const ideaMeta = JSON.stringify(
         </p>
       </div>
     </footer>
+    <Presenter />
     <script>
       import { initTheme } from '../scripts/theme';
       initTheme();

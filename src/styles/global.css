@@ -228,6 +228,36 @@ sup.fn a {
   .no-print {
     display: none !important;
   }
+  /* Print is always light. */
+  :root,
+  :root[data-theme='dark'],
+  :root:not([data-theme='light']) {
+    --bg: #e3e7e4;
+    --surface: #f7f8f6;
+    --surface-2: #ebefec;
+    --ink: #14181a;
+    --muted: #4b5559;
+    --rule: #c2cac6;
+    --tarmac: #23272a;
+    --tarmac-2: #2e3336;
+    --tarmac-ink: #f0f2ef;
+    --tarmac-muted: #aab3b5;
+    --yellow: #f2b705;
+    --yellow-ink: #7a5a00;
+    --sign: #0a6b4c;
+    --sign-ink: #ffffff;
+    --sign-yellow: #ffd54f;
+    --green-ink: #0a6b4c;
+    --murram: #a9461d;
+    --pink: #c21a5f;
+    --focus: #c21a5f;
+    --hot: #d2452b;
+    --shade: rgba(20, 25, 27, 0.08);
+    color-scheme: light;
+  }
+  body {
+    background: #ffffff;
+  }
 }
 [hidden] {
   display: none !important;

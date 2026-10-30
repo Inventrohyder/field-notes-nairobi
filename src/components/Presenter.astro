@@ -1,0 +1,284 @@
+---
+/**
+ * Presenter tools. Rendered hidden on every page; src/scripts/presenter.ts shows the button only
+ * when the address has ?presenter (remembered for the tab). Everything stays on this device.
+ */
+import { IDEAS } from '../ideas/index';
+---
+
+<div class="pz" data-presenter hidden>
+  <button type="button" class="pz-open" data-pz-open aria-expanded="false" aria-controls="pz-panel">
+    Presenter
+  </button>
+  <section class="pz-panel" id="pz-panel" aria-labelledby="pz-h" data-pz-panel hidden>
+    <div class="pz-top">
+      <h2 id="pz-h" tabindex="-1">
+        Presenter tools
+      </h2>
+      <button type="button" class="pz-x" data-pz-close aria-label="Close presenter tools">
+        ×
+      </button>
+    </div>
+    <p class="pz-note">Only on this device. Nothing here is sent anywhere.</p>
+
+    <details class="pz-sec" open>
+      <summary>Personal link</summary>
+      <div class="pz-find" data-pz-find hidden>
+        <label for="pz-who">Find someone in your list</label>
+        <input id="pz-who" type="search" autocomplete="off" data-pz-who />
+        <ul class="pz-matches" data-pz-matches></ul>
+      </div>
+      <label for="pz-name">Name</label>
+      <input id="pz-name" type="text" maxlength="40" autocomplete="off" data-pz-name />
+      <label for="pz-line">One line</label>
+      <input
+        id="pz-line"
+        type="text"
+        maxlength="140"
+        autocomplete="off"
+        placeholder="you asked about the follow-up call, so start here"
+        data-pz-line
+      />
+      <fieldset class="pz-ideas">
+        <legend>
+          Up to three ideas <span data-pz-count>(0 of 3)</span>
+        </legend>
+        <div class="pz-grid">
+          {IDEAS.map((i) => (
+            <label class="pz-chk">
+              <input type="checkbox" value={i.id} data-pz-idea />
+              <span>
+                {i.num} {i.short}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <label for="pz-target">Opens</label>
+      <select id="pz-target" data-pz-target>
+        <option value="main">The main page</option>
+        {IDEAS.map((i) => (
+          <option value={i.id}>
+            {i.num} {i.short}
+          </option>
+        ))}
+      </select>
+      <div class="pz-row">
+        <button type="button" class="btn primary" data-pz-make>
+          Copy link
+        </button>
+        <button type="button" class="btn" data-pz-clearlink>
+          Clear
+        </button>
+      </div>
+      <p class="pz-status" role="status" data-pz-linkstatus></p>
+      <input type="text" readonly class="pz-out" aria-label="Personal link" data-pz-out hidden />
+    </details>
+
+    <details class="pz-sec">
+      <summary>People list</summary>
+      <p class="pz-note">
+        A JSON file with entries like {'{'}"name": "…", "ideas": ["mosques"], "line": "…"{'}'}. It
+        stays in this browser on this device.
+      </p>
+      <label for="pz-file">Load a people list</label>
+      <input id="pz-file" type="file" accept="application/json,.json" data-pz-file />
+      <p class="pz-status" role="status" data-pz-peoplestatus></p>
+      <button type="button" class="btn" data-pz-forget hidden>
+        Remove the list from this device
+      </button>
+    </details>
+
+    <details class="pz-sec">
+      <summary>
+        Picks log <span data-pz-logcount></span>
+      </summary>
+      <div class="pz-row">
+        <button type="button" class="btn primary" data-pz-save>
+          Save and reset for the next visitor
+        </button>
+      </div>
+      <p class="pz-status" role="status" data-pz-logstatus></p>
+      <div class="pz-row">
+        <button type="button" class="btn" data-pz-show aria-expanded="false">
+          Show entries
+        </button>
+        <button type="button" class="btn" data-pz-copytext>
+          Copy as text
+        </button>
+        <button type="button" class="btn" data-pz-copycsv>
+          Copy as CSV
+        </button>
+        <button type="button" class="btn" data-pz-clearlog>
+          Clear log
+        </button>
+      </div>
+      <ol class="pz-log" data-pz-log hidden></ol>
+    </details>
+  </section>
+</div>
+
+<script>
+  import { initPresenter } from '../scripts/presenter';
+  initPresenter();
+</script>
+
+<style>
+  .pz-open {
+    position: fixed;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 90;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 2px solid var(--yellow);
+    background: var(--tarmac);
+    color: var(--yellow);
+    font: 700 0.8rem/1 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+  .pz-panel {
+    position: fixed;
+    right: 12px;
+    bottom: calc(66px + env(safe-area-inset-bottom, 0px));
+    z-index: 91;
+    width: min(440px, calc(100vw - 24px));
+    max-height: calc(100vh - 140px);
+    overflow: auto;
+    background: var(--surface);
+    color: var(--ink);
+    border: 2px solid var(--tarmac);
+    border-radius: 16px;
+    padding: 14px 16px 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+  .pz-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pz-top h2 {
+    margin: 0;
+    font-size: 1.4rem;
+  }
+  .pz-x {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-size: 1.6rem;
+    cursor: pointer;
+  }
+  .pz-note {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .pz-sec {
+    border-top: 1px solid var(--rule);
+    padding: 8px 0;
+  }
+  .pz-sec summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .pz-sec label:not(.pz-chk),
+  .pz-ideas legend {
+    display: block;
+    font: 700 0.75rem/1.3 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin: 10px 0 4px;
+  }
+  .pz-sec input[type='text'],
+  .pz-sec input[type='search'],
+  .pz-sec select {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--rule);
+    background: var(--bg);
+    color: var(--ink);
+    font: inherit;
+  }
+  .pz-ideas {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .pz-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 8px;
+    max-height: 220px;
+    overflow: auto;
+    font-size: 0.88rem;
+  }
+  .pz-chk {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+  }
+  .pz-chk input {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+  .pz-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .pz-status {
+    font-size: 0.9rem;
+    margin: 8px 0 0;
+    overflow-wrap: anywhere;
+  }
+  .pz-out {
+    margin-top: 6px;
+    font: 0.8rem/1.3 var(--f-mono) !important;
+  }
+  .pz-matches {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pz-matches button {
+    min-height: 44px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--sign);
+    background: var(--bg);
+    color: var(--ink);
+    font: 700 0.9rem/1.2 var(--f-body);
+    cursor: pointer;
+  }
+  .pz-log {
+    font-size: 0.85rem;
+    padding-left: 1.4em;
+    margin-top: 10px;
+  }
+  .pz-log li {
+    margin-bottom: 6px;
+  }
+  @media print {
+    .pz {
+      display: none !important;
+    }
+  }
+</style>
