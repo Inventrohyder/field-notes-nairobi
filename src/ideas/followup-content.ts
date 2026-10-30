@@ -58,8 +58,8 @@ export const followupIdea: Idea = {
     },
   ],
   why: [
-    `Reporters rarely answer: the Australian editing guidance notes that “most URs do not return with a reply”.${fn(4)}`,
-    `Waze already asks for details on map issues sent without a description; the reply depends on the driver opening the Inbox later.${fn(7)}${fn(9)}`,
+    `Reporters rarely answer: the Australian editing guidance notes that “most URs do not return with a reply” (URs are update requests, the map issues drivers send).${fn(4)}`,
+    `Waze already asks for details on map issues sent without a description; the reply depends on the driver opening the Inbox later.${fn(7)}${fn(8)}${fn(9)}`,
   ],
   ask: 'Pilot an opt-in voice follow-up for closure reports and map issues with Nairobi reporters, with answers attached for local editors.',
   sources: [
@@ -90,7 +90,7 @@ export const followupIdea: Idea = {
     },
     {
       n: 6,
-      label: 'McCann FitzGerald: One month to go, EU AI Act transparency compliance (2 Jul 2026)',
+      label: 'McCann FitzGerald: One month to go, EU AI Act transparency compliance',
       url: 'https://www.mccannfitzgerald.com/knowledge/technology-and-innovation/one-month-to-go-eu-ai-act-transparency-compliance',
     },
     {
@@ -100,9 +100,8 @@ export const followupIdea: Idea = {
     },
     {
       n: 8,
-      label:
-        'Waze Discuss: Some URs without a user’s description don’t get the automatic update request (Jun 2026)',
-      url: 'https://www.waze.com/discuss/t/some-urs-w-o-a-users-description-dont-get-the-automatic-update-request/406260',
+      label: 'Waze Discuss: May 2026 newsletter for map editors (Portuguese, 27 May 2026)',
+      url: 'https://www.waze.com/discuss/t/ajude-a-moldar-o-futuro-do-waze-newsletter-de-maio-para-editores/405054',
     },
     {
       n: 9,
@@ -139,7 +138,7 @@ const hazard: Scenario = {
       id: 'a-menu',
       tag: 'today',
       screen: 'menu',
-      narrator: 'This is the report menu as it is today. Roadworks come under Hazard.',
+      narrator: 'These are the first rows of today’s report menu. Roadworks come under Hazard.',
       action: 'Tap Hazard.',
       choices: [
         off('traffic', 'Traffic'),
@@ -228,6 +227,7 @@ const hazard: Scenario = {
     },
     'a-later': {
       id: 'a-later',
+      detour: true,
       tag: 'proposed',
       screen: 'later',
       narrator: 'The assistant asks when to call back. It will call once.',
@@ -250,6 +250,7 @@ const hazard: Scenario = {
     },
     'a-later-set': {
       id: 'a-later-set',
+      detour: true,
       tag: 'proposed',
       screen: 'later-set',
       narrator: 'The assistant will call back {{laterText}}. One callback only.',
@@ -258,6 +259,7 @@ const hazard: Scenario = {
     },
     'a-callback': {
       id: 'a-callback',
+      detour: true,
       tag: 'proposed',
       clock: '{{later}}',
       screen: 'incoming',
@@ -283,7 +285,7 @@ const hazard: Scenario = {
       screen: 'notnow',
       end: true,
       narrator:
-        'That ends it for good: no more calls about this report. Your report stays on the map as it is, and the next driver who passes the spot is asked “Still there?”',
+        'That ends it for good: no more calls about this report. Your report stays on the map as it is, and the next driver who passes the spot is asked “Still there?” That prompt is <a href="../alert-timing/">idea 06, Ask at the right moment</a>.',
       choices: [],
     },
     'a-call': {
@@ -355,12 +357,12 @@ const hazard: Scenario = {
       id: 'a-end',
       say: 'Thanks. Drivers approaching now see what’s closed. I’ll ask the next driver who passes whether it’s still there.',
       changed:
-        'Drivers approaching now see the closed lanes, the direction and how long. The next driver is asked “Still there?” just after passing the spot.',
+        'Drivers approaching now see the closed lanes, the direction and how long. The next driver is asked “Still there?” just after passing the spot, as proposed in idea 06.',
       tag: 'proposed',
       screen: 'summary-a',
       end: true,
       narrator:
-        'Three answers, under a minute. Drivers approaching now see which lanes are closed and in which direction. The next driver is asked “Still there?” just after passing the spot.',
+        'Three answers, under a minute. Drivers approaching now see which lanes are closed and in which direction. The next driver is asked “Still there?” just after passing the spot. That prompt is <a href="../alert-timing/">idea 06, Ask at the right moment</a>.',
       choices: [],
     },
   },
@@ -403,7 +405,7 @@ const mapIssue: Scenario = {
       id: 'b-menu',
       tag: 'today',
       screen: 'menu',
-      narrator: 'The report menu, as it is today. Wrong turns on the map go under Map issue.',
+      narrator: 'The first rows of today’s report menu. Wrong turns on the map go under Map issue.',
       action: 'Tap Map issue.',
       choices: [
         off('traffic', 'Traffic'),
@@ -450,7 +452,7 @@ const mapIssue: Scenario = {
       id: 'b-today',
       tag: 'today',
       screen: 'today-b',
-      narrator: `How it works today. Waze already asks for details: since May 2026, a map issue sent without a description gets an automatic comment asking for more.${fn(7)} Since July 2026 you can also describe a map problem by voice, and it reaches local editors.${fn(3)}`,
+      narrator: `How it works today. Waze already asks for details: since May 2026, a map issue sent without a description gets an automatic comment asking for more.${fn(7)}${fn(8)} Since July 2026 you can also describe a map problem by voice, and it reaches local editors.${fn(3)}`,
       action: 'See where the question lands.',
       choices: [{ id: 'next', label: 'Next', to: 'b-inbox' }],
     },
@@ -458,7 +460,7 @@ const mapIssue: Scenario = {
       id: 'b-inbox',
       tag: 'today',
       screen: 'inbox',
-      narrator: `The comment arrives later in the app’s Inbox.${fn(9)} Many drivers never reply: Australian editing guidance notes that “most URs do not return with a reply”.${fn(4)} The request can close unanswered.`,
+      narrator: `The comment arrives later in the app’s Inbox.${fn(9)} Many drivers never reply: Australian editing guidance notes that “most URs do not return with a reply”, URs being update requests.${fn(4)} The request can close unanswered.`,
       action: 'Now try the idea.',
       choices: [{ id: 'next', label: 'Try the idea', to: 'b-parked' }],
     },
@@ -486,6 +488,7 @@ const mapIssue: Scenario = {
     },
     'b-later': {
       id: 'b-later',
+      detour: true,
       tag: 'proposed',
       screen: 'later',
       narrator: 'The assistant asks when to call back. It will call once.',
@@ -508,6 +511,7 @@ const mapIssue: Scenario = {
     },
     'b-later-set': {
       id: 'b-later-set',
+      detour: true,
       tag: 'proposed',
       screen: 'later-set',
       narrator: 'The assistant will call back {{laterText}}. One callback only.',
@@ -516,6 +520,7 @@ const mapIssue: Scenario = {
     },
     'b-callback': {
       id: 'b-callback',
+      detour: true,
       tag: 'proposed',
       clock: '{{later}}',
       screen: 'incoming',
@@ -552,7 +557,6 @@ const mapIssue: Scenario = {
       screen: 'convo',
       narrator:
         'The call opens with “This is Waze’s AI assistant.” Your drive replays up to the junction. The assistant asks which turn wasn’t allowed.',
-      action: 'Tap the turn on the map.',
       choices: [
         off('turn-left', 'Left'),
         off('turn-straight', 'Straight on'),
@@ -572,7 +576,6 @@ const mapIssue: Scenario = {
       screen: 'convo',
       narrator:
         'The text opens with “This is Waze’s AI assistant.” The same replay drives up to the junction. Which turn wasn’t allowed?',
-      action: 'Tap the turn on the map.',
       choices: [
         off('turn-left', 'Left'),
         off('turn-straight', 'Straight on'),

@@ -22,7 +22,7 @@ export const idea: Idea = {
   howToday:
     '“Add a stop” suggests stops such as food, gas and parking, one stop per route, with no arrival time to aim for.<sup class="fn"><a href="#src-mosques-2" aria-label="Source 2">2</a></sup> Gemini destination search (“Find me a coffee shop that’s open right now”) has been in global beta since July 2026, and personalised navigation suggests routes based on previous trips.<sup class="fn"><a href="#src-mosques-3" aria-label="Source 3">3</a></sup> Kenya’s editing guide has one religious category, Religious Center, with no mosque, church or temple sub-type.<sup class="fn"><a href="#src-mosques-4" aria-label="Source 4">4</a></sup>',
   howProposed:
-    'Ask the way you would ask a person: “a mosque by 13:30”, “a restaurant by 14:00”, “a petrol station within the next 200 km”. Waze finds places along the route that meet the time or distance limit with the smallest detour, and re-plans if the drive runs late. Opt-in remembered preferences shape the suggestions, such as vegetarian, vegan or halal food, or stopping to pray; drivers see, edit and delete them, and nothing is guessed. For mosques, add Mosque, Church and Temple sub-categories under Religious Center, and let local editors add congregation and Friday prayer times to the place’s hours. Prayer start times can be calculated, but each mosque sets its own congregation time.',
+    'Ask the way you would ask a person: “a mosque by 13:30”, “a restaurant by 14:00”, “a petrol station within the next 200 km”. Waze finds places along the route that meet the time or distance limit with the smallest detour, and re-plans if the drive runs late. Opt-in remembered preferences shape the suggestions, such as vegetarian, vegan or halal food, or stopping to pray; drivers see, edit and delete them, and nothing is guessed. For mosques, add Mosque, Church and Temple sub-categories under Religious Center, and let local editors add congregation and Friday prayer times to the place’s hours. Prayer start times can be calculated, but each mosque sets its own congregation time.<sup class="fn"><a href="#src-mosques-12" aria-label="Source 12">12</a></sup>',
   elsewhere: [
     {
       text: 'Google Maps can search for stops along a route by type of place, such as petrol stations, restaurants or a pharmacy; its help page does not mention places of worship.<sup class="fn"><a href="#src-mosques-7" aria-label="Source 7">7</a></sup>',
@@ -103,6 +103,11 @@ export const idea: Idea = {
       n: 11,
       label: 'European Commission: What personal data is considered sensitive?',
       url: 'https://commission.europa.eu/law/law-topic/data-protection/rules-business-and-organisations/legal-grounds-processing-data/sensitive-data/what-personal-data-considered-sensitive_en',
+    },
+    {
+      n: 12,
+      label: 'East London Mosque: Prayer times and calendar explained',
+      url: 'https://www.eastlondonmosque.org.uk/prayer-times-and-calendar-explained',
     },
   ],
   shortOnTime: true,
