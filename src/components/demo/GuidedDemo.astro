@@ -1,0 +1,101 @@
+---
+import type { Scenario } from '../../scenario/types';
+import ScenarioPicker from './ScenarioPicker.astro';
+import Narrator from './Narrator.astro';
+import Ending from './Ending.astro';
+import '../phone/phone.css';
+
+interface Props {
+  ideaId: string;
+  intro: string;
+  scenarios: Scenario[];
+  ask: string;
+  nextHref?: string;
+  nextLabel?: string;
+  allHref: string;
+}
+const { ideaId, intro, scenarios, ask, nextHref, nextLabel, allHref } = Astro.props;
+const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
+---
+
+<section class="demo" data-demo data-idea={ideaId} aria-labelledby={`${ideaId}-demo-h`}>
+  <h2 id={`${ideaId}-demo-h`} class="demo-h">Try it</h2>
+  <script type="application/json" data-demo-data set:html={data} />
+  <ScenarioPicker intro={intro} scenarios={scenarios} />
+  <noscript>
+    <p class="noscript">The guided demo needs JavaScript. How it works is written out below.</p>
+  </noscript>
+  <div class="play" data-play hidden>
+    <p class="play-title">
+      <span class="eyebrow">Playing</span>
+      <b data-sc-title></b>
+      <span class="tag tag-example">Example drive: places and times are examples</span>
+    </p>
+    <div class="play-grid">
+      <div class="play-narr"><Narrator /></div>
+      <div class="play-stage"><slot /></div>
+    </div>
+    <Ending ask={ask} nextHref={nextHref} nextLabel={nextLabel} allHref={allHref} />
+  </div>
+</section>
+
+<script>
+  import { mountDemos } from '../../scenario/engine';
+  mountDemos();
+</script>
+
+<style>
+  .demo {
+    margin: 8px 0 32px;
+  }
+  .demo-h {
+    margin-bottom: 10px;
+  }
+  .play-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-bottom: 12px;
+  }
+  .play-title .eyebrow {
+    margin: 0;
+  }
+  .play-grid {
+    display: grid;
+    gap: 10px;
+    scroll-margin-top: 64px;
+  }
+  .play-narr {
+    position: sticky;
+    top: 62px;
+    z-index: 6;
+  }
+  @media (max-width: 899px) {
+    .play-narr :global(.narrator) {
+      box-shadow: 0 6px 16px var(--shade), 4px 4px 0 var(--yellow);
+    }
+    .play-narr :global(.narr-text) {
+      font-size: 0.98rem;
+    }
+  }
+  @media (min-width: 900px) {
+    .play-grid {
+      grid-template-columns: minmax(300px, 1fr) minmax(340px, 400px);
+      align-items: start;
+      gap: 28px;
+    }
+    .play-narr {
+      order: 2;
+      top: 80px;
+    }
+    .play-stage {
+      order: 1;
+    }
+  }
+  .noscript {
+    padding: 12px;
+    background: var(--surface-2);
+    border-radius: 10px;
+  }
+</style>

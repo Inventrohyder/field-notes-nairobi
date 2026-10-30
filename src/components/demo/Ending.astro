@@ -1,0 +1,64 @@
+---
+interface Props {
+  ask: string;
+  nextHref?: string;
+  nextLabel?: string;
+  allHref: string;
+}
+const { ask, nextHref, nextLabel, allHref } = Astro.props;
+---
+
+<section class="ending" data-ending hidden aria-labelledby="ending-h">
+  <h3 id="ending-h">What changed</h3>
+  <p class="changed" data-changed></p>
+  <p class="eyebrow">The ask</p>
+  <p class="ask">{ask}</p>
+  <div class="ending-actions">
+    <button type="button" class="btn primary" data-other-sc>Play the other scenario</button>
+    {
+      nextHref && (
+        <a class="btn" href={nextHref}>
+          Next idea{nextLabel ? `: ${nextLabel}` : ''}
+        </a>
+      )
+    }
+    <a class="btn" href={allHref}>All ideas</a>
+  </div>
+</section>
+
+<style>
+  .ending {
+    margin-top: 16px;
+    background: var(--tarmac);
+    color: var(--tarmac-ink);
+    border-radius: 16px;
+    padding: 18px 16px;
+    border-left: 8px solid var(--yellow);
+  }
+  .ending h3 {
+    color: var(--yellow);
+  }
+  .ending .eyebrow {
+    color: var(--tarmac-muted);
+    margin-top: 10px;
+  }
+  .ask {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .ending-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .ending .btn {
+    border-color: var(--tarmac-ink);
+    color: var(--tarmac-ink);
+  }
+  .ending .btn.primary {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: #14181a;
+  }
+</style>

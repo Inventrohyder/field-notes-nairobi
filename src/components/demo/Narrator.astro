@@ -1,0 +1,219 @@
+---
+/** The coach card: beside the phone on wide screens, above the phone on narrow ones. */
+---
+
+<section class="narrator" data-narrator tabindex="-1" aria-label="Narrator">
+  <div class="narr-top">
+    <span class="narr-tag" data-narr-tag data-tag="today">Today</span>
+    <span class="narr-dots" data-dots aria-hidden="true"></span>
+    <span class="narr-step" data-narr-step></span>
+  </div>
+  <div class="narr-live" aria-live="polite" aria-atomic="true">
+    <p class="narr-text" data-narr-text></p>
+    <p class="narr-action" data-narr-action></p>
+  </div>
+  <div class="narr-choices" data-narr-choices></div>
+  <p class="narr-status" data-narr-status role="status"></p>
+  <div class="narr-controls">
+    <button type="button" class="ctl" data-back disabled>
+      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"
+        ><path
+          d="M12.5 4L6.5 10l6 6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path></svg
+      >
+      Back
+    </button>
+    <button type="button" class="ctl" data-restart>
+      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"
+        ><path
+          d="M4 10a6 6 0 1 0 2-4.5M4 3v3.5h3.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path></svg
+      >
+      Restart
+    </button>
+    <button type="button" class="ctl" data-voice aria-pressed="false">
+      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"
+        ><path d="M3 8h3l4-3v10l-4-3H3z" fill="currentColor"></path><path
+          d="M13 7.5a3.5 3.5 0 0 1 0 5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></path></svg
+      >
+      <span data-voice-label>Voice: off</span>
+    </button>
+    <button type="button" class="ctl" data-choose-other>Scenarios</button>
+  </div>
+</section>
+
+<style>
+  .narrator {
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    padding: 16px 16px 12px;
+    box-shadow: 6px 6px 0 var(--yellow);
+    outline: none;
+  }
+  .narrator:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+  .narr-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .narr-tag {
+    font: 700 0.72rem/1 var(--f-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: var(--tarmac);
+    color: var(--tarmac-ink);
+  }
+  .narr-tag[data-tag='proposed'] {
+    background: var(--sign);
+    color: var(--sign-ink);
+  }
+  .narr-step {
+    font: 700 0.75rem/1 var(--f-mono);
+    color: var(--muted);
+  }
+  .narr-text {
+    font-size: 1.05rem;
+    margin: 0 0 8px;
+  }
+  .narr-action {
+    font-weight: 700;
+    margin: 0 0 8px;
+    padding-left: 26px;
+    position: relative;
+  }
+  .narr-action::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--yellow);
+    box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--yellow);
+    transform: scale(0.7);
+  }
+  .narr-choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 4px 0 8px;
+  }
+  .narr-choices :global(.not-in-demo) {
+    font: 700 0.68rem/1 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+  }
+  .narr-status {
+    min-height: 1.2em;
+    margin: 0 0 6px;
+    font-size: 0.9rem;
+    color: var(--murram);
+    font-weight: 700;
+  }
+  .narr-status:empty {
+    min-height: 0;
+    margin: 0;
+  }
+  .narr-dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    flex: 1;
+    justify-content: center;
+  }
+  .narr-dots :global(.dot) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--rule);
+  }
+  .narr-dots :global(.dot.done) {
+    background: var(--muted);
+  }
+  .narr-dots :global(.dot.now) {
+    background: var(--yellow);
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+  .narr-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    border-top: 1px solid var(--rule);
+    padding-top: 8px;
+  }
+  .ctl {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ink);
+    font: 700 0.88rem/1 var(--f-body);
+    cursor: pointer;
+  }
+  .ctl:hover:not([disabled]) {
+    background: var(--surface-2);
+  }
+  .ctl[disabled] {
+    opacity: 0.4;
+    cursor: default;
+  }
+  .ctl[aria-pressed='true'] {
+    background: var(--sign);
+    color: var(--sign-ink);
+  }
+  @media (max-width: 899px) {
+    .narrator {
+      padding: 10px 12px 4px;
+      border-radius: 14px;
+    }
+    .narr-top {
+      margin-bottom: 4px;
+    }
+    .narr-text {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+    .narr-action {
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+    .narr-controls {
+      padding-top: 2px;
+      gap: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    .ctl {
+      padding: 0 7px;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+  }
+</style>
