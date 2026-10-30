@@ -90,8 +90,7 @@ export const followupIdea: Idea = {
     },
     {
       n: 6,
-      label:
-        'McCann FitzGerald: One month to go, EU AI Act transparency compliance (2 Jul 2026)',
+      label: 'McCann FitzGerald: One month to go, EU AI Act transparency compliance (2 Jul 2026)',
       url: 'https://www.mccannfitzgerald.com/knowledge/technology-and-innovation/one-month-to-go-eu-ai-act-transparency-compliance',
     },
     {
@@ -266,14 +265,20 @@ const hazard: Scenario = {
         'Skip ahead: {{later}} pm. The assistant calls back once, as you asked. If you say “Not now”, it won’t call about this again.',
       action: 'Choose Answer, Text me or Not now.',
       choices: [
-        { id: 'answer', label: 'Answer', to: 'a-call', set: { mode: 'call', hello: ', calling back as you asked' } },
+        {
+          id: 'answer',
+          label: 'Answer',
+          to: 'a-call',
+          set: { mode: 'call', hello: ', calling back as you asked' },
+        },
         { id: 'text', label: 'Text me', to: 'a-text', set: { mode: 'text' } },
         { id: 'notnow', label: 'Not now', to: 'a-notnow' },
       ],
     },
     'a-notnow': {
       id: 'a-notnow',
-      changed: 'One callback at most. “Not now” ends the follow-up, and the report keeps working as it does today.',
+      changed:
+        'One callback at most. “Not now” ends the follow-up, and the report keeps working as it does today.',
       tag: 'proposed',
       screen: 'notnow',
       end: true,
@@ -335,7 +340,12 @@ const hazard: Scenario = {
       narrator: 'Last question: how long did it look like it would be there?',
       action: 'Pick one.',
       choices: [
-        { id: 'dur-today', label: 'Just today', to: 'a-end', set: { dur: 'Expected to clear today' } },
+        {
+          id: 'dur-today',
+          label: 'Just today',
+          to: 'a-end',
+          set: { dur: 'Expected to clear today' },
+        },
         { id: 'dur-days', label: 'A few days', to: 'a-end', set: { dur: 'Likely a few days' } },
         { id: 'dur-weeks', label: 'Weeks or more', to: 'a-end', set: { dur: 'Weeks or more' } },
         { id: 'dur-unsure', label: 'Couldn’t tell', to: 'a-end', set: { dur: 'Not known' } },
@@ -344,7 +354,8 @@ const hazard: Scenario = {
     'a-end': {
       id: 'a-end',
       say: 'Thanks. Drivers approaching now see what’s closed. I’ll ask the next driver who passes whether it’s still there.',
-      changed: 'Drivers approaching now see the closed lanes, the direction and how long. The next driver is asked “Still there?” just after passing the spot.',
+      changed:
+        'Drivers approaching now see the closed lanes, the direction and how long. The next driver is asked “Still there?” just after passing the spot.',
       tag: 'proposed',
       screen: 'summary-a',
       end: true,
@@ -512,14 +523,20 @@ const mapIssue: Scenario = {
         'Skip ahead: {{later}} pm. The assistant calls back once, as you asked. If you say “Not now”, it won’t call about this again.',
       action: 'Choose Answer, Text me or Not now.',
       choices: [
-        { id: 'answer', label: 'Answer', to: 'b-call', set: { mode: 'call', hello: ', calling back as you asked' } },
+        {
+          id: 'answer',
+          label: 'Answer',
+          to: 'b-call',
+          set: { mode: 'call', hello: ', calling back as you asked' },
+        },
         { id: 'text', label: 'Text me', to: 'b-text', set: { mode: 'text' } },
         { id: 'notnow', label: 'Not now', to: 'b-notnow' },
       ],
     },
     'b-notnow': {
       id: 'b-notnow',
-      changed: 'One callback at most. “Not now” ends the follow-up, and the map issue stays as it is today.',
+      changed:
+        'One callback at most. “Not now” ends the follow-up, and the map issue stays as it is today.',
       tag: 'proposed',
       screen: 'notnow',
       end: true,
@@ -604,7 +621,8 @@ const mapIssue: Scenario = {
     'b-end': {
       id: 'b-end',
       say: 'Thanks. Your answers and the drive go to the local map editors.',
-      changed: 'The editors get the turn, the reason and when it applies, with the drive replay attached, while the driver still remembers.',
+      changed:
+        'The editors get the turn, the reason and when it applies, with the drive replay attached, while the driver still remembers.',
       tag: 'proposed',
       screen: 'wme',
       end: true,

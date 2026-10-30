@@ -6,6 +6,8 @@
   --p-rule: #e3e7ea;
   --p-tile: #eef1f3;
   --p-blue: #1e6fdb;
+  --p-blue-fill: #1e6fdb;
+  --p-blue-text: #1a5fc0;
   --p-blue-soft: #e9f1fc;
   --p-grey-pill: #eef1f4;
   --p-banner: #000000;
@@ -46,6 +48,8 @@
     --p-rule: #353b3f;
     --p-tile: #2d3337;
     --p-blue: #3d8ef0;
+    --p-blue-fill: #1f68c9;
+    --p-blue-text: #8bbcff;
     --p-blue-soft: #1c2a3b;
     --p-grey-pill: #2d3337;
     --p-map: #2a2f33;
@@ -68,6 +72,8 @@
   --p-rule: #353b3f;
   --p-tile: #2d3337;
   --p-blue: #3d8ef0;
+  --p-blue-fill: #1f68c9;
+  --p-blue-text: #8bbcff;
   --p-blue-soft: #1c2a3b;
   --p-grey-pill: #2d3337;
   --p-map: #2a2f33;
@@ -504,12 +510,12 @@
   text-decoration: none;
 }
 .ph-pill.blue {
-  background: var(--p-blue);
+  background: var(--p-blue-fill);
   color: #fff;
 }
 .ph-pill.grey {
   background: var(--p-grey-pill);
-  color: var(--p-blue);
+  color: var(--p-blue-text);
 }
 .ph-pill.red {
   background: var(--p-red);
@@ -826,7 +832,7 @@
 }
 .ph-bubble.me {
   align-self: flex-end;
-  background: var(--p-blue);
+  background: var(--p-blue-fill);
   color: #fff;
   border-bottom-right-radius: 5px;
 }
@@ -851,12 +857,12 @@
   border-radius: 999px;
   border: 2px solid var(--p-blue);
   background: var(--p-bg);
-  color: var(--p-blue);
+  color: var(--p-blue-text);
   font: 800 14px/1.1 var(--f-ui);
   cursor: pointer;
 }
 .ph-chip.primary {
-  background: var(--p-blue);
+  background: var(--p-blue-fill);
   color: #fff;
 }
 .ph-chip[aria-disabled='true'] {
@@ -864,7 +870,7 @@
   color: var(--p-muted);
 }
 .ph-chip[aria-pressed='true'] {
-  background: var(--p-blue);
+  background: var(--p-blue-fill);
   color: #fff;
 }
 .ph-lanes {
@@ -1181,7 +1187,7 @@
   color: var(--p-muted);
 }
 .wme-input b {
-  background: var(--p-blue);
+  background: var(--p-blue-fill);
   color: #fff;
   border-radius: 8px;
   padding: 8px 14px;
@@ -1198,8 +1204,8 @@
   font-weight: 800;
 }
 .wme-states span.on {
-  background: var(--p-blue);
-  border-color: var(--p-blue);
+  background: var(--p-blue-fill);
+  border-color: var(--p-blue-fill);
   color: #fff;
 }
 
@@ -1260,4 +1266,12 @@
 .ph-comment .ph-pill {
   flex: none;
   width: 100%;
+}
+.replay-map {
+  position: absolute;
+  inset: 0;
+}
+.replay-map > svg {
+  width: 100%;
+  height: 100%;
 }

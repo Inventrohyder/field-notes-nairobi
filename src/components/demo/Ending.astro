@@ -14,15 +14,17 @@ const { ask, nextHref, nextLabel, allHref } = Astro.props;
   <p class="eyebrow">The ask</p>
   <p class="ask">{ask}</p>
   <div class="ending-actions">
-    <button type="button" class="btn primary" data-other-sc>Play the other scenario</button>
-    {
-      nextHref && (
-        <a class="btn" href={nextHref}>
-          Next idea{nextLabel ? `: ${nextLabel}` : ''}
-        </a>
-      )
-    }
-    <a class="btn" href={allHref}>All ideas</a>
+    <button type="button" class="btn primary" data-other-sc>
+      Play the other scenario
+    </button>
+    {nextHref && (
+      <a class="btn" href={nextHref}>
+        Next idea{nextLabel ? `: ${nextLabel}` : ''}
+      </a>
+    )}
+    <a class="btn" href={allHref}>
+      All ideas
+    </a>
   </div>
 </section>
 

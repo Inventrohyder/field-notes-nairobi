@@ -12,20 +12,22 @@ const { intro, scenarios } = Astro.props;
 <div class="picker" data-picker>
   <p class="picker-intro">{intro}</p>
   <div class="picker-cards">
-    {
-      scenarios.map((s, i) => (
-        <article class="pcard">
-          <p class="eyebrow">
-            Scenario {String.fromCharCode(65 + i)} <Tag kind="example" label="Example drive" />
-          </p>
-          <h3 tabindex="-1">{s.title}</h3>
-          <p>{s.who}</p>
-          <button type="button" class="btn primary" data-start={s.id}>
-            Play: {s.title.toLowerCase().replace(/^a /, '').replace(/^./, (c) => c.toUpperCase())}
-          </button>
-        </article>
-      ))
-    }
+    {scenarios.map((s, i) => (
+      <article class="pcard">
+        <p class="eyebrow">
+          Scenario {String.fromCharCode(65 + i)} <Tag kind="example" label="Example drive" />
+        </p>
+        <h3 tabindex="-1">{s.title}</h3>
+        <p>{s.who}</p>
+        <button type="button" class="btn primary" data-start={s.id}>
+          Play:{' '}
+          {s.title
+            .toLowerCase()
+            .replace(/^a /, '')
+            .replace(/^./, (c) => c.toUpperCase())}
+        </button>
+      </article>
+    ))}
   </div>
 </div>
 

@@ -43,36 +43,36 @@ const total = IDEAS.length;
   path={`${idea.id}/`}
 >
   <Fragment slot="nav">
-    <a class="navlink" href={base}>All ideas</a>
+    <a class="navlink" href={base}>
+      All ideas
+    </a>
   </Fragment>
 
   <nav class="ideabar no-print" aria-label="Ideas">
     <div class="wrap ideabar-in">
-      {
-        prev ? (
-          <a class="pn" href={`${base}${prev.id}/`} rel="prev">
-            <span aria-hidden="true">‹</span>
-            <span class="visually-hidden">Previous idea: </span>
-            <span class="pn-num">{prev.num}</span>
-            <span class="pn-t">{prev.short}</span>
-          </a>
-        ) : (
-          <span />
-        )
-      }
-      <span class="ideabar-num">Idea {idea.num} of {total}</span>
-      {
-        next ? (
-          <a class="pn pn-next" href={`${base}${next.id}/`} rel="next">
-            <span class="visually-hidden">Next idea: </span>
-            <span class="pn-t">{next.short}</span>
-            <span class="pn-num">{next.num}</span>
-            <span aria-hidden="true">›</span>
-          </a>
-        ) : (
-          <span />
-        )
-      }
+      {prev ? (
+        <a class="pn" href={`${base}${prev.id}/`} rel="prev">
+          <span aria-hidden="true">‹</span>
+          <span class="visually-hidden">Previous idea: </span>
+          <span class="pn-num">{prev.num}</span>
+          <span class="pn-t">{prev.short}</span>
+        </a>
+      ) : (
+        <span />
+      )}
+      <span class="ideabar-num">
+        Idea {idea.num} of {total}
+      </span>
+      {next ? (
+        <a class="pn pn-next" href={`${base}${next.id}/`} rel="next">
+          <span class="visually-hidden">Next idea: </span>
+          <span class="pn-t">{next.short}</span>
+          <span class="pn-num">{next.num}</span>
+          <span aria-hidden="true">›</span>
+        </a>
+      ) : (
+        <span />
+      )}
     </div>
   </nav>
 
@@ -93,37 +93,33 @@ const total = IDEAS.length;
     </header>
 
     <div class="wrap">
-      {
-        hasScenarios && Stage ? (
-          <>
-            <GuidedDemo
-              ideaId={idea.id}
-              intro={idea.scenarioIntro ?? 'Which do you want to play?'}
-              scenarios={idea.scenarios ?? []}
-              ask={idea.ask}
-              nextHref={next ? `${base}${next.id}/` : undefined}
-              nextLabel={next?.short}
-              allHref={base}
-            >
-              <Stage />
-            </GuidedDemo>
-            {idea.id === 'report-followup' && <RulesBox />}
-          </>
-        ) : (
-          <LegacyScene idea={idea} />
-        )
-      }
+      {hasScenarios && Stage ? (
+        <>
+          <GuidedDemo
+            ideaId={idea.id}
+            intro={idea.scenarioIntro ?? 'Which do you want to play?'}
+            scenarios={idea.scenarios ?? []}
+            ask={idea.ask}
+            nextHref={next ? `${base}${next.id}/` : undefined}
+            nextLabel={next?.short}
+            allHref={base}
+          >
+            <Stage />
+          </GuidedDemo>
+          {idea.id === 'report-followup' && <RulesBox />}
+        </>
+      ) : (
+        <LegacyScene idea={idea} />
+      )}
     </div>
 
     <div class="wrap more">
-      {
-        idea.moment && (
-          <section aria-labelledby="moment-h">
-            <h2 id="moment-h">The moment</h2>
-            <p set:html={idea.moment.text} />
-          </section>
-        )
-      }
+      {idea.moment && (
+        <section aria-labelledby="moment-h">
+          <h2 id="moment-h">The moment</h2>
+          <p set:html={idea.moment.text} />
+        </section>
+      )}
 
       <section aria-labelledby="how-h">
         <h2 id="how-h">How it works</h2>
@@ -133,65 +129,59 @@ const total = IDEAS.length;
             <Fragment set:html={idea.howToday} />
           </div>
           <div class="how-col proposed">
-            <p class="eyebrow">Proposed <span class="tag tag-proposed">Proposed</span></p>
+            <p class="eyebrow">
+              Proposed <span class="tag tag-proposed">Proposed</span>
+            </p>
             <Fragment set:html={idea.howProposed} />
           </div>
         </div>
-        {
-          idea.also && idea.also.length > 0 && (
-            <>
-              <h3>It would also</h3>
-              <ul>
-                {idea.also.map((a) => (
-                  <li set:html={a} />
-                ))}
-              </ul>
-            </>
-          )
-        }
-      </section>
-
-      {
-        idea.why.length > 0 && (
-          <section aria-labelledby="why-h">
-            <h2 id="why-h">Why it matters</h2>
-            <ul class="facts">
-              {idea.why.map((w) => (
-                <li set:html={w} />
+        {idea.also && idea.also.length > 0 && (
+          <>
+            <h3>It would also</h3>
+            <ul>
+              {idea.also.map((a) => (
+                <li set:html={a} />
               ))}
             </ul>
-          </section>
-        )
-      }
+          </>
+        )}
+      </section>
+
+      {idea.why.length > 0 && (
+        <section aria-labelledby="why-h">
+          <h2 id="why-h">Why it matters</h2>
+          <ul class="facts">
+            {idea.why.map((w) => (
+              <li set:html={w} />
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section aria-labelledby="else-h">
         <h2 id="else-h">Elsewhere</h2>
         <ul class="facts">
-          {
-            idea.elsewhere.map((e) => (
-              <li class:list={{ gap: e.gap }}>
-                {e.gap && <span class="tag tag-illus">Not found</span>} <Fragment set:html={e.text} />
-              </li>
-            ))
-          }
+          {idea.elsewhere.map((e) => (
+            <li class:list={{ gap: e.gap }}>
+              {e.gap && <span class="tag tag-illus">Not found</span>} <Fragment set:html={e.text} />
+            </li>
+          ))}
         </ul>
       </section>
 
-      {
-        idea.questions && idea.questions.length > 0 && (
-          <section aria-labelledby="q-h">
-            <h2 id="q-h">Questions you will ask</h2>
-            <dl class="qa">
-              {idea.questions.map((q) => (
-                <div>
-                  <dt>{q.q}</dt>
-                  <dd set:html={q.a} />
-                </div>
-              ))}
-            </dl>
-          </section>
-        )
-      }
+      {idea.questions && idea.questions.length > 0 && (
+        <section aria-labelledby="q-h">
+          <h2 id="q-h">Questions you will ask</h2>
+          <dl class="qa">
+            {idea.questions.map((q) => (
+              <div>
+                <dt>{q.q}</dt>
+                <dd set:html={q.a} />
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
 
       <section class="askbox" aria-labelledby="ask-h">
         <h2 id="ask-h">The ask</h2>
@@ -202,15 +192,13 @@ const total = IDEAS.length;
       <section aria-labelledby="src-h">
         <h2 id="src-h">Sources</h2>
         <ol class="sources">
-          {
-            idea.sources.map((s) => (
-              <li id={`src-${idea.id}-${s.n}`} value={s.n}>
-                <a href={s.url} rel="noopener" target="_blank">
-                  {s.label}
-                </a>
-              </li>
-            ))
-          }
+          {idea.sources.map((s) => (
+            <li id={`src-${idea.id}-${s.n}`} value={s.n}>
+              <a href={s.url} rel="noopener" target="_blank">
+                {s.label}
+              </a>
+            </li>
+          ))}
         </ol>
         <p class="checked">
           Numbers in the text link to these sources. Anything made up to show the idea is marked
@@ -224,9 +212,17 @@ const total = IDEAS.length;
     <div class="idea-foot no-print">
       <CopyLink />
       <p class="foot-nav">
-        {prev && <a href={`${base}${prev.id}/`}>Previous: {prev.num} {prev.short}</a>}
+        {prev && (
+          <a href={`${base}${prev.id}/`}>
+            Previous: {prev.num} {prev.short}
+          </a>
+        )}
         <a href={base}>All ideas</a>
-        {next && <a href={`${base}${next.id}/`}>Next: {next.num} {next.short}</a>}
+        {next && (
+          <a href={`${base}${next.id}/`}>
+            Next: {next.num} {next.short}
+          </a>
+        )}
       </p>
     </div>
   </Fragment>
@@ -468,6 +464,7 @@ const total = IDEAS.length;
     margin: 10px 0 0;
   }
   .foot-nav a {
+    color: var(--sign-yellow);
     display: inline-flex;
     align-items: center;
     min-height: 44px;

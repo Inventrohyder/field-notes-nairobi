@@ -34,15 +34,17 @@ const canonical = new URL(base + path, Astro.site).href;
     <link rel="stylesheet" href={`${base}fonts.css`} />
     <script is:inline>
       try {
-        var t = localStorage.getItem('field-notes-theme');
+        const t = localStorage.getItem('field-notes-theme');
         if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-      } catch (e) {
+      } catch {
         /* storage unavailable */
       }
     </script>
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
     <header class="topbar no-print">
       <div class="wrap topbar-in">
         <a class="brand" href={base}>
@@ -71,7 +73,9 @@ const canonical = new URL(base + path, Astro.site).href;
         </p>
         <p class="contact">
           <span>Haitham Alhad Hyder, volunteer map editor in Nairobi.</span>
-          <a href="https://github.com/Inventrohyder" rel="me">GitHub: Inventrohyder</a>
+          <a href="https://github.com/Inventrohyder" rel="me">
+            GitHub: Inventrohyder
+          </a>
           <span>WME and Waze Discuss: Inventrohyder</span>
         </p>
       </div>

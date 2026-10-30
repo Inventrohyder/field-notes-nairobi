@@ -19,7 +19,9 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
 ---
 
 <section class="demo" data-demo data-idea={ideaId} aria-labelledby={`${ideaId}-demo-h`}>
-  <h2 id={`${ideaId}-demo-h`} class="demo-h">Try it</h2>
+  <h2 id={`${ideaId}-demo-h`} class="demo-h">
+    Try it
+  </h2>
   <script type="application/json" data-demo-data set:html={data} />
   <ScenarioPicker intro={intro} scenarios={scenarios} />
   <noscript>
@@ -32,8 +34,12 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
       <span class="tag tag-example">Example drive: places and times are examples</span>
     </p>
     <div class="play-grid">
-      <div class="play-narr"><Narrator /></div>
-      <div class="play-stage"><slot /></div>
+      <div class="play-narr">
+        <Narrator />
+      </div>
+      <div class="play-stage">
+        <slot />
+      </div>
     </div>
     <Ending ask={ask} nextHref={nextHref} nextLabel={nextLabel} allHref={allHref} />
   </div>
@@ -73,7 +79,9 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
   }
   @media (max-width: 899px) {
     .play-narr :global(.narrator) {
-      box-shadow: 0 6px 16px var(--shade), 4px 4px 0 var(--yellow);
+      box-shadow:
+        0 6px 16px var(--shade),
+        4px 4px 0 var(--yellow);
     }
     .play-narr :global(.narr-text) {
       font-size: 0.98rem;

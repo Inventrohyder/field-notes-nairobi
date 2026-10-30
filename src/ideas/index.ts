@@ -17,7 +17,11 @@ const modules = import.meta.glob<DataModule>('./data/*.ts', { eager: true });
 function collect(): IdeaEntry[] {
   const byId = new Map<string, IdeaEntry>();
   for (const mod of Object.values(modules)) {
-    if (mod.idea) byId.set(mod.idea.id, { ...mod.idea, scenarios: mod.scenarios?.length ? mod.scenarios : undefined });
+    if (mod.idea)
+      byId.set(mod.idea.id, {
+        ...mod.idea,
+        scenarios: mod.scenarios?.length ? mod.scenarios : undefined,
+      });
   }
   // Idea 10 is rebuilt as guided scenarios. Its page text and sources live with the scenarios
   // in followup-content.ts, because the scenario narration cites the same numbered sources.
@@ -127,7 +131,10 @@ export const TEAMS: Team[] = [
   {
     team: 'Traffic events & crisis',
     ideas: [
-      { id: 'lane-followups', reason: 'The next drivers say which lanes are blocked, with one tap.' },
+      {
+        id: 'lane-followups',
+        reason: 'The next drivers say which lanes are blocked, with one tap.',
+      },
       {
         id: 'closure-in-view',
         reason: 'Trusted editors close a road they can see, with a direction.',
@@ -177,7 +184,10 @@ export const TEAMS: Team[] = [
   {
     team: 'Community & localization',
     ideas: [
-      { id: 'report-followup', reason: 'Drivers’ answers attached to their reports for local editors.' },
+      {
+        id: 'report-followup',
+        reason: 'Drivers’ answers attached to their reports for local editors.',
+      },
       {
         id: 'mosques',
         reason: 'Mosque sub-categories and congregation times added by local editors.',

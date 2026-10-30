@@ -81,13 +81,19 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   <div class="ph-screen" data-screen="reported-a" hidden>
     <TurnBanner dist="300 m" street="Uhuru Highway" turn="straight" />
     <div class="ph-map">
-      <DriveMap layout="highway" cones label="Map: still driving on Uhuru Highway after the report." />
+      <DriveMap
+        layout="highway"
+        cones
+        label="Map: still driving on Uhuru Highway after the report."
+      />
       <div class="ph-pill-note">
         Follow-up after you park <Fragment set:html={proposed} />
       </div>
       <div class="ph-toast" role="status">
         <Fragment set:html={icon('construction', 34)} />
-        <div>Construction reported<small>Thanks for helping drivers nearby</small></div>
+        <div>
+          Construction reported<small>Thanks for helping drivers nearby</small>
+        </div>
       </div>
     </div>
     <EtaBar arrive="4:26 pm" mins="14 min · 5.7 km" to="Sarit Centre" />
@@ -99,17 +105,12 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
     <div class="ph-map">
       <DriveMap layout="highway" label="Map: stopped at a red light in Westlands." />
       <div class="ph-pill-note">
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"
-          ><rect x="7" y="2" width="10" height="20" rx="4" fill="#4a5258"></rect><circle
-            cx="12"
-            cy="7"
-            r="2.6"
-            fill="#e5484d"></circle><circle cx="12" cy="12" r="2.6" fill="#6c7479"></circle><circle
-            cx="12"
-            cy="17"
-            r="2.6"
-            fill="#6c7479"></circle></svg
-        >
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <rect x="7" y="2" width="10" height="20" rx="4" fill="#4a5258"></rect>
+          <circle cx="12" cy="7" r="2.6" fill="#e5484d"></circle>
+          <circle cx="12" cy="12" r="2.6" fill="#6c7479"></circle>
+          <circle cx="12" cy="17" r="2.6" fill="#6c7479"></circle>
+        </svg>
         Red light · no call while in traffic <Fragment set:html={proposed} />
       </div>
       <Speedo speed={0} />
@@ -136,52 +137,62 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
       <div>
         <p class="label">
           <span data-hide-steps="a-callback b-callback">Incoming call</span>
-          <span data-show-steps="a-callback b-callback" hidden>Calling back, as you asked</span>
+          <span data-show-steps="a-callback b-callback" hidden>
+            Calling back, as you asked
+          </span>
           <Fragment set:html={proposed} />
         </p>
-        <div class="ph-avatar"><Fragment set:html={icon('assistant', 40)} /></div>
+        <div class="ph-avatar">
+          <Fragment set:html={icon('assistant', 40)} />
+        </div>
         <p class="who">Waze AI assistant</p>
         <p class="why">
-          <span data-sc="hazard" hidden>About the roadworks you reported at 4:11 pm · about 30 seconds</span>
-          <span data-sc="map-issue" hidden
-            >Map editors need a little more detail on the turn you reported at 4:11 pm · about 30
-            seconds</span
-          >
+          <span data-sc="hazard" hidden>
+            About the roadworks you reported at 4:11 pm · about 30 seconds
+          </span>
+          <span data-sc="map-issue" hidden>
+            Map editors need a little more detail on the turn you reported at 4:11 pm · about 30
+            seconds
+          </span>
         </p>
       </div>
       <div style="width: 100%">
         <p class="ph-listen">
           <Fragment set:html={mic} />
-          <span
-            >Listening. Say “answer”, “text me” or
-            <span data-hide-steps="a-callback b-callback">“call me later”.</span><span
-              data-show-steps="a-callback b-callback"
-              hidden>“not now”.</span
-            ></span
-          >
+          <span>
+            Listening. Say “answer”, “text me” or
+            <span data-hide-steps="a-callback b-callback">“call me later”.</span>
+            <span data-show-steps="a-callback b-callback" hidden>
+              “not now”.
+            </span>
+          </span>
         </p>
         <div class="ph-call-actions">
-          <button type="button" class="ph-pill grey" data-choice="text" data-label="Text me"
-            >Text me</button
-          >
+          <button type="button" class="ph-pill grey" data-choice="text" data-label="Text me">
+            Text me
+          </button>
           <button
             type="button"
             class="ph-pill grey"
             data-choice="later"
             data-label="Call me later"
-            data-hide-steps="a-callback b-callback">Call me later</button
+            data-hide-steps="a-callback b-callback"
           >
+            Call me later
+          </button>
           <button
             type="button"
             class="ph-pill grey"
             data-choice="notnow"
             data-label="Not now"
             data-show-steps="a-callback b-callback"
-            hidden>Not now</button
+            hidden
           >
-          <button type="button" class="ph-pill green wide" data-choice="answer" data-label="Answer"
-            >Answer</button
-          >
+            Not now
+          </button>
+          <button type="button" class="ph-pill green wide" data-choice="answer" data-label="Answer">
+            Answer
+          </button>
         </div>
       </div>
     </div>
@@ -191,21 +202,31 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   <div class="ph-screen" data-screen="later" hidden>
     <div class="ph-lock">
       <p class="date">Example day</p>
-      <p class="time" data-clock>4:31</p>
+      <p class="time" data-clock>
+        4:31
+      </p>
       <div class="ph-note">
-        <div class="app"><span>Waze AI assistant</span><span>now</span></div>
+        <div class="app">
+          <span>Waze AI assistant</span>
+          <span>now</span>
+        </div>
         <b>When should I call back?</b>
         Tap one, or just say it: “in half an hour”, “this evening”.
         <div class="ph-chips" style="margin-top: 10px">
-          <button type="button" class="ph-chip" data-choice="in30" data-label="In 30 minutes"
-            >In 30 minutes</button
+          <button type="button" class="ph-chip" data-choice="in30" data-label="In 30 minutes">
+            In 30 minutes
+          </button>
+          <button type="button" class="ph-chip" data-choice="evening" data-label="This evening">
+            This evening
+          </button>
+          <button
+            type="button"
+            class="ph-chip"
+            data-choice="nextpark"
+            data-label="Next time I park"
           >
-          <button type="button" class="ph-chip" data-choice="evening" data-label="This evening"
-            >This evening</button
-          >
-          <button type="button" class="ph-chip" data-choice="nextpark" data-label="Next time I park"
-            >Next time I park</button
-          >
+            Next time I park
+          </button>
         </div>
       </div>
     </div>
@@ -215,10 +236,17 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   <div class="ph-screen" data-screen="later-set" hidden>
     <div class="ph-lock">
       <p class="date">Example day</p>
-      <p class="time" data-clock>4:31</p>
+      <p class="time" data-clock>
+        4:31
+      </p>
       <div class="ph-note" role="status">
-        <div class="app"><span>Waze AI assistant</span><span>now</span></div>
-        <b>I’ll call back <span data-var="laterText"></span>.</b>
+        <div class="app">
+          <span>Waze AI assistant</span>
+          <span>now</span>
+        </div>
+        <b>
+          I’ll call back <span data-var="laterText"></span>.
+        </b>
         One callback only. If you miss it, it becomes a text you can answer or ignore.
       </div>
     </div>
@@ -228,16 +256,21 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   <div class="ph-screen" data-screen="notnow" hidden>
     <div class="ph-lock">
       <p class="date">Example day</p>
-      <p class="time" data-clock>5:01</p>
+      <p class="time" data-clock>
+        5:01
+      </p>
       <div class="ph-note" role="status">
-        <div class="app"><span>Waze AI assistant</span><span>now</span></div>
+        <div class="app">
+          <span>Waze AI assistant</span>
+          <span>now</span>
+        </div>
         <b>No problem. I won’t call again about this.</b>
-        <span data-sc="hazard" hidden
-          >Your report stays as it is, and the next driver who passes the spot is asked instead.</span
-        >
-        <span data-sc="map-issue" hidden
-          >The map issue stays open for the editors, as it is today.</span
-        >
+        <span data-sc="hazard" hidden>
+          Your report stays as it is, and the next driver who passes the spot is asked instead.
+        </span>
+        <span data-sc="map-issue" hidden>
+          The map issue stays open for the editors, as it is today.
+        </span>
       </div>
     </div>
   </div>
@@ -245,178 +278,259 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   {/* The conversation, call or text, both scenarios */}
   <div class="ph-screen" data-screen="convo" hidden>
     <div class="ph-convo-head">
-      <span class="ph-avatar sm"><Fragment set:html={icon('assistant', 22)} /></span>
+      <span class="ph-avatar sm">
+        <Fragment set:html={icon('assistant', 22)} />
+      </span>
       <div>
         <b>Waze AI assistant</b>
         <span data-mode="call">On a call · voice</span>
-        <span data-mode="text" hidden>Text messages</span>
+        <span data-mode="text" hidden>
+          Text messages
+        </span>
       </div>
-      <span class="end" data-mode="call">End</span>
+      <span class="end" data-mode="call">
+        End
+      </span>
     </div>
     <div class="ph-replay">
-      <svg
-        data-sc="hazard"
-        data-replay="hazard"
-        hidden
-        viewBox="40 100 260 170"
-        preserveAspectRatio="xMidYMid slice"
-        role="img"
-        aria-label="Replay of your drive up Uhuru Highway to the roadworks you reported."
-      >
-        <rect class="m-park" x="-10" y="150" width="130" height="300" rx="10"></rect>
-        <rect class="m-block" x="196" y="200" width="70" height="56" rx="4"></rect>
-        <path class="m-casing" stroke-width="22" d="M-10 120 C80 112 150 112 320 140"></path>
-        <path class="m-road" stroke-width="18" d="M-10 120 C80 112 150 112 320 140"></path>
-        <path class="m-casing" stroke-width="34" d="M150 440 C150 330 146 250 180 170 S 236 40 250 -20"
-        ></path>
-        <path class="m-road" stroke-width="30" d="M150 440 C150 330 146 250 180 170 S 236 40 250 -20"
-        ></path>
-        <path class="m-route" stroke-width="7" d="M150 440 C150 330 146 250 180 170 S 236 40 250 -20"
-        ></path>
-        <path data-replay-path fill="none" stroke="none" d="M150 300 C147 250 160 210 176 196"></path>
-        <g class="replay-spot" data-replay-done transform="translate(176 196)">
-          <circle class="m-spot-ring" r="19"></circle>
+      <div class="replay-map" data-sc="hazard" hidden>
+        <svg
+          data-replay="hazard"
+          viewBox="40 100 260 170"
+          preserveAspectRatio="xMidYMid slice"
+          role="img"
+          aria-label="Replay of your drive up Uhuru Highway to the roadworks you reported."
+        >
+          <rect class="m-park" x="-10" y="150" width="130" height="300" rx="10"></rect>
+          <rect class="m-block" x="196" y="200" width="70" height="56" rx="4"></rect>
+          <path class="m-casing" stroke-width="22" d="M-10 120 C80 112 150 112 320 140"></path>
+          <path class="m-road" stroke-width="18" d="M-10 120 C80 112 150 112 320 140"></path>
           <path
-            d="M-3.5 -10h7l6 17h-19z"
-            fill="#f08a3c"
-            stroke="#3a3020"
-            stroke-width="1.8"
-            stroke-linejoin="round"></path>
-        </g>
-        <text class="m-label-big" x="48" y="250">Uhuru Park</text>
-        <g data-replay-car transform="translate(150 300)">
-          <circle class="m-halo" r="18"></circle>
-          <path class="m-you" d="M0 -12 L9 9 L0 4 L-9 9 Z"></path>
-        </g>
-      </svg>
-      <svg
-        data-sc="map-issue"
-        data-replay="map-issue"
-        hidden
-        viewBox="40 120 230 160"
-        preserveAspectRatio="xMidYMid slice"
-        role="group"
-        aria-label="Replay of your drive up to the junction with Kenyatta Avenue. Tap the turn that was not allowed."
-      >
-        <rect class="m-block" x="10" y="20" width="100" height="160" rx="4"></rect>
-        <rect class="m-block" x="190" y="250" width="110" height="80" rx="4"></rect>
-        <rect class="m-block" x="10" y="250" width="100" height="80" rx="4"></rect>
-        <path class="m-casing" stroke-width="30" d="M-10 205 L310 205"></path>
-        <path class="m-road" stroke-width="26" d="M-10 205 L310 205"></path>
-        <path class="m-casing" stroke-width="34" d="M150 440 L150 -20"></path>
-        <path class="m-road" stroke-width="30" d="M150 440 L150 -20"></path>
-        <path class="m-route" stroke-width="6" d="M150 440 L150 205 L320 205" opacity="0.8"></path>
-        <path
-          class="m-driven"
-          data-replay-trace
-          stroke-width="6"
-          d="M150 300 L150 120"
-          pathLength="1"
-          style="stroke-dasharray: 1; stroke-dashoffset: 1"></path>
-        <path data-replay-path fill="none" stroke="none" d="M150 300 L150 120"></path>
-        <text class="m-label" x="200" y="194">Kenyatta Ave</text>
-        <g class="replay-turns" data-replay-done>
-          <g
-            class="ph-turn"
-            role="button"
-            tabindex="-1"
-            data-choice="turn-left"
-            data-label="Left onto Kenyatta Avenue"
-            transform="translate(104 205)"
-          >
-            <circle r="15"></circle><path d="M7 0H-6M-1.5 -4.5L-6 0l4.5 4.5"></path>
+            class="m-casing"
+            stroke-width="34"
+            d="M150 440 C150 330 146 250 180 170 S 236 40 250 -20"
+          ></path>
+          <path
+            class="m-road"
+            stroke-width="30"
+            d="M150 440 C150 330 146 250 180 170 S 236 40 250 -20"
+          ></path>
+          <path
+            class="m-route"
+            stroke-width="7"
+            d="M150 440 C150 330 146 250 180 170 S 236 40 250 -20"
+          ></path>
+          <path
+            data-replay-path
+            fill="none"
+            stroke="none"
+            d="M150 300 C147 250 160 210 176 196"
+          ></path>
+          <g class="replay-spot" data-replay-done transform="translate(176 196)">
+            <circle class="m-spot-ring" r="19"></circle>
+            <path
+              d="M-3.5 -10h7l6 17h-19z"
+              fill="#f08a3c"
+              stroke="#3a3020"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            ></path>
           </g>
-          <g
-            class="ph-turn"
-            role="button"
-            tabindex="-1"
-            data-choice="turn-straight"
-            data-label="Straight on"
-            transform="translate(150 160)"
-          >
-            <circle r="15"></circle><path d="M0 7V-6M-4.5 -1.5L0 -6l4.5 4.5"></path>
+          <text class="m-label-big" x="48" y="250">
+            Uhuru Park
+          </text>
+          <g data-replay-car transform="translate(150 300)">
+            <circle class="m-halo" r="18"></circle>
+            <path class="m-you" d="M0 -12 L9 9 L0 4 L-9 9 Z"></path>
           </g>
-          <g
-            class="ph-turn"
-            role="button"
-            tabindex="-1"
-            data-choice="turn-right"
-            data-label="Right onto Kenyatta Avenue"
-            data-on-steps="b-why b-when"
-            data-on-class="is-picked"
-            transform="translate(196 205)"
-          >
-            <circle r="15"></circle><path d="M-7 0H6M1.5 -4.5L6 0l-4.5 4.5"></path>
+        </svg>
+      </div>
+      <div class="replay-map" data-sc="map-issue" hidden>
+        <svg
+          data-replay="map-issue"
+          viewBox="40 120 230 160"
+          preserveAspectRatio="xMidYMid slice"
+          role="group"
+          aria-label="Replay of your drive up to the junction with Kenyatta Avenue. Tap the turn that was not allowed."
+        >
+          <rect class="m-block" x="10" y="20" width="100" height="160" rx="4"></rect>
+          <rect class="m-block" x="190" y="250" width="110" height="80" rx="4"></rect>
+          <rect class="m-block" x="10" y="250" width="100" height="80" rx="4"></rect>
+          <path class="m-casing" stroke-width="30" d="M-10 205 L310 205"></path>
+          <path class="m-road" stroke-width="26" d="M-10 205 L310 205"></path>
+          <path class="m-casing" stroke-width="34" d="M150 440 L150 -20"></path>
+          <path class="m-road" stroke-width="30" d="M150 440 L150 -20"></path>
+          <path
+            class="m-route"
+            stroke-width="6"
+            d="M150 440 L150 205 L320 205"
+            opacity="0.8"
+          ></path>
+          <path
+            class="m-driven"
+            data-replay-trace
+            stroke-width="6"
+            d="M150 300 L150 120"
+            pathLength="1"
+            style="stroke-dasharray: 1; stroke-dashoffset: 1"
+          ></path>
+          <path data-replay-path fill="none" stroke="none" d="M150 300 L150 120"></path>
+          <text class="m-label" x="200" y="194">
+            Kenyatta Ave
+          </text>
+          <g class="replay-turns" data-replay-done>
+            <g
+              class="ph-turn"
+              role="button"
+              tabindex="-1"
+              data-choice="turn-left"
+              data-label="Left onto Kenyatta Avenue"
+              transform="translate(104 205)"
+            >
+              <circle r="15"></circle>
+              <path d="M7 0H-6M-1.5 -4.5L-6 0l4.5 4.5"></path>
+            </g>
+            <g
+              class="ph-turn"
+              role="button"
+              tabindex="-1"
+              data-choice="turn-straight"
+              data-label="Straight on"
+              transform="translate(150 160)"
+            >
+              <circle r="15"></circle>
+              <path d="M0 7V-6M-4.5 -1.5L0 -6l4.5 4.5"></path>
+            </g>
+            <g
+              class="ph-turn"
+              role="button"
+              tabindex="-1"
+              data-choice="turn-right"
+              data-label="Right onto Kenyatta Avenue"
+              data-on-steps="b-why b-when"
+              data-on-class="is-picked"
+              transform="translate(196 205)"
+            >
+              <circle r="15"></circle>
+              <path d="M-7 0H6M1.5 -4.5L6 0l-4.5 4.5"></path>
+            </g>
           </g>
-        </g>
-        <g data-replay-car transform="translate(150 300)">
-          <circle class="m-halo" r="18"></circle>
-          <path class="m-you" d="M0 -12 L9 9 L0 4 L-9 9 Z"></path>
-        </g>
-      </svg>
+          <g data-replay-car transform="translate(150 300)">
+            <circle class="m-halo" r="18"></circle>
+            <path class="m-you" d="M0 -12 L9 9 L0 4 L-9 9 Z"></path>
+          </g>
+        </svg>
+      </div>
       <span class="ph-replay-time">4:11 pm</span>
       <span
         class="ph-replay-cap"
         data-replay-cap
         data-sc="hazard"
         hidden
-        data-done-text="You reported Construction here">Replaying your drive</span
+        data-done-text="You reported Construction here"
       >
+        Replaying your drive
+      </span>
       <span
         class="ph-replay-cap"
         data-replay-cap
         data-sc="map-issue"
         hidden
-        data-done-text="You went straight on here">Replaying your drive</span
+        data-done-text="You went straight on here"
       >
+        Replaying your drive
+      </span>
     </div>
     <div class="ph-transcript" data-transcript aria-live="off"></div>
     <div class="ph-answer">
       <div data-show-steps="a-call a-text" hidden>
-        <div class="ph-lanes" role="group" aria-label="Lanes on Uhuru Highway. Tap every closed lane.">
-          <button type="button" class="ph-lane" data-lane="Left" aria-pressed="false"
-            ><span>Left</span></button
-          >
-          <button type="button" class="ph-lane" data-lane="Middle" aria-pressed="false"
-            ><span>Middle</span></button
-          >
-          <button type="button" class="ph-lane" data-lane="Right" aria-pressed="false"
-            ><span>Right</span></button
-          >
+        <div
+          class="ph-lanes"
+          role="group"
+          aria-label="Lanes on Uhuru Highway. Tap every closed lane."
+        >
+          <button type="button" class="ph-lane" data-lane="Left" aria-pressed="false">
+            <span>Left</span>
+          </button>
+          <button type="button" class="ph-lane" data-lane="Middle" aria-pressed="false">
+            <span>Middle</span>
+          </button>
+          <button type="button" class="ph-lane" data-lane="Right" aria-pressed="false">
+            <span>Right</span>
+          </button>
         </div>
         <div class="ph-chips">
-          <button type="button" class="ph-chip" data-choice="lanes-unsure" data-label="Couldn’t tell"
-            >Couldn’t tell</button
+          <button
+            type="button"
+            class="ph-chip"
+            data-choice="lanes-unsure"
+            data-label="Couldn’t tell"
           >
-          <button type="button" class="ph-chip primary" data-choice="lanes-done" data-label="Done"
-            >Done</button
-          >
+            Couldn’t tell
+          </button>
+          <button type="button" class="ph-chip primary" data-choice="lanes-done" data-label="Done">
+            Done
+          </button>
         </div>
       </div>
       <div class="ph-chips" data-show-steps="a-q2" hidden>
-        <button type="button" class="ph-chip" data-choice="dir-w">Towards Westlands</button>
-        <button type="button" class="ph-chip" data-choice="dir-m">Towards Mombasa Road</button>
-        <button type="button" class="ph-chip" data-choice="dir-b">Both directions</button>
+        <button type="button" class="ph-chip" data-choice="dir-w">
+          Towards Westlands
+        </button>
+        <button type="button" class="ph-chip" data-choice="dir-m">
+          Towards Mombasa Road
+        </button>
+        <button type="button" class="ph-chip" data-choice="dir-b">
+          Both directions
+        </button>
       </div>
       <div class="ph-chips" data-show-steps="a-q3" hidden>
-        <button type="button" class="ph-chip" data-choice="dur-today">Just today</button>
-        <button type="button" class="ph-chip" data-choice="dur-days">A few days</button>
-        <button type="button" class="ph-chip" data-choice="dur-weeks">Weeks or more</button>
-        <button type="button" class="ph-chip" data-choice="dur-unsure">Couldn’t tell</button>
+        <button type="button" class="ph-chip" data-choice="dur-today">
+          Just today
+        </button>
+        <button type="button" class="ph-chip" data-choice="dur-days">
+          A few days
+        </button>
+        <button type="button" class="ph-chip" data-choice="dur-weeks">
+          Weeks or more
+        </button>
+        <button type="button" class="ph-chip" data-choice="dur-unsure">
+          Couldn’t tell
+        </button>
       </div>
-      <p class="ph-hint" data-show-steps="b-call b-text" hidden>Tap the turn on the map above.</p>
+      <p class="ph-hint" data-show-steps="b-call b-text" hidden>
+        Tap the turn on the map above.
+      </p>
       <div class="ph-chips" data-show-steps="b-why" hidden>
-        <button type="button" class="ph-chip" data-choice="why-sign">No-turn sign</button>
-        <button type="button" class="ph-chip" data-choice="why-barrier">Barrier</button>
-        <button type="button" class="ph-chip" data-choice="why-oneway">One-way</button>
-        <button type="button" class="ph-chip" data-choice="why-police">Police</button>
-        <button type="button" class="ph-chip" data-choice="why-works">Roadworks</button>
-        <button type="button" class="ph-chip" data-choice="why-unsure">Not sure</button>
+        <button type="button" class="ph-chip" data-choice="why-sign">
+          No-turn sign
+        </button>
+        <button type="button" class="ph-chip" data-choice="why-barrier">
+          Barrier
+        </button>
+        <button type="button" class="ph-chip" data-choice="why-oneway">
+          One-way
+        </button>
+        <button type="button" class="ph-chip" data-choice="why-police">
+          Police
+        </button>
+        <button type="button" class="ph-chip" data-choice="why-works">
+          Roadworks
+        </button>
+        <button type="button" class="ph-chip" data-choice="why-unsure">
+          Not sure
+        </button>
       </div>
       <div class="ph-chips" data-show-steps="b-when" hidden>
-        <button type="button" class="ph-chip" data-choice="when-all">All the time</button>
-        <button type="button" class="ph-chip" data-choice="when-hours">Only at certain hours</button>
-        <button type="button" class="ph-chip" data-choice="when-unsure">Not sure</button>
+        <button type="button" class="ph-chip" data-choice="when-all">
+          All the time
+        </button>
+        <button type="button" class="ph-chip" data-choice="when-hours">
+          Only at certain hours
+        </button>
+        <button type="button" class="ph-chip" data-choice="when-unsure">
+          Not sure
+        </button>
       </div>
     </div>
   </div>
@@ -424,26 +538,37 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   {/* Scenario A ending: what drivers approaching see */}
   <div class="ph-screen" data-screen="summary-a" hidden>
     <div class="ph-plain">
-      <div class="ph-plain-head">What drivers approaching see now <Fragment set:html={proposed} /></div>
+      <div class="ph-plain-head">
+        What drivers approaching see now <Fragment set:html={proposed} />
+      </div>
       <div class="ph-alert">
         <div class="ph-alert-top">
           <Fragment set:html={icon('construction', 40)} />
-          <div><b>Construction</b>Uhuru Highway · 400 m ahead</div>
+          <div>
+            <b>Construction</b>Uhuru Highway · 400 m ahead
+          </div>
         </div>
         <div class="ph-mini-lanes" aria-hidden="true">
-          <i data-lane-mini="Left"></i><i data-lane-mini="Middle"></i><i data-lane-mini="Right"></i>
+          <i data-lane-mini="Left"></i>
+          <i data-lane-mini="Middle"></i>
+          <i data-lane-mini="Right"></i>
         </div>
         <dl class="ph-kv">
-          <dt>Lanes</dt><dd data-var="lanes"></dd>
-          <dt>Direction</dt><dd data-var="dir"></dd>
-          <dt>How long</dt><dd data-var="dur"></dd>
+          <dt>Lanes</dt>
+          <dd data-var="lanes"></dd>
+          <dt>Direction</dt>
+          <dd data-var="dir"></dd>
+          <dt>How long</dt>
+          <dd data-var="dur"></dd>
         </dl>
       </div>
       <div class="ph-plain-head">The next driver, just after passing</div>
       <div class="ph-alert">
         <div class="ph-alert-top">
           <Fragment set:html={icon('construction', 34)} />
-          <div><b>You just passed: Construction</b>Still there?</div>
+          <div>
+            <b>You just passed: Construction</b>Still there?
+          </div>
         </div>
         <div class="ph-stack">
           <span class="ph-pill blue">Still there</span>
@@ -528,28 +653,35 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
     <TurnBanner dist="150 m" street="Harambee Ave" turn="right" muted />
     <div class="ph-sheet full ph-comment">
       <div class="ph-sheet-head" style="justify-content: flex-end">
-        <span class="ph-x"><Fragment set:html={close} /></span>
+        <span class="ph-x">
+          <Fragment set:html={close} />
+        </span>
       </div>
       <div class="ph-comment-top">
-        <span class="disc"><Fragment set:html={icon('turnnot', 42)} /></span>
+        <span class="disc">
+          <Fragment set:html={icon('turnnot', 42)} />
+        </span>
         <b>Turn not allowed</b>
       </div>
       <button type="button" class="ph-link" data-choice="comment" data-label="Add a comment">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
-          ><path
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path
             d="M4 5h16v11H9l-5 4z"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
-            stroke-linejoin="round"></path></svg
-        >
+            stroke-linejoin="round"
+          ></path>
+        </svg>
         Add a comment
       </button>
       <p class="ph-fine">
         Your feedback and username will be sent for review by our community of volunteer map
         editors, to help improve Waze for everyone.
       </p>
-      <button type="button" class="ph-pill blue" data-choice="send" data-label="Send">Send</button>
+      <button type="button" class="ph-pill blue" data-choice="send" data-label="Send">
+        Send
+      </button>
     </div>
   </div>
 
@@ -563,8 +695,8 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
       </div>
       <div class="ph-card unread">
         <b>Soon after · an automatic comment</b>
-        Because there is no description, the request gets a comment asking for details. Each community
-        writes its own wording.
+        Because there is no description, the request gets a comment asking for details. Each
+        community writes its own wording.
       </div>
       <div class="ph-card">
         <b>Another way, since July 2026</b>
@@ -577,12 +709,14 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   <div class="ph-screen" data-screen="inbox" hidden>
     <div class="ph-plain">
       <div class="ph-plain-head">
-        <span aria-hidden="true">‹</span><span>Inbox</span><span aria-hidden="true">✕</span>
+        <span aria-hidden="true">‹</span>
+        <span>Inbox</span>
+        <span aria-hidden="true">✕</span>
       </div>
       <div class="ph-card unread">
         <b>Map issue: Turn not allowed</b>
-        Can you tell us more about the problem at Kenyatta Avenue? Reply here so a map editor can fix
-        it. <Fragment set:html={illus} />
+        Can you tell us more about the problem at Kenyatta Avenue? Reply here so a map editor can
+        fix it. <Fragment set:html={illus} />
         <div class="meta">Example · later that day</div>
       </div>
       <div class="ph-card">
@@ -591,8 +725,7 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
         <div class="meta">Example</div>
       </div>
       <div class="ph-card">
-        <b>Waze traffic alert</b>
-        A road event near you. See event details.
+        <b>Waze traffic alert</b>A road event near you. See event details.
         <div class="meta">Example</div>
       </div>
     </div>
@@ -602,27 +735,37 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
   <div class="ph-screen" data-screen="wme" hidden>
     <div class="wme">
       <div class="wme-bar">
-        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="dots" aria-hidden="true">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
         Map editor · update request
       </div>
-      <div class="wme-body">
+      <div class="wme-body" tabindex="0" role="region" aria-label="Update request">
         <article class="wme-card" aria-label="Update request card">
           <div class="wme-card-head">
-            <svg class="wme-pin" viewBox="0 0 30 30" aria-hidden="true"
-              ><path
+            <svg class="wme-pin" viewBox="0 0 30 30" aria-hidden="true">
+              <path
                 d="M15 2c6 0 10.5 4.5 10.5 10.2C25.5 20 15 28 15 28S4.5 20 4.5 12.2C4.5 6.5 9 2 15 2z"
                 fill="#f2c94c"
                 stroke="#6b5a1e"
-                stroke-width="1.6"></path><circle cx="15" cy="12" r="4" fill="#fff"></circle></svg
-            >
+                stroke-width="1.6"
+              ></path>
+              <circle cx="15" cy="12" r="4" fill="#fff"></circle>
+            </svg>
             <div>
               <b>Turn not allowed</b>
               <span>Submitted today, 4:11 pm · Uhuru Highway at Kenyatta Avenue</span>
             </div>
           </div>
           <div class="wme-map">
-            <svg viewBox="40 110 240 140" preserveAspectRatio="xMidYMid slice" role="img"
-              aria-label="Drive replay: the Waze route turns right onto Kenyatta Avenue; the driver's route goes straight on.">
+            <svg
+              viewBox="40 110 240 140"
+              preserveAspectRatio="xMidYMid slice"
+              role="img"
+              aria-label="Drive replay: the Waze route turns right onto Kenyatta Avenue; the driver's route goes straight on."
+            >
               <rect class="m-block" x="10" y="20" width="100" height="160" rx="4"></rect>
               <rect class="m-block" x="190" y="250" width="110" height="80" rx="4"></rect>
               <path class="m-casing" stroke-width="30" d="M-10 205 L310 205"></path>
@@ -631,37 +774,70 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
               <path class="m-road" stroke-width="30" d="M150 440 L150 -20"></path>
               <path class="m-route" stroke-width="7" d="M144 320 L144 211 L320 211"></path>
               <path class="m-driven" stroke-width="7" d="M156 320 L156 100"></path>
-              <text class="m-label" x="200" y="194">Kenyatta Ave</text>
+              <text class="m-label" x="200" y="194">
+                Kenyatta Ave
+              </text>
               <g transform="translate(196 236)">
                 <circle r="12" fill="#e5484d"></circle>
-                <path d="M-6 0H5M1 -4L5 0l-4 4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"></path>
+                <path
+                  d="M-6 0H5M1 -4L5 0l-4 4"
+                  fill="none"
+                  stroke="#fff"
+                  stroke-width="2.6"
+                  stroke-linecap="round"
+                ></path>
               </g>
             </svg>
           </div>
           <div class="wme-legend">
-            <span><span class="box" style="color: var(--p-route)">✓</span><span class="sw" style="background: var(--p-route)"></span>Waze route</span>
-            <span><span class="box" style="color: var(--p-green)">✓</span><span class="sw" style="background: var(--p-green)"></span>Driver’s route</span>
+            <span>
+              <span class="box" style="color: var(--p-route)">
+                ✓
+              </span>
+              <span class="sw" style="background: var(--p-route)"></span>Waze route
+            </span>
+            <span>
+              <span class="box" style="color: var(--p-green)">
+                ✓
+              </span>
+              <span class="sw" style="background: var(--p-green)"></span>Driver’s route
+            </span>
           </div>
           <div class="wme-section">
-            <h5>From the follow-up call <Fragment set:html={proposed} /></h5>
+            <h5>
+              From the follow-up call <Fragment set:html={proposed} />
+            </h5>
             <dl class="ph-kv">
-              <dt>Turn</dt><dd data-var="turn"></dd>
-              <dt>Why</dt><dd data-var="why"></dd>
-              <dt>Applies</dt><dd data-var="when"></dd>
-              <dt>Replay</dt><dd>Drive replay attached</dd>
+              <dt>Turn</dt>
+              <dd data-var="turn"></dd>
+              <dt>Why</dt>
+              <dd data-var="why"></dd>
+              <dt>Applies</dt>
+              <dd data-var="when"></dd>
+              <dt>Replay</dt>
+              <dd>Drive replay attached</dd>
             </dl>
           </div>
           <div class="wme-section">
             <h5>Conversation</h5>
             <div class="wme-comment">
-              <div class="by"><span>Automatic comment</span><span>4:12 pm</span></div>
+              <div class="by">
+                <span>Automatic comment</span>
+                <span>4:12 pm</span>
+              </div>
               Asked the driver for details.
             </div>
-            <div class="wme-input"><span>Enter comment</span><b>Send</b></div>
+            <div class="wme-input">
+              <span>Enter comment</span>
+              <b>Send</b>
+            </div>
           </div>
           <div class="wme-section">
-            <div class="wme-states" aria-label="Status">
-              <span class="on">Open</span><span>Solved</span><span>Not identified</span>
+            <div class="wme-states">
+              <span class="visually-hidden">Status:</span>
+              <span class="on">Open</span>
+              <span>Solved</span>
+              <span>Not identified</span>
             </div>
           </div>
         </article>
@@ -702,7 +878,7 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
     min-height: 44px;
     border: 0;
     background: none;
-    color: var(--p-blue);
+    color: var(--p-blue-text);
     font: 700 16px/1 var(--f-ui);
     margin-top: 18px;
   }

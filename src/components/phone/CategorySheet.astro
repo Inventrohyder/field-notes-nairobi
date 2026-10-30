@@ -41,53 +41,50 @@ const headingId = `sheet-${title.toLowerCase().replace(/[^a-z]+/g, '-')}-${Math.
   {grab && <span class="ph-grab" aria-hidden="true"></span>}
   <div class:list={['ph-sheet-head', { center }]}>
     <h4 id={headingId}>{title}</h4>
-    {
-      closeX && (
-        <span class="ph-x" aria-hidden="true">
-          <svg viewBox="0 0 20 20" width="18" height="18">
-            <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
-          </svg>
-        </span>
-      )
-    }
+    {closeX && (
+      <span class="ph-x" aria-hidden="true">
+        <svg viewBox="0 0 20 20" width="18" height="18">
+          <path
+            d="M4 4l12 12M16 4L4 16"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </span>
+    )}
   </div>
   <div class:list={['ph-grid', { cells }]}>
-    {
-      tiles.map((t) => (
-        <button
-          type="button"
-          class="ph-tile"
-          data-choice={t.choice}
-          data-label={t.label}
-          data-on-steps={t.defaultOn ?? t.selectedOn}
-          data-on-class={t.defaultOn ? 'is-default' : t.selectedOn ? 'is-selected' : undefined}
-        >
-          <span class="disc">
-            <Fragment set:html={icon(t.icon, cells ? 40 : 38)} />
-            <span class="check" aria-hidden="true" />
-          </span>
-          <span>{t.label}</span>
-        </button>
-      ))
-    }
+    {tiles.map((t) => (
+      <button
+        type="button"
+        class="ph-tile"
+        data-choice={t.choice}
+        data-label={t.label}
+        data-on-steps={t.defaultOn ?? t.selectedOn}
+        data-on-class={t.defaultOn ? 'is-default' : t.selectedOn ? 'is-selected' : undefined}
+      >
+        <span class="disc">
+          <Fragment set:html={icon(t.icon, cells ? 40 : 38)} />
+          <span class="check" aria-hidden="true" />
+        </span>
+        <span>{t.label}</span>
+      </button>
+    ))}
   </div>
-  {
-    footer === 'pills' && (
-      <div class="ph-pills">
-        <button type="button" class="ph-pill grey" data-choice={cancelChoice} data-label="Cancel">
-          Cancel
-        </button>
-        <button type="button" class="ph-pill blue" data-choice={reportChoice} data-label="Report">
-          Report
-        </button>
-      </div>
-    )
-  }
-  {
-    footer === 'cancel' && (
-      <button type="button" class="ph-text-btn" data-choice={cancelChoice} data-label="Cancel">
+  {footer === 'pills' && (
+    <div class="ph-pills">
+      <button type="button" class="ph-pill grey" data-choice={cancelChoice} data-label="Cancel">
         Cancel
       </button>
-    )
-  }
+      <button type="button" class="ph-pill blue" data-choice={reportChoice} data-label="Report">
+        Report
+      </button>
+    </div>
+  )}
+  {footer === 'cancel' && (
+    <button type="button" class="ph-text-btn" data-choice={cancelChoice} data-label="Cancel">
+      Cancel
+    </button>
+  )}
 </section>

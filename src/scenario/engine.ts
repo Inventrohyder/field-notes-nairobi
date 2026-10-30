@@ -134,9 +134,11 @@ export class Demo {
   }
 
   private bind(): void {
-    this.root.querySelectorAll<HTMLButtonElement>('[data-start]').forEach((b) =>
-      b.addEventListener('click', () => this.start(b.dataset.start as string, true)),
-    );
+    this.root
+      .querySelectorAll<HTMLButtonElement>('[data-start]')
+      .forEach((b) =>
+        b.addEventListener('click', () => this.start(b.dataset.start as string, true)),
+      );
     this.els.back.addEventListener('click', () => this.back());
     this.els.restart.addEventListener('click', () => this.sc && this.start(this.sc.id, true));
     this.root
@@ -246,7 +248,9 @@ export class Demo {
     this.lanes = new Set(keys);
     this.root
       .querySelectorAll<HTMLElement>('[data-lane]')
-      .forEach((b) => b.setAttribute('aria-pressed', String(this.lanes.has(b.dataset.lane as string))));
+      .forEach((b) =>
+        b.setAttribute('aria-pressed', String(this.lanes.has(b.dataset.lane as string))),
+      );
   }
 
   private laneText(): string {
@@ -254,7 +258,8 @@ export class Demo {
     if (order.length === 3) return 'All three lanes';
     if (order.length === 0) return '';
     const names = order.map((l) => l.toLowerCase());
-    const joined = names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
+    const joined =
+      names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
     return `${joined.charAt(0).toUpperCase()}${joined.slice(1)} lane${order.length > 1 ? 's' : ''}`;
   }
 
@@ -324,9 +329,7 @@ export class Demo {
     });
     this.root.querySelectorAll<HTMLElement>('[data-on-steps]').forEach((el) => {
       const on = (el.dataset.onSteps as string).split(' ').includes(step.id);
-      (el.dataset.onClass as string)
-        .split(' ')
-        .forEach((cls) => el.classList.toggle(cls, on));
+      (el.dataset.onClass as string).split(' ').forEach((cls) => el.classList.toggle(cls, on));
     });
     this.root.querySelectorAll<HTMLElement>('[data-var]').forEach((el) => {
       el.textContent = v[el.dataset.var as string] ?? el.dataset.varDefault ?? '';
@@ -396,11 +399,16 @@ export class Demo {
       el.setAttribute('aria-disabled', String(!enabled));
       if (el.tagName !== 'BUTTON') el.setAttribute('tabindex', inScreen && c ? '0' : '-1');
       else (el as HTMLButtonElement).tabIndex = inScreen && c ? 0 : -1;
-      const note = c?.disabled ? (c.note ?? 'Not in this demo') : !c && inScreen ? 'Not in this demo' : '';
+      const note = c?.disabled
+        ? (c.note ?? 'Not in this demo')
+        : !c && inScreen
+          ? 'Not in this demo'
+          : '';
       if (note) el.setAttribute('title', note);
       else el.removeAttribute('title');
       const base = el.dataset.label ?? el.textContent?.trim() ?? '';
-      if (el.dataset.label || note) el.setAttribute('aria-label', note ? `${base} (${note})` : base);
+      if (el.dataset.label || note)
+        el.setAttribute('aria-label', note ? `${base} (${note})` : base);
       if (enabled && !step.end) el.classList.add('is-target');
     });
 
@@ -493,7 +501,10 @@ export class Demo {
       const p = path.getPointAtLength(l);
       const p2 = path.getPointAtLength(Math.min(L, l + 1));
       const ang = (Math.atan2(p2.y - p.y, p2.x - p.x) * 180) / Math.PI + 90;
-      car.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+      car.setAttribute(
+        'transform',
+        `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${ang.toFixed(1)})`,
+      );
       if (trace) {
         trace.style.strokeDasharray = `${L}`;
         trace.style.strokeDashoffset = `${L * (1 - k)}`;
@@ -564,9 +575,11 @@ export function mountDemos(): void {
     if (!json?.textContent) return;
     const data = JSON.parse(json.textContent) as DemoData;
     const demo = new Demo(root, data);
-    root.querySelectorAll<HTMLButtonElement>('[data-other-sc]').forEach((b) =>
-      b.addEventListener('click', () => demo.start(b.dataset.otherSc as string, true)),
-    );
+    root
+      .querySelectorAll<HTMLButtonElement>('[data-other-sc]')
+      .forEach((b) =>
+        b.addEventListener('click', () => demo.start(b.dataset.otherSc as string, true)),
+      );
     demo.showPicker();
     const narr = root.querySelector<HTMLElement>('[data-narrator]');
     if (narr && 'ResizeObserver' in window) {

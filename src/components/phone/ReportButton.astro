@@ -6,6 +6,12 @@ interface Props {
 const { choice } = Astro.props;
 ---
 
-<button type="button" class="ph-report" data-choice={choice} data-label="Report" aria-label="Report">
+<button
+  type="button"
+  class="ph-report"
+  data-choice={choice}
+  data-label="Report"
+  aria-label="Report"
+>
   <Fragment set:html={icon('report', 40)} />
 </button>
