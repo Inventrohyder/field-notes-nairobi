@@ -22,8 +22,8 @@ function $$<T extends Element = HTMLElement>(sel: string, root: ParentNode = doc
   return [...root.querySelectorAll<T>(sel)];
 }
 
-export function tourHref(ids: string[]): string {
-  return `${base}${ids[0]}/?tour=${ids.join(',')}`;
+export function tourHref(ids: string[], hash = ''): string {
+  return `${base}${ids[0]}/?tour=${ids.join(',')}${hash}`;
 }
 
 function initGreeting(): void {
@@ -42,7 +42,7 @@ function initGreeting(): void {
   }
   const go = $<HTMLAnchorElement>('[data-greet-go]', box);
   if (go) {
-    if (p.i.length) go.href = tourHref(p.i);
+    if (p.i.length) go.href = tourHref(p.i, location.hash);
     else go.href = '#ideas';
   }
   box.hidden = false;

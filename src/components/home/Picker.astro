@@ -12,7 +12,9 @@ const byId = new Map(IDEAS.map((i) => [i.id, i]));
 
 <section class="picker" id="pick" aria-labelledby="pick-h" data-picker hidden>
   <div class="pk-head">
-    <p class="eyebrow">Pick what you want to see</p>
+    <p class="eyebrow">
+      Pick what you want to see · <a href="#start">Or start with three</a>
+    </p>
     <ol class="pk-dots" aria-label="Steps">
       {STEPS.map((s, i) => (
         <li data-dot={s}>

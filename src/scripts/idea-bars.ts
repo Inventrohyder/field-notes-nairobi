@@ -32,7 +32,8 @@ export function initIdeaBars(): void {
   const nextId = tour[at + 1];
   if (next) {
     if (nextId) {
-      next.href = `${base}${nextId}/?tour=${tour.join(',')}`;
+      const personal = parsePersonal(location.hash, IDEA_IDS) ? location.hash : '';
+      next.href = `${base}${nextId}/?tour=${tour.join(',')}${personal}`;
       next.textContent = `Next pick: ${IDEA_META[nextId].num} ${IDEA_META[nextId].short}`;
     } else next.hidden = true;
   }
