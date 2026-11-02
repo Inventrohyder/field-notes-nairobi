@@ -240,7 +240,7 @@ function contrast(a: string, b: string): number {
 for (const scheme of ['light', 'dark'] as const) {
   test.describe(`verdict contrast (${scheme})`, () => {
     test.use({ colorScheme: scheme });
-    for (const id of LEGACY) {
+    for (const id of [...LEGACY, 'report-followup']) {
       test(`${id}: Today and Proposed lines reach 4.5:1`, async ({ page }, info) => {
         test.skip(info.project.name !== 'phone', 'colours do not depend on width');
         await page.goto(`${id}/`);

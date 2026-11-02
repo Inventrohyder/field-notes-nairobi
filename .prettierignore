@@ -6,3 +6,4 @@ public
 src/legacy/scenes
 test-results
 playwright-report
+src/legacy/glance

@@ -85,6 +85,11 @@ const total = IDEAS.length;
       <div class="bars-wrap">
         <IdeaBars id={idea.id} />
       </div>
+      {hasScenarios && (
+        <div class="legacy-wrap">
+          <LegacyScene id={idea.id} glance />
+        </div>
+      )}
       {hasScenarios && Stage ? (
         <GuidedDemo
           ideaId={idea.id}
@@ -284,6 +289,8 @@ const total = IDEAS.length;
     }
     if (!el || !more.contains(el)) return;
     more.open = true;
+    more.querySelectorAll('.is-target').forEach((t) => t.classList.remove('is-target'));
+    el.classList.add('is-target');
     el.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' });
   }
   document.addEventListener('click', (e) => {
@@ -598,7 +605,8 @@ const total = IDEAS.length;
     margin-bottom: 6px;
     scroll-margin-top: 90px;
   }
-  .sources li:target {
+  .sources li:target,
+  .sources li.is-target {
     background: var(--surface-2);
     outline: 2px solid var(--yellow);
     border-radius: 4px;

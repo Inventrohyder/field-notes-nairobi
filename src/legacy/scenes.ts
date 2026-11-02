@@ -10,11 +10,21 @@ const THUMBS = import.meta.glob<string>('./scenes/*.thumb.svg', {
   import: 'default',
   eager: true,
 });
+const GLANCE = import.meta.glob<string>('./glance/*.svg.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
 const DATA = import.meta.glob<{ idea?: Idea }>('../ideas/data/*.ts', { eager: true });
 
 /** The scene block markup for an idea, or undefined when it has no legacy scene. */
 export function sceneHtml(id: string): string | undefined {
   return SCENES[`./scenes/${id}.svg.html`];
+}
+
+/** A short looping picture for an idea whose page leads with something else, such as a demo. */
+export function glanceHtml(id: string): string | undefined {
+  return GLANCE[`./glance/${id}.svg.html`];
 }
 
 /** The idea's page text, from src/ideas/data. */

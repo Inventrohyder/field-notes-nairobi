@@ -5,13 +5,15 @@
  */
 import './legacy.css';
 import type { Idea } from '../ideas/types';
-import { sceneHtml, ideaData } from './scenes';
+import { sceneHtml, glanceHtml, ideaData } from './scenes';
 
 interface Props {
   id: string;
+  /** The idea's short glance loop, with no walkthrough. */
+  glance?: boolean;
 }
-const { id } = Astro.props;
-const raw = sceneHtml(id);
+const { id, glance = false } = Astro.props;
+const raw = glance ? glanceHtml(id) : sceneHtml(id);
 const idea: Idea | undefined = ideaData(id);
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
@@ -45,7 +47,7 @@ if (raw && idea) {
     '<span class="beat-p"><b>Proposed</b></span>' +
     '</p>';
   const summary =
-    `<p class="vh">The picture plays on a loop. You already know: ${known} Today: ${plain(idea.today)} ` +
+    `<p class="vh"><span class="vh-loop">The picture plays on a loop. </span>You already know: ${known} Today: ${plain(idea.today)} ` +
     `Proposed: ${plain(idea.proposed)}</p>`;
   const firstPic = html.search(/<div class="(scene|qa-rows)">/);
   html = html.slice(0, firstPic) + beat + summary + html.slice(firstPic);
@@ -54,31 +56,37 @@ if (raw && idea) {
     html.slice(0, at) + (walk ? `<div class="walk-row">${walk[0]}</div>` : '') + html.slice(at);
 }
 
-const story = idea
-  ? JSON.stringify({
-      id: idea.id,
-      num: idea.num,
-      title: idea.title,
-      known: idea.known,
-      problem: idea.problem,
-      moment: idea.moment
-        ? {
-            text: idea.moment.text,
-            shots: (idea.moment.shots ?? []).map((s) => ({ ...s, src: base + s.src })),
-          }
-        : undefined,
-      also: idea.also ?? [],
-      elsewhere: idea.elsewhere,
-      questions: idea.questions ?? [],
-      why: idea.why,
-      ask: idea.ask,
-      teams: idea.teams,
-      sources: idea.sources,
-    }).replace(/</g, '\\u003c')
-  : '';
+const story =
+  idea && !glance
+    ? JSON.stringify({
+        id: idea.id,
+        num: idea.num,
+        title: idea.title,
+        known: idea.known,
+        problem: idea.problem,
+        moment: idea.moment
+          ? {
+              text: idea.moment.text,
+              shots: (idea.moment.shots ?? []).map((s) => ({ ...s, src: base + s.src })),
+            }
+          : undefined,
+        also: idea.also ?? [],
+        elsewhere: idea.elsewhere,
+        questions: idea.questions ?? [],
+        why: idea.why,
+        ask: idea.ask,
+        teams: idea.teams,
+        sources: idea.sources,
+      }).replace(/</g, '\\u003c')
+    : '';
 ---
 
-{raw && idea && (
+{raw && idea && glance && (
+  <div class="lg lg-scene lg-glance">
+    <Fragment set:html={html} />
+  </div>
+)}
+{raw && idea && !glance && (
   <div class="lg lg-scene">
     <Fragment set:html={html} />
     <script type="application/json" data-lg-story set:html={story} />
