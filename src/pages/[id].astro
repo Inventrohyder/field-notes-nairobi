@@ -79,12 +79,6 @@ const total = IDEAS.length;
       </p>
       <h1 id="idea-h">{idea.title}</h1>
       <p class="oneline">{idea.hook}</p>
-      <p class="problem" set:html={idea.problem} />
-      <div class="known">
-        <span class="known-tag">You already know</span>
-        <p set:html={idea.known} />
-      </div>
-      <p class="for">For: {idea.teams.map((t, i) => (i ? [' · ', <b>{t}</b>] : <b>{t}</b>))}</p>
     </header>
 
     <div class="wrap">
@@ -92,21 +86,18 @@ const total = IDEAS.length;
         <IdeaBars id={idea.id} />
       </div>
       {hasScenarios && Stage ? (
-        <>
-          <GuidedDemo
-            ideaId={idea.id}
-            intro={idea.scenarioIntro ?? 'Which do you want to play?'}
-            scenarios={idea.scenarios ?? []}
-            ask={idea.ask}
-            nextHref={next ? `${base}${next.id}/` : undefined}
-            nextLabel={next?.short}
-            allHref={base}
-          >
-            <Stage />
-            {idea.id === 'report-followup' && <RulesBox slot="aside" compact />}
-          </GuidedDemo>
-          {idea.id === 'report-followup' && <RulesBox />}
-        </>
+        <GuidedDemo
+          ideaId={idea.id}
+          intro={idea.scenarioIntro ?? 'Which do you want to play?'}
+          scenarios={idea.scenarios ?? []}
+          ask={idea.ask}
+          nextHref={next ? `${base}${next.id}/` : undefined}
+          nextLabel={next?.short}
+          allHref={base}
+        >
+          <Stage />
+          {idea.id === 'report-followup' && <RulesBox slot="aside" compact />}
+        </GuidedDemo>
       ) : (
         <div class="legacy-wrap">
           <LegacyScene id={idea.id} />
@@ -114,117 +105,148 @@ const total = IDEAS.length;
       )}
     </div>
 
+    <div class="wrap glance">
+      <section class="askcard" aria-labelledby="ask-h">
+        <h2 id="ask-h">The ask</h2>
+        <p class="ask" set:html={idea.askShort ?? idea.ask} />
+        <p class="for">For: {idea.teams.map((t, i) => (i ? [' · ', <b>{t}</b>] : <b>{t}</b>))}</p>
+      </section>
+    </div>
+
     <div class="wrap more">
-      {idea.moment && (
-        <section aria-labelledby="moment-h">
-          <h2 id="moment-h">The moment</h2>
-          <p set:html={idea.moment.text} />
-          {idea.moment.shots && idea.moment.shots.length > 0 && (
-            <div class="shots">
-              {idea.moment.shots.map((shot) => (
-                <figure class="shot">
-                  <a href={base + shot.src} target="_blank" rel="noopener">
-                    <img
-                      src={base + shot.src}
-                      alt={shot.alt}
-                      width="600"
-                      height="880"
-                      decoding="async"
-                    />
-                    <span class="visually-hidden"> (opens the full screenshot)</span>
-                  </a>
-                  <figcaption>{shot.caption}</figcaption>
-                </figure>
-              ))}
+      <details class="more-d" id="more" data-more>
+        <summary>
+          <span>More about this idea</span>
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+        </summary>
+
+        <section aria-labelledby="problem-h">
+          <h2 id="problem-h">The problem</h2>
+          <p set:html={idea.problem} />
+          <div class="known">
+            <span class="known-tag">You already know</span>
+            <p set:html={idea.known} />
+          </div>
+        </section>
+
+        {idea.moment && (
+          <section aria-labelledby="moment-h">
+            <h2 id="moment-h">The moment</h2>
+            <p set:html={idea.moment.text} />
+            {idea.moment.shots && idea.moment.shots.length > 0 && (
+              <div class="shots">
+                {idea.moment.shots.map((shot) => (
+                  <figure class="shot">
+                    <a href={base + shot.src} target="_blank" rel="noopener">
+                      <img
+                        src={base + shot.src}
+                        alt={shot.alt}
+                        width="600"
+                        height="880"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <span class="visually-hidden"> (opens the full screenshot)</span>
+                    </a>
+                    <figcaption>{shot.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        <section aria-labelledby="how-h">
+          <h2 id="how-h">How it works</h2>
+          <div class="how">
+            <div class="how-col">
+              <p class="eyebrow">Today</p>
+              <Fragment set:html={idea.howToday} />
             </div>
+            <div class="how-col proposed">
+              <p class="eyebrow">
+                Proposed <span class="tag tag-proposed">Proposed</span>
+              </p>
+              <Fragment set:html={idea.howProposed} />
+            </div>
+          </div>
+          {idea.also && idea.also.length > 0 && (
+            <>
+              <h3>It would also</h3>
+              <ul>
+                {idea.also.map((a) => (
+                  <li set:html={a} />
+                ))}
+              </ul>
+            </>
           )}
         </section>
-      )}
 
-      <section aria-labelledby="how-h">
-        <h2 id="how-h">How it works</h2>
-        <div class="how">
-          <div class="how-col">
-            <p class="eyebrow">Today</p>
-            <Fragment set:html={idea.howToday} />
-          </div>
-          <div class="how-col proposed">
-            <p class="eyebrow">
-              Proposed <span class="tag tag-proposed">Proposed</span>
-            </p>
-            <Fragment set:html={idea.howProposed} />
-          </div>
-        </div>
-        {idea.also && idea.also.length > 0 && (
-          <>
-            <h3>It would also</h3>
-            <ul>
-              {idea.also.map((a) => (
-                <li set:html={a} />
+        {idea.id === 'report-followup' && <RulesBox />}
+
+        {idea.why.length > 0 && (
+          <section aria-labelledby="why-h">
+            <h2 id="why-h">Why it matters</h2>
+            <ul class="facts">
+              {idea.why.map((w) => (
+                <li set:html={w} />
               ))}
             </ul>
-          </>
+          </section>
         )}
-      </section>
 
-      {idea.why.length > 0 && (
-        <section aria-labelledby="why-h">
-          <h2 id="why-h">Why it matters</h2>
+        <section aria-labelledby="else-h">
+          <h2 id="else-h">Elsewhere</h2>
           <ul class="facts">
-            {idea.why.map((w) => (
-              <li set:html={w} />
+            {idea.elsewhere.map((e) => (
+              <li class:list={{ gap: e.gap }}>
+                {e.gap && <span class="tag tag-illus">Not found</span>}{' '}
+                <Fragment set:html={e.text} />
+              </li>
             ))}
           </ul>
         </section>
-      )}
 
-      <section aria-labelledby="else-h">
-        <h2 id="else-h">Elsewhere</h2>
-        <ul class="facts">
-          {idea.elsewhere.map((e) => (
-            <li class:list={{ gap: e.gap }}>
-              {e.gap && <span class="tag tag-illus">Not found</span>} <Fragment set:html={e.text} />
-            </li>
-          ))}
-        </ul>
-      </section>
+        {idea.questions && idea.questions.length > 0 && (
+          <section aria-labelledby="q-h">
+            <h2 id="q-h">Questions you will ask</h2>
+            <dl class="qa">
+              {idea.questions.map((q) => (
+                <div>
+                  <dt>{q.q}</dt>
+                  <dd set:html={q.a} />
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
 
-      {idea.questions && idea.questions.length > 0 && (
-        <section aria-labelledby="q-h">
-          <h2 id="q-h">Questions you will ask</h2>
-          <dl class="qa">
-            {idea.questions.map((q) => (
-              <div>
-                <dt>{q.q}</dt>
-                <dd set:html={q.a} />
-              </div>
+        {idea.askShort && (
+          <section aria-labelledby="fullask-h">
+            <h2 id="fullask-h">The ask in full</h2>
+            <p set:html={idea.ask} />
+          </section>
+        )}
+
+        <section aria-labelledby="src-h">
+          <h2 id="src-h">Sources</h2>
+          <ol class="sources">
+            {idea.sources.map((s) => (
+              <li id={`src-${idea.id}-${s.n}`} value={s.n}>
+                <a href={s.url} rel="noopener" target="_blank">
+                  {s.label}
+                </a>
+              </li>
             ))}
-          </dl>
+          </ol>
+          <p class="checked">
+            Numbers in the text link to these sources. Anything made up to show the idea is marked
+            Illustration.
+          </p>
         </section>
-      )}
-
-      <section class="askbox" aria-labelledby="ask-h">
-        <h2 id="ask-h">The ask</h2>
-        <p class="ask" set:html={idea.ask} />
-        <p class="for">For: {idea.teams.map((t, i) => (i ? [' · ', <b>{t}</b>] : <b>{t}</b>))}</p>
-      </section>
-
-      <section aria-labelledby="src-h">
-        <h2 id="src-h">Sources</h2>
-        <ol class="sources">
-          {idea.sources.map((s) => (
-            <li id={`src-${idea.id}-${s.n}`} value={s.n}>
-              <a href={s.url} rel="noopener" target="_blank">
-                {s.label}
-              </a>
-            </li>
-          ))}
-        </ol>
-        <p class="checked">
-          Numbers in the text link to these sources. Anything made up to show the idea is marked
-          Illustration.
-        </p>
-      </section>
+      </details>
     </div>
   </article>
 
@@ -247,6 +269,41 @@ const total = IDEAS.length;
     </div>
   </Fragment>
 </BaseLayout>
+
+<script>
+  /* Footnotes live under "More about this idea": a footnote opens it, then jumps to the source.
+   * Printing opens it too, so paper keeps everything. */
+  const more = document.querySelector<HTMLDetailsElement>('details[data-more]');
+  function reveal(hash: string, smooth: boolean): void {
+    if (!more || !hash.startsWith('#') || hash.length < 2) return;
+    let el: Element | null = null;
+    try {
+      el = document.querySelector(hash);
+    } catch {
+      return;
+    }
+    if (!el || !more.contains(el)) return;
+    more.open = true;
+    el.scrollIntoView({ block: 'center', behavior: smooth ? 'smooth' : 'auto' });
+  }
+  document.addEventListener('click', (e) => {
+    const a = (e.target as Element | null)?.closest?.('a[href^="#"]');
+    if (!a || a.closest('dialog')) return;
+    const hash = a.getAttribute('href') || '';
+    if (!more || hash === '#' || !more.querySelector(hash.replace(/[^\w#-]/g, ''))) return;
+    e.preventDefault();
+    history.pushState(null, '', hash);
+    reveal(hash, !matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const target = document.querySelector<HTMLElement>(hash);
+    const link = target?.querySelector<HTMLElement>('a');
+    link?.focus({ preventScroll: true });
+  });
+  window.addEventListener('hashchange', () => reveal(location.hash, false));
+  if (location.hash) reveal(location.hash, false);
+  window.addEventListener('beforeprint', () => {
+    if (more) more.open = true;
+  });
+</script>
 
 <style>
   .navlink {
@@ -312,8 +369,8 @@ const total = IDEAS.length;
     }
   }
   .idea-head {
-    padding-top: 22px;
-    padding-bottom: 8px;
+    padding-top: 14px;
+    padding-bottom: 4px;
     max-width: 860px;
     margin-left: auto;
     margin-right: auto;
@@ -335,16 +392,14 @@ const total = IDEAS.length;
     font-size: 0.95rem;
   }
   h1 {
-    font: 800 clamp(2.2rem, 7vw, 3.4rem) / 1 var(--f-display);
+    font: 800 clamp(2rem, 7vw, 3.4rem) / 1 var(--f-display);
     text-transform: uppercase;
-    margin: 10px 0 10px;
+    margin: 8px 0 6px;
   }
   .oneline {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 700;
-  }
-  .problem {
-    color: var(--muted);
+    margin-bottom: 4px;
   }
   .known {
     display: flex;
@@ -369,6 +424,7 @@ const total = IDEAS.length;
   .for {
     font-size: 0.95rem;
     color: var(--muted);
+    margin: 0;
   }
   .for b {
     color: var(--ink);
@@ -384,11 +440,11 @@ const total = IDEAS.length;
     margin: 0 auto;
   }
   .legacy-wrap {
-    max-width: 828px;
+    max-width: 720px;
     margin: 0 auto;
   }
   .more section {
-    margin-top: 32px;
+    margin-top: 28px;
   }
   .shots {
     display: flex;
@@ -463,25 +519,76 @@ const total = IDEAS.length;
   .qa dd {
     margin: 4px 0 0;
   }
-  .askbox {
+  .glance {
+    max-width: 860px !important;
+    margin-top: 16px;
+  }
+  .askcard {
     background: var(--tarmac);
     color: var(--tarmac-ink);
     border-radius: 14px;
-    padding: 18px 16px 8px;
+    padding: 14px 16px;
     border-left: 8px solid var(--yellow);
   }
-  .askbox h2 {
+  .askcard h2 {
     color: var(--yellow);
+    font: 700 0.78rem/1 var(--f-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 8px;
   }
-  .askbox .ask {
-    font-size: 1.15rem;
+  .askcard .ask {
+    font-size: 1.08rem;
     font-weight: 700;
+    margin: 0 0 8px;
   }
-  .askbox .for {
+  .askcard .for {
     color: var(--tarmac-muted);
   }
-  .askbox .for b {
+  .askcard .for b {
     color: var(--tarmac-ink);
+  }
+  .more-d {
+    margin-top: 18px;
+    border-top: 1px solid var(--rule);
+  }
+  .more-d > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 52px;
+    cursor: pointer;
+    font: 800 1.3rem/1.1 var(--f-display);
+    text-transform: uppercase;
+    list-style: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  .more-d > summary::-webkit-details-marker {
+    display: none;
+  }
+  .more-d > summary svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.2s ease;
+  }
+  .more-d[open] > summary svg {
+    transform: rotate(180deg);
+  }
+  .more-d > summary:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  @media print {
+    .more-d > summary {
+      display: none;
+    }
   }
   .sources {
     padding-left: 1.6em;
