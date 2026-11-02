@@ -51,6 +51,14 @@ for (const scheme of ['light', 'dark'] as const) {
         'A quick follow-up after the drive',
       );
       await expect(page.locator('[data-start]')).toHaveCount(2);
+      // Each scenario card is a drawing with a text equivalent and a short title.
+      await expect(page.locator('.pcard svg[role="img"]')).toHaveCount(2);
+      for (const h of await page.locator('.pcard .pcard-t').allInnerTexts())
+        expect(h.trim().split(/\s+/).length).toBeLessThanOrEqual(5);
+      // The rules are icon rows of a few words each.
+      await expect(page.locator('aside.rules li')).toHaveCount(7);
+      for (const r of await page.locator('aside.rules li').allInnerTexts())
+        expect(r.trim().split(/\s+/).length).toBeLessThanOrEqual(6);
       await expect(page.locator('footer')).toContainText(
         "A community member's proposal. Not affiliated with or endorsed by Waze or Google.",
       );

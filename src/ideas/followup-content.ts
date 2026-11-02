@@ -8,8 +8,7 @@ export function fn(n: number): string {
   return `<sup class="fn"><a href="#src-${ID}-${n}" aria-label="Source ${n}">${n}</a></sup>`;
 }
 
-export const FOLLOWUP_INTRO =
-  'You can get a follow-up call about two kinds of report. Which do you want to play?';
+export const FOLLOWUP_INTRO = 'Which report do you want to play?';
 
 export const followupIdea: Idea = {
   id: ID,
@@ -130,15 +129,15 @@ const hazard: Scenario = {
       clock: '4:11',
       screen: 'drive-a',
       narrator:
-        '4:11 pm. You’re driving up Uhuru Highway towards Westlands with Waze on. Cones ahead: roadworks are closing lanes.',
-      action: 'Tap the yellow Report button.',
+        '4:11 pm on Uhuru Highway, heading for Westlands. Roadworks ahead are closing lanes.',
+      action: 'Tap Report.',
       choices: [{ id: 'report', label: 'Report', to: 'a-menu' }],
     },
     'a-menu': {
       id: 'a-menu',
       tag: 'today',
       screen: 'menu',
-      narrator: 'These are the first rows of today’s report menu. Roadworks come under Hazard.',
+      narrator: 'Today’s report menu. Roadworks go under Hazard.',
       action: 'Tap Hazard.',
       choices: [
         off('traffic', 'Traffic'),
@@ -156,7 +155,7 @@ const hazard: Scenario = {
       tag: 'today',
       screen: 'hazard',
       narrator: 'Waze calls roadworks Construction.',
-      action: 'Tap Construction, then Report.',
+      action: 'Tap Construction.',
       choices: [
         off('hazard-default', 'Hazard', 'Roadworks go under Construction'),
         { id: 'construction', label: 'Construction', to: 'a-hazard-picked' },
@@ -189,7 +188,7 @@ const hazard: Scenario = {
       tag: 'proposed',
       screen: 'reported-a',
       narrator:
-        'Reported. That’s all a report takes while driving. Waze doesn’t know yet which lanes are closed or for how long. The assistant will ask, but not now.',
+        'Reported in a few taps. Which lanes, and for how long? The assistant will ask later, not while you drive.',
       action: 'Keep driving.',
       choices: [{ id: 'drive', label: 'Keep driving', to: 'a-red' }],
     },
@@ -198,8 +197,7 @@ const hazard: Scenario = {
       tag: 'proposed',
       clock: '4:19',
       screen: 'red-a',
-      narrator:
-        '4:19 pm. A red light in Westlands. No call. You’re in traffic and could move any second.',
+      narrator: '4:19 pm, a red light in Westlands. No call: you could move any second.',
       action: 'Keep driving.',
       choices: [{ id: 'drive', label: 'Keep driving', to: 'a-parked' }],
     },
@@ -208,7 +206,7 @@ const hazard: Scenario = {
       tag: 'proposed',
       clock: '4:31',
       screen: 'parked',
-      narrator: 'Skip ahead: 4:31 pm, you’ve parked at Sarit Centre. The engine is off.',
+      narrator: 'Skip ahead: 4:31 pm, you’ve parked at Sarit Centre. Engine off.',
       action: 'Wait for the call.',
       choices: [{ id: 'wait', label: 'Wait a moment', to: 'a-incoming' }],
     },
@@ -217,8 +215,8 @@ const hazard: Scenario = {
       tag: 'proposed',
       screen: 'incoming',
       narrator:
-        'Waze’s AI assistant calls about your report. Someone else in the car? You can ask for a text, or for a call later. Say it, or tap it.',
-      action: 'Choose Answer, Text me or Call me later.',
+        'Waze’s AI assistant calls about your report. Not a good time? Ask for a text, or a call later.',
+      action: 'Pick one, by voice or tap.',
       choices: [
         { id: 'answer', label: 'Answer', to: 'a-call', set: { mode: 'call' } },
         { id: 'text', label: 'Text me', to: 'a-text', set: { mode: 'text' } },
@@ -230,8 +228,8 @@ const hazard: Scenario = {
       detour: true,
       tag: 'proposed',
       screen: 'later',
-      narrator: 'The assistant asks when to call back. It will call once.',
-      action: 'Pick a time, or say it.',
+      narrator: 'When should it call back? It calls once.',
+      action: 'Pick a time.',
       choices: [
         {
           id: 'in30',
@@ -253,8 +251,8 @@ const hazard: Scenario = {
       detour: true,
       tag: 'proposed',
       screen: 'later-set',
-      narrator: 'The assistant will call back {{laterText}}. One callback only.',
-      action: 'Skip ahead to the callback.',
+      narrator: 'It will call back {{laterText}}. Once only.',
+      action: 'Skip ahead.',
       choices: [{ id: 'skip', label: 'Skip ahead to {{later}} pm', to: 'a-callback' }],
     },
     'a-callback': {
@@ -263,9 +261,8 @@ const hazard: Scenario = {
       tag: 'proposed',
       clock: '{{later}}',
       screen: 'incoming',
-      narrator:
-        'Skip ahead: {{later}} pm. The assistant calls back once, as you asked. If you say “Not now”, it won’t call about this again.',
-      action: 'Choose Answer, Text me or Not now.',
+      narrator: 'Skip ahead: {{later}} pm. The one callback. “Not now” ends it for good.',
+      action: 'Pick one.',
       choices: [
         {
           id: 'answer',
@@ -279,13 +276,12 @@ const hazard: Scenario = {
     },
     'a-notnow': {
       id: 'a-notnow',
-      changed:
-        'One callback at most. “Not now” ends the follow-up, and the report keeps working as it does today.',
+      changed: 'One callback at most. “Not now” ends it, and the report works as it does today.',
       tag: 'proposed',
       screen: 'notnow',
       end: true,
       narrator:
-        'That ends it for good: no more calls about this report. Your report stays on the map as it is, and the next driver who passes the spot is asked “Still there?” That prompt is <a href="../alert-timing/">idea 06, Ask at the right moment</a>.',
+        'No more calls about this report. It stays on the map, and the next driver who passes is asked “Still there?” (<a href="../alert-timing/">idea 06</a>).',
       choices: [],
     },
     'a-call': {
@@ -295,8 +291,8 @@ const hazard: Scenario = {
       tag: 'proposed',
       screen: 'convo',
       narrator:
-        'The call opens with “This is Waze’s AI assistant.” Your drive replays up to the spot you reported. First question: which lanes were closed?',
-      action: 'Tap every closed lane, then Done.',
+        'It opens: “This is Waze’s AI assistant.” Your drive replays to the spot. Which lanes were closed?',
+      action: 'Tap the closed lanes, then Done.',
       choices: [
         { id: 'lanes-done', label: 'Done', to: 'a-q2', needs: 'lanes' },
         { id: 'lanes-unsure', label: 'Couldn’t tell', to: 'a-q2', set: { lanes: 'Not known' } },
@@ -309,8 +305,8 @@ const hazard: Scenario = {
       tag: 'proposed',
       screen: 'convo',
       narrator:
-        'The text opens with “This is Waze’s AI assistant.” The same replay shows the spot. First question: which lanes were closed?',
-      action: 'Tap every closed lane, then Done.',
+        'The text opens: “This is Waze’s AI assistant.” Same replay, same question: which lanes were closed?',
+      action: 'Tap the closed lanes, then Done.',
       choices: [
         { id: 'lanes-done', label: 'Done', to: 'a-q2', needs: 'lanes' },
         { id: 'lanes-unsure', label: 'Couldn’t tell', to: 'a-q2', set: { lanes: 'Not known' } },
@@ -321,7 +317,7 @@ const hazard: Scenario = {
       say: 'Got it. Closed in which direction?',
       tag: 'proposed',
       screen: 'convo',
-      narrator: 'Second question: which direction is closed?',
+      narrator: 'Second question: which direction?',
       action: 'Pick one.',
       choices: [
         { id: 'dir-w', label: 'Towards Westlands', to: 'a-q3', set: { dir: 'Towards Westlands' } },
@@ -339,7 +335,7 @@ const hazard: Scenario = {
       say: 'Last one. Did it look like it would be there a while?',
       tag: 'proposed',
       screen: 'convo',
-      narrator: 'Last question: how long did it look like it would be there?',
+      narrator: 'Last question: how long will it be there?',
       action: 'Pick one.',
       choices: [
         {
@@ -357,12 +353,12 @@ const hazard: Scenario = {
       id: 'a-end',
       say: 'Thanks. Drivers approaching now see what’s closed. I’ll ask the next driver who passes whether it’s still there.',
       changed:
-        'Drivers approaching now see the closed lanes, the direction and how long. The next driver is asked “Still there?” just after passing the spot, as proposed in idea 06.',
+        'Drivers approaching see the closed lanes, the direction and how long. The next driver is asked “Still there?” just after passing.',
       tag: 'proposed',
       screen: 'summary-a',
       end: true,
       narrator:
-        'Three answers, under a minute. Drivers approaching now see which lanes are closed and in which direction. The next driver is asked “Still there?” just after passing the spot. That prompt is <a href="../alert-timing/">idea 06, Ask at the right moment</a>.',
+        'Three answers in under a minute. The “Still there?” prompt for the next driver is <a href="../alert-timing/">idea 06</a>.',
       choices: [],
     },
   },
@@ -381,7 +377,7 @@ const mapIssue: Scenario = {
       clock: '4:11',
       screen: 'drive-b',
       narrator: '4:11 pm. Waze says: “Turn right onto Kenyatta Avenue.”',
-      action: 'Drive up to the junction.',
+      action: 'Drive to the junction.',
       choices: [{ id: 'drive', label: 'Drive to the junction', to: 'b-sign' }],
     },
     'b-sign': {
@@ -397,7 +393,7 @@ const mapIssue: Scenario = {
       tag: 'today',
       screen: 'recalc-b',
       narrator:
-        'Waze recalculates and finds another way. The map still allows that turn, so the next driver gets the same instruction. Map editors can fix it if someone tells them.',
+        'Waze finds another way, but the map still allows the turn. The next driver gets the same instruction.',
       action: 'Tap Report.',
       choices: [{ id: 'report', label: 'Report', to: 'b-menu' }],
     },
@@ -405,7 +401,7 @@ const mapIssue: Scenario = {
       id: 'b-menu',
       tag: 'today',
       screen: 'menu',
-      narrator: 'The first rows of today’s report menu. Wrong turns on the map go under Map issue.',
+      narrator: 'Today’s report menu. A wrong turn on the map is a Map issue.',
       action: 'Tap Map issue.',
       choices: [
         off('traffic', 'Traffic'),
@@ -422,7 +418,7 @@ const mapIssue: Scenario = {
       id: 'b-mapissue',
       tag: 'today',
       screen: 'mapissue',
-      narrator: 'These are the map issue types in today’s app.',
+      narrator: 'The map issue types in today’s app.',
       action: 'Tap Turn not allowed.',
       choices: [
         off('general', 'General map error'),
@@ -440,8 +436,7 @@ const mapIssue: Scenario = {
       id: 'b-comment',
       tag: 'today',
       screen: 'comment',
-      narrator:
-        'Waze offers a comment box. At the wheel there’s no time to type, so you send it without one.',
+      narrator: 'No time to type at the wheel, so you send it without a comment.',
       action: 'Tap Send.',
       choices: [
         off('comment', 'Add a comment', 'Not while driving'),
@@ -452,16 +447,16 @@ const mapIssue: Scenario = {
       id: 'b-today',
       tag: 'today',
       screen: 'today-b',
-      narrator: `How it works today. Waze already asks for details: since May 2026, a map issue sent without a description gets an automatic comment asking for more.${fn(7)}${fn(8)} Since July 2026 you can also describe a map problem by voice, and it reaches local editors.${fn(3)}`,
-      action: 'See where the question lands.',
+      narrator: `Waze already asks. Since May 2026, an issue with no description gets an automatic comment.${fn(7)}${fn(8)} Since July 2026 you can describe one by voice.${fn(3)}`,
+      action: 'Next.',
       choices: [{ id: 'next', label: 'Next', to: 'b-inbox' }],
     },
     'b-inbox': {
       id: 'b-inbox',
       tag: 'today',
       screen: 'inbox',
-      narrator: `The comment arrives later in the app’s Inbox.${fn(9)} Many drivers never reply: Australian editing guidance notes that “most URs do not return with a reply”, URs being update requests.${fn(4)} The request can close unanswered.`,
-      action: 'Now try the idea.',
+      narrator: `The comment waits in the Inbox.${fn(9)} Australian editors note “most URs do not return with a reply”; URs are update requests.${fn(4)}`,
+      action: 'Try the idea.',
       choices: [{ id: 'next', label: 'Try the idea', to: 'b-parked' }],
     },
     'b-parked': {
@@ -469,7 +464,7 @@ const mapIssue: Scenario = {
       tag: 'proposed',
       clock: '4:31',
       screen: 'parked',
-      narrator: 'Skip ahead: 4:31 pm, you’ve parked at Sarit Centre. The engine is off.',
+      narrator: 'Skip ahead: 4:31 pm, you’ve parked at Sarit Centre. Engine off.',
       action: 'Wait for the call.',
       choices: [{ id: 'wait', label: 'Wait a moment', to: 'b-incoming' }],
     },
@@ -478,8 +473,8 @@ const mapIssue: Scenario = {
       tag: 'proposed',
       screen: 'incoming',
       narrator:
-        'Waze’s AI assistant calls about the map issue. Someone else in the car? You can ask for a text, or for a call later. Say it, or tap it.',
-      action: 'Choose Answer, Text me or Call me later.',
+        'Waze’s AI assistant calls about your map issue. Not a good time? Ask for a text, or a call later.',
+      action: 'Pick one, by voice or tap.',
       choices: [
         { id: 'answer', label: 'Answer', to: 'b-call', set: { mode: 'call' } },
         { id: 'text', label: 'Text me', to: 'b-text', set: { mode: 'text' } },
@@ -491,8 +486,8 @@ const mapIssue: Scenario = {
       detour: true,
       tag: 'proposed',
       screen: 'later',
-      narrator: 'The assistant asks when to call back. It will call once.',
-      action: 'Pick a time, or say it.',
+      narrator: 'When should it call back? It calls once.',
+      action: 'Pick a time.',
       choices: [
         {
           id: 'in30',
@@ -514,8 +509,8 @@ const mapIssue: Scenario = {
       detour: true,
       tag: 'proposed',
       screen: 'later-set',
-      narrator: 'The assistant will call back {{laterText}}. One callback only.',
-      action: 'Skip ahead to the callback.',
+      narrator: 'It will call back {{laterText}}. Once only.',
+      action: 'Skip ahead.',
       choices: [{ id: 'skip', label: 'Skip ahead to {{later}} pm', to: 'b-callback' }],
     },
     'b-callback': {
@@ -524,9 +519,8 @@ const mapIssue: Scenario = {
       tag: 'proposed',
       clock: '{{later}}',
       screen: 'incoming',
-      narrator:
-        'Skip ahead: {{later}} pm. The assistant calls back once, as you asked. If you say “Not now”, it won’t call about this again.',
-      action: 'Choose Answer, Text me or Not now.',
+      narrator: 'Skip ahead: {{later}} pm. The one callback. “Not now” ends it for good.',
+      action: 'Pick one.',
       choices: [
         {
           id: 'answer',
@@ -540,13 +534,12 @@ const mapIssue: Scenario = {
     },
     'b-notnow': {
       id: 'b-notnow',
-      changed:
-        'One callback at most. “Not now” ends the follow-up, and the map issue stays as it is today.',
+      changed: 'One callback at most. “Not now” ends it, and the map issue stays as it is today.',
       tag: 'proposed',
       screen: 'notnow',
       end: true,
       narrator:
-        'That ends it for good: no more calls about this map issue. It stays open for the editors, with today’s comment waiting in your Inbox.',
+        'No more calls about this. The map issue stays open for the editors, as it does today.',
       choices: [],
     },
     'b-call': {
@@ -555,8 +548,9 @@ const mapIssue: Scenario = {
       say: 'Hi, this is Waze’s AI assistant{{hello|}}. Map editors want to fix the turn you reported at 4:11 pm. On your screen is your drive up to that junction. Which turn wasn’t allowed? Tap it on the map.',
       tag: 'proposed',
       screen: 'convo',
+      action: 'Tap the turn on the map.',
       narrator:
-        'The call opens with “This is Waze’s AI assistant.” Your drive replays up to the junction. The assistant asks which turn wasn’t allowed.',
+        'It opens: “This is Waze’s AI assistant.” Your drive replays to the junction. Which turn wasn’t allowed?',
       choices: [
         off('turn-left', 'Left'),
         off('turn-straight', 'Straight on'),
@@ -574,8 +568,9 @@ const mapIssue: Scenario = {
       say: 'This is Waze’s AI assistant, texting as you asked. Map editors want to fix the turn you reported at 4:11 pm. Above is your drive up to that junction. Which turn wasn’t allowed? Tap it on the map.',
       tag: 'proposed',
       screen: 'convo',
+      action: 'Tap the turn on the map.',
       narrator:
-        'The text opens with “This is Waze’s AI assistant.” The same replay drives up to the junction. Which turn wasn’t allowed?',
+        'The text opens: “This is Waze’s AI assistant.” Same replay, same question: which turn wasn’t allowed?',
       choices: [
         off('turn-left', 'Left'),
         off('turn-straight', 'Straight on'),
@@ -592,7 +587,7 @@ const mapIssue: Scenario = {
       say: 'Thanks. What stopped you?',
       tag: 'proposed',
       screen: 'convo',
-      narrator: 'Second question: what stopped you? In this drive, it was a sign.',
+      narrator: 'Second question: what stopped you? Here, a sign.',
       action: 'Tap No-turn sign.',
       choices: [
         { id: 'why-sign', label: 'No-turn sign', to: 'b-when', set: { why: 'No-turn sign' } },
@@ -625,12 +620,12 @@ const mapIssue: Scenario = {
       id: 'b-end',
       say: 'Thanks. Your answers and the drive go to the local map editors.',
       changed:
-        'The editors get the turn, the reason and when it applies, with the drive replay attached, while the driver still remembers.',
+        'Editors see the turn, the reason and when it applies, with Waze’s route in purple and yours in green.',
       tag: 'proposed',
       screen: 'wme',
       end: true,
       narrator:
-        'The map editors see your answers in the update request, with the drive replay attached: the route Waze gave in purple, the way you drove in green. They can fix the turn without waiting for a reply.',
+        'Three answers in under a minute, with your drive attached. The editors no longer wait for a reply.',
       choices: [],
     },
   },
