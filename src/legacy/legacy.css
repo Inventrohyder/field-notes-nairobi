@@ -389,7 +389,6 @@
 .lg .is-still .motion-btn .ic-replay {
   display: inline;
 }
-.lg .no-motion .motion-btn,
 html.lg-reduce .lg .motion-btn {
   display: none;
 }
@@ -3260,7 +3259,7 @@ html.lg-story-open body {
 .lg-print [data-mq-show='dist'] {
   display: none;
 }
-.lg-thumb[data-state='proposed'] .nt,
+.lg-thumb[data-state='proposed']:not(.is-playing) .nt,
 .lg-print figure[data-state='proposed'] .nt {
   display: none;
 }
@@ -3282,9 +3281,184 @@ html.lg-story-open body {
 .lg-thumb *,
 .lg-print * {
   transition: none !important;
+}
+.lg-print *,
+.lg-thumb:not(.is-playing) *,
+.lg-thumb.is-playing *:not(.sv-t):not(.sv-p):not(.nt) {
   animation: none !important;
+}
+/* Tiles: Today rests, then Proposed, three times, ending on Proposed. */
+.lg-thumb.is-playing .sv-t,
+.lg-thumb.is-playing .nt {
+  animation: lg-thumb-t 6.5s linear 3 both;
+}
+.lg-thumb.is-playing .sv-p {
+  animation: lg-thumb-p 6.5s linear 3 both;
+}
+.lg-thumb.is-away .sv-t,
+.lg-thumb.is-away .sv-p,
+.lg-thumb.is-away .nt {
+  animation-play-state: paused;
+}
+@keyframes lg-thumb-t {
+  0%,
+  38% {
+    opacity: 1;
+    visibility: visible;
+  }
+  43%,
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes lg-thumb-p {
+  0%,
+  41% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  47%,
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 .lg-print .qa-thumb {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ---------- Glance layout on an idea page: picture first, controls in the walkthrough ---------- */
+.lg .motion-btn {
+  width: auto;
+  min-width: 44px;
+  gap: 6px;
+  padding: 0 14px 0 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.lg .motion-btn svg {
+  display: none;
+}
+.lg .motion-btn .ic-replay {
+  display: none;
+}
+.lg .motion-btn[data-mb='pause'] .ic-pause,
+.lg .motion-btn[data-mb='play'] .ic-play,
+.lg .motion-btn[data-mb='replay'] .ic-replay {
+  display: inline;
+}
+.lg .motion-btn[data-mb='replay'] {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: #14181a;
+}
+.lg .seg-row {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.lg .seg button {
+  min-width: 92px;
+  padding: 0 12px;
+}
+.lg .beat {
+  display: grid;
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.3;
+}
+.lg .beat > span {
+  grid-area: 1 / 1;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  transition: opacity 0.2s ease;
+}
+.lg .beat b {
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--yellow-ink);
+}
+.lg .beat-p b {
+  background: var(--yellow);
+  color: #14181a;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.lg .beat-p {
+  color: var(--muted);
+}
+.lg [data-state='today'] .beat-p,
+.lg [data-state='proposed'] .beat-t {
+  opacity: 0;
+  visibility: hidden;
+}
+.lg-scene > .scene-block .controls,
+.lg-scene > .scene-block .feel,
+.lg-scene > .scene-block .qa-row p:not(.qa-vd) {
+  display: none;
+}
+.lg .walk-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -2px;
+}
+.lg .walk-row .walk-btn {
+  margin-left: 0;
+  min-height: 44px;
+}
+.lg-story .walk-row {
+  display: none;
+}
+.lg .qa-vd {
+  display: grid;
+  margin: 2px 0 0;
+  font: 700 0.8rem/1.3 var(--f-mono);
+}
+.lg .qa-vd > span {
+  grid-area: 1 / 1;
+}
+.lg .qa-vd .x {
+  color: color-mix(in srgb, var(--hot) 72%, var(--ink));
+}
+.lg .qa-vd .ok {
+  color: var(--green-ink);
+}
+.lg [data-state='today'] .qa-vd .ok,
+.lg [data-state='proposed'] .qa-vd .x {
+  visibility: hidden;
+}
+.lg .st-stage .motion-btn[data-mb='replay'] {
+  display: none;
+}
+.lg .sv-ptag rect {
+  fill: var(--yellow);
+  stroke: #14181a;
+  stroke-width: 0.6;
+}
+.lg .sv-ptag text {
+  fill: #14181a;
+  font-family: var(--f-mono) !important;
+  font-size: 6.4px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+@media print {
+  .lg-thumb * {
+    animation: none !important;
+  }
+}
+/* Tall pictures stay within one laptop screen. */
+.lg-scene .scene svg.sv {
+  max-height: 68vh;
 }

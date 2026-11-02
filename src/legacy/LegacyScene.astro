@@ -15,15 +15,43 @@ const raw = sceneHtml(id);
 const idea: Idea | undefined = ideaData(id);
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
+const MOTION_BTN =
+  '<button type="button" class="motion-btn screen-only" data-motion-btn data-mb="pause" aria-label="Pause the moving picture" title="Pause">' +
+  '<svg class="ic-pause" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="3" height="9" rx="1"/><rect x="7" y="1.5" width="3" height="9" rx="1"/></svg>' +
+  '<svg class="ic-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z"/></svg>' +
+  '<svg class="ic-replay" viewBox="0 0 12 12" aria-hidden="true"><path d="M10.2 6.3A4.2 4.2 0 1 1 8.9 3.1M9.3 0.9v2.6H6.7"/></svg>' +
+  '<span class="mb-label">Pause</span></button>';
+const plain = (h: string) =>
+  h
+    .replace(/<sup[\s\S]*?<\/sup>/g, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
 let html = raw ?? '';
-if (raw && idea && id !== 'quick-asks') {
-  const caption =
-    '<div class="scene-caption" aria-live="polite">' +
-    `<p class="t-show"><b>Today.</b> ${idea.today}</p>` +
-    `<p class="p-show"><b>Proposed.</b> ${idea.proposed}</p>` +
-    '</div>';
+if (raw && idea) {
+  // One row above the picture: Today or Proposed, and Pause. Walk me through it sits under it.
+  html = html
+    .replace(/<span class="seg-hint">[^<]*<\/span>/, '')
+    .replace(/<button type="button" class="motion-btn[\s\S]*?<\/button>/, '')
+    .replace(/(aria-pressed="false">Proposed<\/button><\/div>)/, `$1${MOTION_BTN}`);
+  const walk = /<button type="button" class="foot-btn walk-btn[\s\S]*?<\/button>/.exec(html);
+  if (walk) html = html.replace(walk[0], '');
+  // The opening beat: what the visitor already knows, in the Today frame.
+  const known = idea.knownShort ?? plain(idea.known);
+  const beat =
+    '<p class="beat" aria-hidden="true">' +
+    `<span class="beat-t"><b>You already know</b> ${known}</span>` +
+    '<span class="beat-p"><b>Proposed</b></span>' +
+    '</p>';
+  const summary =
+    `<p class="vh">The picture plays on a loop. You already know: ${known} Today: ${plain(idea.today)} ` +
+    `Proposed: ${plain(idea.proposed)}</p>`;
+  const firstPic = html.search(/<div class="(scene|qa-rows)">/);
+  html = html.slice(0, firstPic) + beat + summary + html.slice(firstPic);
   const at = html.lastIndexOf('</div>');
-  html = html.slice(0, at) + caption + html.slice(at);
+  html =
+    html.slice(0, at) + (walk ? `<div class="walk-row">${walk[0]}</div>` : '') + html.slice(at);
 }
 
 const story = idea

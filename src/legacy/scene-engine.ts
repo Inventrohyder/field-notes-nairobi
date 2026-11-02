@@ -64,6 +64,8 @@ interface State {
   nodes?: Element[];
   i?: number;
   manual?: boolean;
+  ended?: boolean;
+  loop?: { on: boolean; phase: 'today' | 'proposed'; t: number; n: number };
 }
 
 interface Scene {
@@ -528,17 +530,20 @@ SCENES['notifications'] = {
       const shown = items
         .filter((it) => it.post <= t && (!proposed || t < it.exp))
         .sort((x, y) => y.post - x.post);
+      const gone = items.filter((it) => it.post <= t && !shown.includes(it));
       items.forEach((it) => {
         const k = shown.indexOf(it);
+        // Stale reminders leave one after another, so the eye follows them out.
+        it.el.style.transitionDelay = proposed && k < 0 ? gone.indexOf(it) * 0.12 + 's' : '0s';
         if (k >= 0) {
-          it.y = 78 + k * 34;
+          it.y = 72 + k * 33;
           it.el.style.transform = 'translateY(' + it.y + 'px)';
           it.el.style.opacity = '1';
         } else if (it.post > t) {
           it.el.style.transform = 'translateY(44px)';
           it.el.style.opacity = '0';
         } else if (proposed) {
-          it.el.style.transform = 'translate(60px, ' + (it.y || 78) + 'px)';
+          it.el.style.transform = 'translate(60px, ' + (it.y || 72) + 'px)';
           it.el.style.opacity = '0';
         } else it.el.style.opacity = '0';
       });
@@ -562,18 +567,12 @@ SCENES['notifications'] = {
       label();
       if (s.auto) kick();
     };
-    /* Rest frames: Today shows Sunday with every stale reminder; Proposed replays the week once and holds. */
+    /* Rest frames: the same Sunday lock screen. Today it holds every stale reminder; Proposed
+     * clears them one after another. Play replays the week. */
     s.rest = () => {
-      if (isProposed(b) && !reduce) {
-        s.auto = true;
-        label();
-        s.apply?.(0);
-        kick();
-      } else {
-        s.auto = false;
-        label();
-        s.apply?.(100);
-      }
+      s.auto = false;
+      label();
+      s.apply?.(100);
     };
     if (sc)
       sc.addEventListener('input', () => {
@@ -755,7 +754,7 @@ SCENES['alert-timing'] = {
     if (!s.apply) return;
     s.held = false;
     s.hold = reduce ? 0 : now() + (state === 'proposed' ? 0 : 2500);
-    s.apply(state === 'proposed' ? (reduce ? 86 : 70) : 8);
+    s.apply(state === 'proposed' ? (reduce ? 86 : 77) : 8);
   },
   tick(b, t, dt) {
     const s = st(b);
@@ -1222,34 +1221,57 @@ SCENES['matatu-dashcam'] = {
   },
 };
 
-/* ---------- Moving scenes stop after a while, with Pause and Replay ---------- */
+/* ---------- The loop: Today rests on the pain, Proposed lands the payoff, three times ----------
+ * Every scene plays Today (2.5 s) then Proposed (payoff within 2 s, then a 3 s hold), three
+ * times, only while it is on screen, then rests on Proposed with a Replay chip. Pause stops
+ * it; any manual control hands the scene to the visitor. Reduced motion shows Proposed, still. */
+const TODAY_MS = 2500;
+const PROPOSED_MS = 5000;
+const CYCLES = 3;
 const MOTION_MS = 15000;
 let blocks: HTMLElement[] = [];
 function motionOn(b: HTMLElement): boolean {
   const m = b.getAttribute('data-motion');
   return !!m && !reduce && (m === 'both' || b.getAttribute('data-state') === m);
 }
-function setStill(b: HTMLElement, still: boolean): void {
+function looping(b: HTMLElement): boolean {
+  const l = st(b).loop;
+  return !!l && l.on;
+}
+function setStill(b: HTMLElement, still: boolean, ended = false): void {
   const s = st(b);
   s.still = !!still;
+  s.ended = s.still && ended;
   s.moved = 0;
   b.classList.toggle('is-still', s.still);
+  b.classList.toggle('is-looping', looping(b) && !s.still);
   const mb = $('.motion-btn', b);
+  const moving = looping(b) || motionOn(b);
+  const word = s.still ? (s.ended || !moving ? 'Replay' : 'Play') : moving ? 'Pause' : 'Replay';
   const lab = mb && $('.mb-label', mb);
-  if (lab) lab.textContent = s.still ? 'Replay' : 'Pause';
+  if (lab) lab.textContent = word;
   if (mb) {
-    mb.setAttribute(
-      'aria-label',
-      s.still ? 'Replay the moving picture' : 'Pause the moving picture',
-    );
-    mb.title = s.still ? 'Replay' : 'Pause';
+    mb.setAttribute('aria-label', word + ' the moving picture');
+    mb.title = word;
+    mb.setAttribute('data-mb', word.toLowerCase());
   }
   if (!s.still) kick();
 }
 function syncMotion(b: HTMLElement): void {
-  if (!b.hasAttribute('data-motion')) return;
-  b.classList.toggle('no-motion', !motionOn(b));
+  b.classList.toggle('no-motion', !motionOn(b) && !looping(b));
   setStill(b, false);
+}
+/** The visitor takes over: the loop stops and the scene stays where they put it. */
+function takeOver(b: HTMLElement): void {
+  const s = st(b);
+  if (s.loop) s.loop.on = false;
+  b.classList.remove('is-looping');
+  setStill(b, false);
+}
+function restartLoop(b: HTMLElement): void {
+  const s = st(b);
+  s.loop = { on: true, phase: 'today', t: 0, n: 0 };
+  setState(b, 'today');
 }
 
 /* ---------- One spotlight ring on what changed, the first time a scene shows Proposed ---------- */
@@ -1329,14 +1351,32 @@ function frame(t: number): void {
   if (!doc.hidden) {
     blocks.forEach((b) => {
       const s = st(b);
-      if (!s.vis) return;
+      if (!s.vis || s.still) return;
       const sc = SCENES[b.getAttribute('data-scene') || ''];
-      if (motionOn(b)) {
-        if (s.still) return;
+      const l = s.loop;
+      if (l && l.on) {
+        any = true;
+        l.t += dt;
+        if (l.phase === 'today' && l.t >= TODAY_MS) {
+          l.phase = 'proposed';
+          l.t = 0;
+          setState(b, 'proposed');
+        } else if (l.phase === 'proposed' && l.t >= PROPOSED_MS) {
+          l.n += 1;
+          l.t = 0;
+          if (l.n >= CYCLES) {
+            l.on = false;
+            setStill(b, true, true);
+            return;
+          }
+          l.phase = 'today';
+          setState(b, 'today');
+        }
+      } else if (motionOn(b)) {
         any = true;
         s.moved = (s.moved || 0) + dt;
         if (s.moved > MOTION_MS) {
-          setStill(b, true);
+          setStill(b, true, true);
           return;
         }
       }
@@ -1363,30 +1403,119 @@ function kick(): void {
   window.requestAnimationFrame(frame);
 }
 
+/* ---------- A small "Proposed" tag on the new piece of UI in each picture ---------- */
+const SVGNS = 'http://www.w3.org/2000/svg';
+function tagProposed(block: HTMLElement): void {
+  $$<SVGSVGElement>('.scene svg.sv', block).forEach((svg) => {
+    if (/PROPOSED/.test(svg.textContent || '') || $('.sv-ptag', svg)) return;
+    let best: SVGGraphicsElement | null = null;
+    let area = 0;
+    $$<SVGGraphicsElement>('rect.sv-hud, rect.sv-lockcard', svg).forEach((r) => {
+      if (!r.closest('.sv-p')) return;
+      const w = +(r.getAttribute('width') || 0);
+      const h = +(r.getAttribute('height') || 0);
+      if (w * h > area) {
+        area = w * h;
+        best = r;
+      }
+    });
+    const el: SVGGraphicsElement | null = best || $<SVGGraphicsElement>('[data-focus]', svg);
+    if (!el || !el.closest('.sv-p')) return;
+    let x = +(el.getAttribute('x') || NaN);
+    let y = +(el.getAttribute('y') || NaN);
+    let w = +(el.getAttribute('width') || NaN);
+    if (![x, y, w].every(Number.isFinite)) {
+      try {
+        const bb = el.getBBox();
+        [x, y, w] = [bb.x, bb.y, bb.width];
+      } catch {
+        return;
+      }
+    }
+    const vb = svg.viewBox.baseVal;
+    const tw = 44;
+    // A scene can place its tag itself (data-ptag="x,y") where the default would cover a label.
+    const at = (svg.getAttribute('data-ptag') || '').split(',').map(Number);
+    const own = at.length === 2 && at.every(Number.isFinite);
+    const tx = own ? at[0] : Math.max(2, Math.min(x + w - tw - 6, (vb ? vb.width : 320) - tw - 2));
+    const ty = own ? at[1] : Math.max(1, y - 5.5);
+    const g = doc.createElementNS(SVGNS, 'g');
+    g.setAttribute('class', 'sv-p sv-ptag');
+    const grp = el.closest('.sv-p') as SVGElement | null;
+    const d = grp ? grp.style.getPropertyValue('--d') : '';
+    g.style.setProperty('--d', d || '1');
+    g.setAttribute('aria-hidden', 'true');
+    const r = doc.createElementNS(SVGNS, 'rect');
+    r.setAttribute('x', tx.toFixed(1));
+    r.setAttribute('y', ty.toFixed(1));
+    r.setAttribute('width', String(tw));
+    r.setAttribute('height', '11');
+    r.setAttribute('rx', '5.5');
+    const t = doc.createElementNS(SVGNS, 'text');
+    t.setAttribute('x', (tx + tw / 2).toFixed(1));
+    t.setAttribute('y', (ty + 7.9).toFixed(1));
+    t.setAttribute('text-anchor', 'middle');
+    t.textContent = 'PROPOSED';
+    g.appendChild(r);
+    g.appendChild(t);
+    svg.appendChild(g);
+  });
+}
+
+const TAKE_KEYS = ['Enter', ' ', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
 function initBlock(block: HTMLElement): void {
   if (block.hasAttribute('data-lg-ready')) return;
   block.setAttribute('data-lg-ready', '');
   safe(() => {
     const btns = $$<HTMLButtonElement>('.seg button', block);
     btns.forEach((btn, i) => {
-      btn.addEventListener('click', () => setState(block, btn.getAttribute('data-set') || 'today'));
+      btn.addEventListener('click', () => {
+        takeOver(block);
+        setState(block, btn.getAttribute('data-set') || 'today');
+      });
       btn.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
           e.preventDefault();
           const other = btns[(i + (e.key === 'ArrowRight' ? 1 : btns.length - 1)) % btns.length];
           if (other) {
             other.focus();
+            takeOver(block);
             setState(block, other.getAttribute('data-set') || 'today');
           }
         }
       });
     });
+    // Any other control in the scene hands it to the visitor.
+    const take = (e: Event) => {
+      const t = e.target as Element | null;
+      if (!t || !t.closest || t.closest('[data-motion-btn], .seg')) return;
+      if (e instanceof KeyboardEvent && !TAKE_KEYS.includes(e.key)) return;
+      if (t.closest('button, input, select, a, [tabindex], .controls, .feel')) takeOver(block);
+    };
+    block.addEventListener('pointerdown', take, true);
+    block.addEventListener('keydown', take, true);
     const s = SCENES[block.getAttribute('data-scene') || ''];
     if (s && s.init) s.init(block);
+    tagProposed(block);
     if (!reduce) $$('.scene, .mini', block).forEach((el) => el.classList.add('live'));
     const mb = $('[data-motion-btn]', block);
-    if (mb) mb.addEventListener('click', () => setStill(block, !st(block).still));
-    syncMotion(block);
+    if (mb)
+      mb.addEventListener('click', () => {
+        const word = mb.getAttribute('data-mb');
+        if (word === 'pause') setStill(block, true);
+        else if (word === 'play') setStill(block, false);
+        else {
+          restartLoop(block);
+          setStill(block, false);
+        }
+      });
+    if (reduce) {
+      st(block).loop = { on: false, phase: 'proposed', t: 0, n: CYCLES };
+      setState(block, 'proposed');
+    } else {
+      st(block).loop = { on: true, phase: 'today', t: 0, n: 0 };
+      syncMotion(block);
+    }
   });
 }
 
@@ -2509,6 +2638,8 @@ function initStory(dlg: HTMLDialogElement): void {
   /* ---------- Open and close ---------- */
   function open(btn: HTMLElement | null, hashed = false) {
     if (isOpen) return;
+    const own = $<HTMLElement>('.lg-scene .scene-block[data-scene="' + idea.id + '"]');
+    if (own) takeOver(own);
     opener = btn;
     fromHash = hashed;
     step = 1;

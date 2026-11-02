@@ -1,5 +1,8 @@
 ---
-/** A small static picture of the idea's scene in its Proposed state, for tiles. */
+/**
+ * A small moving picture of the idea's scene for tiles: Today, then Proposed, three times while
+ * it is on screen, resting on Proposed. With reduced motion it shows the Proposed frame only.
+ */
 import './legacy.css';
 import { sceneSvgs } from './scenes';
 
@@ -12,7 +15,7 @@ const svgs = sceneSvgs(id);
 
 {svgs.length > 0 && (
   <div class="lg" aria-hidden="true">
-    <div class="lg-thumb" data-state="proposed">
+    <div class="lg-thumb" data-state="proposed" data-thumb-loop>
       <div class={svgs.length > 1 ? 'qa-thumb' : undefined}>
         {svgs.map((s) => (
           <Fragment set:html={s} />
@@ -21,3 +24,22 @@ const svgs = sceneSvgs(id);
     </div>
   </div>
 )}
+
+<script>
+  /* Start each tile's loop the first time it scrolls into view, and hold it while it is away. */
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const thumbs = Array.from(document.querySelectorAll<HTMLElement>('[data-thumb-loop]'));
+  if (!reduce && thumbs.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          const el = en.target as HTMLElement;
+          if (en.isIntersecting) el.classList.add('is-playing');
+          el.classList.toggle('is-away', !en.isIntersecting);
+        });
+      },
+      { threshold: 0.5 },
+    );
+    thumbs.forEach((t) => io.observe(t));
+  }
+</script>
