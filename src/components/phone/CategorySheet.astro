@@ -23,6 +23,8 @@ interface Props {
   grab?: boolean;
   /** A small line under the grid, e.g. where the labels come from. */
   note?: string;
+  /** A distinct accessible name, when the same sheet appears on two screens. */
+  name?: string;
 }
 const {
   title,
@@ -35,12 +37,17 @@ const {
   closeX = true,
   grab = false,
   note,
+  name,
 } = Astro.props;
 const headingId = `sheet-${title.toLowerCase().replace(/[^a-z]+/g, '-')}-${Math.round(Math.random() * 1e6)}`;
 ---
 
 <div class="ph-scrim" aria-hidden="true"></div>
-<section class="ph-sheet" aria-labelledby={headingId}>
+<section
+  class="ph-sheet"
+  aria-labelledby={name ? undefined : headingId}
+  aria-label={name || undefined}
+>
   {grab && <span class="ph-grab" aria-hidden="true"></span>}
   <div class:list={['ph-sheet-head', { center }]}>
     <h4 id={headingId}>{title}</h4>
