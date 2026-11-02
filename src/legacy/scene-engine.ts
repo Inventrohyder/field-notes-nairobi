@@ -773,6 +773,11 @@ SCENES['alert-timing'] = {
       s.apply(8);
       return;
     }
+    // While the loop plays, the car stays past the report until the loop returns to Today.
+    if (prop && s.held && looping(b) && v >= 92) {
+      if ((s.v || 0) < 92) s.apply(92);
+      return;
+    }
     if (v > 100) {
       v = prop ? 70 : 0;
       s.held = false;
@@ -1200,27 +1205,6 @@ SCENES['mosques'] = {
   },
 };
 
-SCENES['matatu-dashcam'] = {
-  init(b) {
-    const s = st(b);
-    s.nodes = $$('.node', b);
-    s.i = 0;
-    s.acc = 0;
-  },
-  onState(b, state) {
-    if (state !== 'proposed') st(b).nodes?.forEach((n) => n.classList.remove('hl'));
-  },
-  tick(b, _t, dt) {
-    const s = st(b);
-    if (s.manual || !isProposed(b) || !s.nodes || !s.nodes.length) return;
-    s.acc = (s.acc || 0) + dt;
-    if (s.acc < 750) return;
-    s.acc = 0;
-    s.nodes.forEach((n, i) => n.classList.toggle('hl', i === s.i));
-    s.i = ((s.i || 0) + 1) % s.nodes.length;
-  },
-};
-
 /* ---------- The loop: Today rests on the pain, Proposed lands the payoff, three times ----------
  * Every scene plays Today (2.5 s) then Proposed (payoff within 2 s, then a 3 s hold), three
  * times, only while it is on screen, then rests on Proposed with a Replay chip. Pause stops
@@ -1552,8 +1536,6 @@ interface Cur {
   tapped?: boolean;
   lastHint?: string;
   seen?: Record<number, boolean>;
-  seenCount?: number;
-  nodeCount?: number;
   lit?: Record<string, boolean>;
 }
 
@@ -1760,11 +1742,6 @@ function initStory(dlg: HTMLDialogElement): void {
     if (d) d.value = '200';
     st(b).mqUpdate?.();
   }
-  function nodeText(n: Element) {
-    return $$('.node-t.sv-p tspan', n)
-      .map((t) => t.textContent)
-      .join(' ');
-  }
   function spots(
     c: Cur,
     list: Spot[] | undefined,
@@ -1955,43 +1932,6 @@ function initStory(dlg: HTMLDialogElement): void {
           : '';
       },
       reset: (c) => mqReset(c.block),
-    },
-    'matatu-dashcam': {
-      prep(c) {
-        const b = c.block;
-        const nodes = $$('.node', b);
-        setState(b, 'proposed');
-        st(b).manual = true;
-        nodes.forEach((n) => n.classList.remove('hl'));
-        c.seen = {};
-        c.seenCount = 0;
-        c.nodeCount = nodes.length;
-        spots(
-          c,
-          nodes.map((n, i) => {
-            const r = $('.node-bg', n);
-            return {
-              x: +(r?.getAttribute('x') || 0),
-              y: +(r?.getAttribute('y') || 0),
-              w: +(r?.getAttribute('width') || 0),
-              h: +(r?.getAttribute('height') || 0),
-              label: 'Step ' + (i + 1) + ': ' + nodeText(n),
-            };
-          }),
-          (_s, i, btn) => {
-            nodes[i].classList.add('hl');
-            btn.classList.add('is-done');
-            if (!c.seen![i]) {
-              c.seen![i] = true;
-              c.seenCount = (c.seenCount || 0) + 1;
-            }
-            c.lastHint = c.seenCount + ' of ' + c.nodeCount + ': ' + nodeText(nodes[i]);
-            check();
-          },
-        );
-      },
-      ok: (c) => (c.nodeCount || 0) > 0 && (c.seenCount || 0) >= (c.nodeCount || 0),
-      hint: (c) => c.lastHint || '',
     },
     'partners-reach': {
       prep(c) {

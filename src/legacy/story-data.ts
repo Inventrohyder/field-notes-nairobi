@@ -186,7 +186,7 @@ export const STORY: Record<string, StoryEntry> = {
     },
     spots: [
       {
-        x: 210,
+        x: 226,
         y: 58,
         label: 'Your destination',
       },
@@ -224,8 +224,15 @@ export const STORY: Record<string, StoryEntry> = {
     ],
   },
   'matatu-dashcam': {
-    try: 'Tap each step of the loop.',
+    try: 'Tap the new bump.',
     done: 'That’s it: a change one matatu spots reaches every driver, once an editor confirms it.',
+    spots: [
+      {
+        x: 209,
+        y: 102,
+        label: 'The new bump',
+      },
+    ],
     icons: {
       elsewhere: ['dashcam', 'coin', 'globe', 'not-found', 'satellite'],
       questions: ['shield', 'signal', 'globe', 'coin', 'document'],

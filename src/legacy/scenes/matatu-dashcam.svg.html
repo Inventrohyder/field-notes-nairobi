@@ -1,41 +1,37 @@
-<div class="scene-block" data-scene="matatu-dashcam" data-state="today" data-motion="proposed">
+<div class="scene-block" data-scene="matatu-dashcam" data-state="today">
 <div class="seg-row has-motion"><div class="seg" role="group" aria-label="Show today or proposed"><button type="button" id="matatu-dashcam-today" data-set="today" aria-pressed="true">Today</button><button type="button" id="matatu-dashcam-proposed" data-set="proposed" aria-pressed="false">Proposed</button></div><button type="button" class="motion-btn screen-only" data-motion-btn aria-label="Pause the moving picture" title="Pause"><svg class="ic-pause" viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="1.5" width="3" height="9" rx="1"/><rect x="7" y="1.5" width="3" height="9" rx="1"/></svg><svg class="ic-replay" viewBox="0 0 12 12" aria-hidden="true"><path d="M10.2 6.3A4.2 4.2 0 1 1 8.9 3.1M9.3 0.9v2.6H6.7"/></svg><span class="mb-label vh">Pause</span></button><span class="seg-hint">Tap to compare</span><button type="button" class="foot-btn walk-btn screen-only" data-walk="matatu-dashcam">Walk me through it</button></div>
-<div class="scene"><svg class="sv" viewBox="0 0 320 214" role="img" aria-label="A loop of six steps: a dash cam on a matatu, a detected change, an editor confirming it, the map updating, drivers being warned, and the matatu getting better routes.">
+<div class="scene"><svg class="sv" viewBox="0 0 320 214" data-ptag="116,58" role="img" aria-label="A matatu on its daily route drives over a new speed bump. Today nothing reaches the map, so the next driver hits it too. In Proposed the matatu’s dash cam spots the bump, a local editor confirms it, and the next driver is warned.">
 <rect class="sv-map" width="320" height="214"/>
-<g class="pipe-arrows">
-<path class="pipe-dash" d="M96 43 L112 43"/><polygon class="pipe-head" points="116,43 110,39.5 110,46.5"/>
-<path class="pipe-dash" d="M204 43 L220 43"/><polygon class="pipe-head" points="224,43 218,39.5 218,46.5"/>
-<path class="pipe-dash" d="M268 74 L268 136"/><polygon class="pipe-head" points="268,140 264.5,134 271.5,134"/>
-<path class="pipe-dash" d="M224 171 L208 171"/><polygon class="pipe-head" points="204,171 210,167.5 210,174.5"/>
-<path class="pipe-dash" d="M116 171 L100 171"/><polygon class="pipe-head" points="96,171 102,167.5 102,174.5"/>
-<path class="pipe-dash" d="M52 140 L52 78"/><polygon class="pipe-head" points="52,74 48.5,80 55.5,80"/>
+<rect class="sv-blk" x="8" y="30" width="70" height="36" rx="4"/>
+<rect class="sv-park" x="236" y="30" width="76" height="36" rx="6"/>
+<rect class="sv-blk" x="8" y="138" width="90" height="22" rx="4"/>
+<rect class="sv-roadf" x="0" y="78" width="320" height="48"/>
+<line class="sv-mark" x1="0" y1="102" x2="320" y2="102"/>
+<g class="mt-bump"><rect x="204" y="80" width="10" height="44" rx="3"/><path d="M204 88 h10 M204 96 h10 M204 104 h10 M204 112 h10 M204 120 h10"/></g>
+<text class="sv-lbl" x="209" y="138" text-anchor="middle">NEW BUMP</text>
+<g class="sv-t">
+<g transform="translate(262 90) scale(1.25)"><rect class="sv-mat" x="-19" y="-8" width="38" height="15" rx="3.5"/><rect class="sv-matwin" x="-16" y="-5.5" width="27" height="4" rx="1"/><line class="sv-liv1" x1="-19" y1="2" x2="19" y2="2"/><line class="sv-liv2" x1="-19" y1="4.6" x2="19" y2="4.6"/><circle class="sv-ink" cx="-10" cy="7.5" r="3"/><circle class="sv-ink" cx="10" cy="7.5" r="3"/></g>
+<path class="mt-jolt" d="M244 70 q4 -6 8 0 M258 68 q4 -6 8 0 M272 70 q4 -6 8 0"/>
+<g class="sv-you " transform="translate(150 114) rotate(90)"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<text class="sv-lbl" x="312" y="150" text-anchor="end">SAME ROUTE, ALL DAY</text>
 </g>
-<g class="node" data-node="1"><rect class="node-bg" x="8" y="12" width="88" height="62" rx="10"/>
-<g transform="translate(52 32)"><rect class="sv-mat" x="-19" y="-8" width="38" height="15" rx="3.5"/><rect class="sv-matwin" x="-16" y="-5.5" width="27" height="4" rx="1"/><line class="sv-liv1" x1="-19" y1="2" x2="19" y2="2"/><line class="sv-liv2" x1="-19" y1="4.6" x2="19" y2="4.6"/><circle class="sv-ink" cx="-10" cy="7.5" r="3"/><circle class="sv-ink" cx="10" cy="7.5" r="3"/><circle class="sv-hot" cx="15.5" cy="-3.5" r="2.2"/></g>
-<text class="node-t sv-t" x="52" y="56" text-anchor="middle"><tspan x="52">Matatu hits</tspan><tspan x="52" dy="11">a new bump</tspan></text>
-<text class="node-t sv-p" x="52" y="56" text-anchor="middle"><tspan x="52">Dash cam on</tspan><tspan x="52" dy="11">a matatu</tspan></text></g>
-<g class="node dim" data-node="2"><rect class="node-bg" x="116" y="12" width="88" height="62" rx="10"/>
-<g transform="translate(160 32)"><path class="sv-inks" stroke-width="1.6" d="M-18 6 L-8 6 Q0 -6 8 6 L18 6"/><rect class="sv-detect sv-p" data-focus x="-12" y="-9" width="24" height="17" rx="2"/></g>
-<text class="node-t sv-t" x="160" y="56" text-anchor="middle"><tspan x="160">No report</tspan><tspan x="160" dy="11">is sent</tspan></text>
-<text class="node-t sv-p" x="160" y="56" text-anchor="middle"><tspan x="160">Spots a</tspan><tspan x="160" dy="11">change</tspan></text></g>
-<g class="node dim" data-node="3"><rect class="node-bg" x="224" y="12" width="88" height="62" rx="10"/>
-<g transform="translate(268 31)"><rect class="sv-phone2" x="-8" y="-12" width="16" height="23" rx="3"/><path class="sv-checkg sv-p" d="M-4 -0.5 L-1 2.5 L4.5 -3.5"/><g class="sv-t"><rect class="sv-lock" x="-4" y="-2" width="8" height="6" rx="1"/><path class="sv-lockl" d="M-2.5 -2 L-2.5 -4 A2.5 2.5 0 0 1 2.5 -4 L2.5 -2"/></g></g>
-<text class="node-t sv-t" x="268" y="56" text-anchor="middle"><tspan x="268">Waits for a</tspan><tspan x="268" dy="11">rank 4+ editor</tspan></text>
-<text class="node-t sv-p" x="268" y="56" text-anchor="middle"><tspan x="268">Editor confirms</tspan><tspan x="268" dy="11">in the app</tspan></text></g>
-<g class="node dim" data-node="4"><rect class="node-bg" x="224" y="140" width="88" height="62" rx="10"/>
-<g transform="translate(268 159)"><rect class="sv-tile" x="-15" y="-9" width="30" height="18" rx="2"/><path class="sv-road" stroke-width="3" d="M-15 4 L15 -3"/><circle class="sv-yel" cx="3" cy="-0.3" r="3.2"/></g>
-<text class="node-t sv-t" x="268" y="184" text-anchor="middle"><tspan x="268">Map stays</tspan><tspan x="268" dy="11">unchanged</tspan></text>
-<text class="node-t sv-p" x="268" y="184" text-anchor="middle"><tspan x="268">Map</tspan><tspan x="268" dy="11">updated</tspan></text></g>
-<g class="node dim" data-node="5"><rect class="node-bg" x="116" y="140" width="88" height="62" rx="10"/>
-<g transform="translate(160 158)"><g class="sv-you" transform="translate(-7 0) rotate(0) scale(0.7)" data-s="0.7"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g><path class="sv-yel" d="M8 -7 L15 6 L1 6 Z"/></g>
-<text class="node-t sv-t" x="160" y="184" text-anchor="middle"><tspan x="160">No warning</tspan><tspan x="160" dy="11">for drivers</tspan></text>
-<text class="node-t sv-p" x="160" y="184" text-anchor="middle"><tspan x="160">Every driver</tspan><tspan x="160" dy="11">warned</tspan></text></g>
-<g class="node" data-node="6"><rect class="node-bg" x="8" y="140" width="88" height="62" rx="10"/>
-<g transform="translate(52 159)"><path class="sv-routeline" d="M-15 6 C -5 6, 0 -6, 12 -6"/><polygon class="sv-route-f" points="17,-6 11,-9.5 11,-2.5"/></g>
-<text class="node-t sv-t" x="52" y="184" text-anchor="middle"><tspan x="52">Next matatu</tspan><tspan x="52" dy="11">hits it too</tspan></text>
-<text class="node-t sv-p" x="52" y="184" text-anchor="middle"><tspan x="52">Matatu gets</tspan><tspan x="52" dy="11">better routes</tspan></text></g>
-<g class="sv-verdict sv-t"><path class="vd-x" d="M80.0 96.8 l6 6 m0 -6 l-6 6"/><text class="sv-note" x="90.0" y="104.0">Nothing reaches the map</text></g>
-<g class="sv-verdict sv-p" style="--d:1"><path class="vd-ok" d="M80.0 100.2 l2.4 2.6 l4.6 -6.2"/><text class="sv-okn" x="90.0" y="104.0">Confirmed by local editors</text></g>
-<text class="sv-lbl" x="160" y="118" text-anchor="middle">SAME ROUTES, ALL DAY</text>
+<g class="sv-p">
+<polygon class="mt-cone" points="176,88 222,72 222,108"/>
+<g transform="translate(150 90) scale(1.25)"><rect class="sv-mat" x="-19" y="-8" width="38" height="15" rx="3.5"/><rect class="sv-matwin" x="-16" y="-5.5" width="27" height="4" rx="1"/><line class="sv-liv1" x1="-19" y1="2" x2="19" y2="2"/><line class="sv-liv2" x1="-19" y1="4.6" x2="19" y2="4.6"/><circle class="sv-ink" cx="-10" cy="7.5" r="3"/><circle class="sv-ink" cx="10" cy="7.5" r="3"/></g>
+<circle class="mt-cam" cx="174" cy="85" r="2.6"/>
+<text class="sv-lbl" x="150" y="138" text-anchor="middle">DASH CAM</text>
+<g class="sv-you " transform="translate(60 114) rotate(90)"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+</g>
+<g class="sv-p" style="--d:1" data-focus><path class="sv-pin2" d="M209 70 C 202 61 199 56 199 52 A10 10 0 1 1 219 52 C 219 56 216 61 209 70 Z"/><path class="mt-pin-bump" d="M203 54 Q209 46 215 54"/></g>
+<g class="sv-p" style="--d:2"><circle class="sv-ok" cx="224" cy="44" r="6"/><path class="sv-check" style="stroke-width:1.8" d="M221.2 44 L223.2 46 L227 42"/><text class="sv-lbl" x="234" y="47">CONFIRMED</text></g>
+<g class="sv-p" style="--d:3">
+<rect class="sv-hud" x="8" y="168" width="304" height="40" rx="10"/>
+<path class="sv-yel" d="M26 176 L34 191 L18 191 Z"/><text class="sv-bangd" x="26" y="189.6" text-anchor="middle" style="font-size:8px">!</text>
+<text class="sv-t1" x="44" y="185">Speed bump in 300 m</text>
+<text class="sv-t2b" x="44" y="200">From a matatu dash cam</text>
+</g>
+<text class="sv-ill" x="312" y="163" text-anchor="end">ILLUSTRATION</text>
+<g class="sv-verdict sv-t"><path class="vd-x" d="M8.0 6.8 l6 6 m0 -6 l-6 6"/><text class="sv-note" x="18.0" y="14.0">Nothing reaches the map</text></g>
+<g class="sv-verdict sv-p" style="--d:0"><path class="vd-ok" d="M8.0 10.2 l2.4 2.6 l4.6 -6.2"/><text class="sv-okn" x="18.0" y="14.0">Confirmed by local editors</text></g>
 </svg></div>
 </div>

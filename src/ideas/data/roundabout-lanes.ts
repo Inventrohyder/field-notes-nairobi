@@ -27,7 +27,7 @@ export const idea: Idea = {
   why: [
     'Editors get mixed signals: the UK lane guidance page says roundabouts “can be mapped with Lane Guidance” through a Junction Box, while the UK roundabouts page (March 2026) says gyratories allow lane guidance, “which roundabouts do not”.<sup class="fn"><a href="#src-roundabout-lanes-3" aria-label="Source 3">3</a>,<a href="#src-roundabout-lanes-5" aria-label="Source 5">5</a></sup>',
   ],
-  knownShort: 'Waze has roundabout guidance, including which lane to take.',
+  knownShort: 'Waze has roundabout lane guidance where editors map it.',
   askShort: 'Tell us whether Kenyan roundabouts can get lane guidance today, and who can add it.',
   ask: 'Tell us whether Kenyan roundabouts can get lane guidance today, and who can add it. If it takes Junction Boxes, pair Nairobi editors with a rank 5 mentor, the level East Africa’s ladder sets for lanes on Junction Boxes, for the busiest roundabouts.',
   sources: [

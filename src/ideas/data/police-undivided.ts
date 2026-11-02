@@ -32,7 +32,7 @@ export const idea: Idea = {
     },
   ],
   why: [],
-  knownShort: 'Permanent hazards on a two-way street alert both directions.',
+  knownShort: 'Permanent hazards warn both ways; police reports do not.',
   ask: 'On segments with no median, show police reports to both directions, worded “either side”. Pilot it on Kenyan single-carriageway roads.',
   sources: [
     {

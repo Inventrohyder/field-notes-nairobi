@@ -390,12 +390,6 @@
   stroke-width: 2;
   stroke-linecap: round;
 }
-.lg .is-still .motion-btn .ic-pause {
-  display: none;
-}
-.lg .is-still .motion-btn .ic-replay {
-  display: inline;
-}
 html.lg-reduce .lg .motion-btn {
   display: none;
 }
@@ -635,7 +629,7 @@ html.lg-reduce .lg .motion-btn {
   border: 1px solid var(--rule);
   background: var(--map);
 }
-.lg .qa-row h4 {
+.lg .qa-row .qa-h {
   margin: 0 0 4px;
   font-family: var(--f-display);
   font-weight: 800;
@@ -3370,6 +3364,10 @@ html.lg-story-open body {
 .lg .motion-btn[data-mb='replay'] .ic-replay {
   display: inline;
 }
+.lg .motion-btn[data-mb='play'] .ic-replay,
+.lg .motion-btn[data-mb='play'] .ic-pause {
+  display: none;
+}
 .lg .motion-btn[data-mb='replay'] {
   background: var(--yellow);
   border-color: var(--yellow);
@@ -3476,4 +3474,152 @@ html.lg-story-open body {
 /* Tall pictures stay within one laptop screen. */
 .lg-scene .scene svg.sv {
   max-height: 68vh;
+}
+.lg .ci-no circle {
+  fill: var(--surface);
+  stroke: var(--verdict-x);
+  stroke-width: 1.6;
+}
+.lg .ci-no path {
+  fill: none;
+  stroke: var(--verdict-x);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.lg .pk-bucket {
+  fill: var(--surface);
+  stroke: var(--rule);
+}
+.lg .pk-bucket-t {
+  fill: var(--muted);
+  font-size: 8.5px;
+  font-weight: 700;
+}
+.lg .pk-price {
+  fill: var(--yellow);
+  stroke: #14181a;
+  stroke-width: 0.8;
+}
+.lg .pk-price-t {
+  fill: #14181a;
+  font-size: 11px;
+  font-weight: 800;
+}
+.lg [data-state='proposed'] .sv-verdict.sv-p {
+  --in: 0ms;
+}
+.lg .mt-bump rect {
+  fill: var(--yellow);
+}
+.lg .mt-bump path {
+  stroke: #14181a;
+  stroke-width: 2.4;
+}
+.lg .mt-jolt {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.lg .mt-cone {
+  fill: var(--yellow);
+  opacity: 0.45;
+}
+.lg .mt-cam {
+  fill: #14181a;
+  stroke: var(--yellow);
+  stroke-width: 1.2;
+}
+.lg .mt-pin-bump {
+  fill: none;
+  stroke: var(--surface);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lg .vh-loop {
+    display: none;
+  }
+}
+.lg .fg-cone path {
+  fill: var(--murram);
+}
+.lg .fg-rep {
+  fill: #f5d84f;
+  stroke: #14181a;
+  stroke-width: 0.8;
+}
+.lg .fg-rep-g {
+  fill: none;
+  stroke: #14181a;
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.lg .fg-tap {
+  fill: var(--yellow);
+  opacity: 0.3;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.lg [data-state='today'] .live .fg-tap {
+  animation: lg-pulse 1.2s ease-in-out infinite;
+}
+.lg .is-still .live .fg-tap {
+  animation: none;
+}
+.lg .fg-toast {
+  fill: var(--hud-ink);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.lg .fg-phone {
+  fill: #ffffff;
+}
+.lg .fg-call {
+  fill: var(--hud-ink);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.lg .fg-call-s {
+  fill: var(--hud-muted);
+  font-size: 9px;
+  font-family: var(--f-mono) !important;
+}
+.lg .fg-card {
+  fill: var(--surface);
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+.lg .fg-rule {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+.lg .fg-h {
+  fill: var(--ink);
+  font-size: 11px;
+  font-weight: 800;
+}
+.lg .fg-k {
+  fill: var(--muted);
+  font-size: 7.6px;
+  letter-spacing: 0.06em;
+  font-family: var(--f-mono) !important;
+}
+.lg .fg-q {
+  fill: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+.lg .fg-v {
+  fill: var(--ink);
+  font-size: 10px;
+  font-weight: 800;
+}
+.lg .fg-ok {
+  fill: var(--verdict-ok);
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-family: var(--f-mono) !important;
 }

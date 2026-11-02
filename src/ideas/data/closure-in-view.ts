@@ -41,6 +41,7 @@ export const idea: Idea = {
     'At Waze’s April 2023 Office Hours an editor called it “a pity to see closed streets live and not be able to report them”; staff planned work on it that year.<sup class="fn"><a href="#src-closure-in-view-6" aria-label="Source 6">6</a></sup>',
   ],
   knownShort: 'You can report a closure where you are.',
+  askShort: 'Pilot a closure-in-view tool with EAC editors in Nairobi, direction picker included.',
   ask: 'Let trusted editors mark a closure on a road in view, with a direction picker. Pilot it with EAC editors in Nairobi.',
   sources: [
     {

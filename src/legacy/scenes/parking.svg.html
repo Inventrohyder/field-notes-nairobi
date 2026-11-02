@@ -1,6 +1,6 @@
 <div class="scene-block" data-scene="parking" data-state="today">
 <div class="seg-row"><div class="seg" role="group" aria-label="Show today or proposed"><button type="button" id="parking-today" data-set="today" aria-pressed="true">Today</button><button type="button" id="parking-proposed" data-set="proposed" aria-pressed="false">Proposed</button></div><span class="seg-hint">Tap to compare</span><button type="button" class="foot-btn walk-btn screen-only" data-walk="parking">Walk me through it</button></div>
-<div class="scene"><svg class="sv" viewBox="0 0 320 214" role="img" aria-label="A city-centre street grid with a destination, street parking bays and a mall car park, and a details sheet at the bottom.">
+<div class="scene"><svg class="sv" viewBox="0 0 320 214" role="img" data-ptag="146,44" aria-label="A city-centre street grid with a destination and a mall car park. Today the car park shows only a cost bucket, Moderate. In Proposed it shows its price, KSh 200 per hour, as the driver arrives.">
 <rect class="sv-map" width="320" height="214"/>
 <g class="sv-blk">
 <rect x="0" y="0" width="53" height="23" rx="3"/><rect x="67" y="0" width="86" height="23" rx="3"/><rect x="167" y="0" width="86" height="23" rx="3"/><rect x="267" y="0" width="53" height="23" rx="3"/>
@@ -12,26 +12,20 @@
 <rect class="sv-roadf" x="53" y="0" width="14" height="214"/>
 <rect class="sv-roadf" x="153" y="0" width="14" height="214"/>
 <rect class="sv-roadf" x="253" y="0" width="14" height="214"/>
-<g class="sv-bay"><rect x="170" y="93.8" width="9" height="5"/><rect x="182" y="93.8" width="9" height="5"/><rect x="194" y="93.8" width="9" height="5"/><rect x="206" y="93.8" width="9" height="5"/><rect x="218" y="93.8" width="9" height="5"/><rect x="230" y="93.8" width="9" height="5"/><rect x="242" y="93.8" width="9" height="5"/></g>
 <rect class="sv-sign2" x="98" y="50" width="24" height="24" rx="5"/><text class="sv-ptext" x="110" y="67.5" text-anchor="middle">P</text>
 <text class="sv-lbl" x="110" y="87" text-anchor="middle">MALL</text>
-<path class="sv-pin2" d="M210 76 C 202 66 199 60 199 55 A11 11 0 1 1 221 55 C 221 60 218 66 210 76 Z"/><circle class="sv-surf" cx="210" cy="55" r="4"/>
-<text class="sv-lbl" x="210" y="88" text-anchor="middle">DESTINATION</text>
-<g class="sv-you" transform="translate(157 128) rotate(0)"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
-<rect class="sv-sel sv-p" x="94" y="46" width="32" height="32" rx="8" data-focus/>
-<g class="sv-verdict sv-t"><path class="vd-x" d="M8.0 133.8 l6 6 m0 -6 l-6 6"/><text class="sv-note" x="18.0" y="141.0">Cost as a bucket only</text></g>
-<g class="sv-verdict sv-p" style="--d:2"><path class="vd-ok" d="M8.0 137.2 l2.4 2.6 l4.6 -6.2"/><text class="sv-okn" x="18.0" y="141.0">Price shown on arrival</text></g>
-<rect class="sv-hud" x="8" y="146" width="304" height="62" rx="12"/>
-<g class="sv-t">
-<text class="sv-t1" x="20" y="166">Car park · Cost: Moderate</text>
-<text class="sv-t2" x="20" y="182">Price: not recorded</text>
-<text class="sv-t2" x="20" y="197">Street parking: not on the map</text>
-</g>
-<g class="sv-p" style="--d:1">
-<text class="sv-t1" x="20" y="166">Mall car park · KSh 200 per hour</text>
-<text class="sv-t2b" x="20" y="182">Price from editors, shown on arrival</text>
-<text class="sv-ill" x="304" y="157" text-anchor="end">ILLUSTRATION</text>
-<text class="sv-t2" x="20" y="197">Street fee KSh 300/day: needs a new map item</text>
-</g>
+<g class="sv-t"><rect class="pk-bucket" x="127" y="54" width="54" height="16" rx="8"/><text class="pk-bucket-t" x="154" y="65" text-anchor="middle">Moderate</text></g>
+<g class="sv-p" data-focus><rect class="pk-price" x="126" y="51" width="68" height="22" rx="11"/><text class="pk-price-t" x="160" y="66" text-anchor="middle">KSh 200/h</text></g>
+<path class="sv-pin2" d="M226 76 C 218 66 215 60 215 55 A11 11 0 1 1 237 55 C 237 60 234 66 226 76 Z"/><circle class="sv-surf" cx="226" cy="55" r="4"/>
+<text class="sv-lbl" x="218" y="88" text-anchor="middle">DESTINATION</text>
+<g class="sv-you sv-t" transform="translate(260 150) rotate(0)"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<g class="sv-you sv-p" transform="translate(260 122) rotate(0)"><rect class="bd" x="-5.5" y="-9.5" width="11" height="19" rx="3.2"/><rect class="ws" x="-4.2" y="-5.6" width="8.4" height="4.4" rx="1.2"/><rect class="ws" x="-3.8" y="5" width="7.6" height="2.4" rx="1"/></g>
+<text class="sv-ill" x="249" y="13" text-anchor="end">ILLUSTRATION</text>
+<g class="sv-verdict sv-t"><path class="vd-x" d="M8.0 151.8 l6 6 m0 -6 l-6 6"/><text class="sv-note" x="18.0" y="159.0">Cost as a bucket only</text></g>
+<g class="sv-verdict sv-p" style="--d:0"><path class="vd-ok" d="M8.0 155.2 l2.4 2.6 l4.6 -6.2"/><text class="sv-okn" x="18.0" y="159.0">Price shown on arrival</text></g>
+<rect class="sv-hud" x="8" y="168" width="304" height="40" rx="12"/>
+<text class="sv-t1" x="20" y="185">Mall car park</text>
+<text class="sv-t2 sv-t" x="20" y="200">Cost: Moderate</text>
+<text class="sv-t2b sv-p" x="20" y="200">KSh 200 per hour</text>
 </svg></div>
 </div>
