@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+import { seriousA11y } from './helpers';
 
 const PAGE = 'report-followup/';
 
@@ -21,11 +21,7 @@ async function expectStep(page: Page, id: string) {
 }
 
 async function checkA11y(page: Page) {
-  const results = await new AxeBuilder({ page }).analyze();
-  const bad = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
-  expect(bad.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual(
-    [],
-  );
+  expect(await seriousA11y(page)).toEqual([]);
 }
 
 async function noHorizontalScroll(page: Page) {
