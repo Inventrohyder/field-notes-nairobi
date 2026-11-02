@@ -1,21 +1,18 @@
 ---
 interface Props {
-  ask: string;
   nextHref?: string;
   nextLabel?: string;
   allHref: string;
 }
-const { ask, nextHref, nextLabel, allHref } = Astro.props;
+const { nextHref, nextLabel, allHref } = Astro.props;
 ---
 
 <section class="ending" data-ending hidden aria-labelledby="ending-h">
   <h3 id="ending-h">What changed</h3>
   <p class="changed" data-changed></p>
-  <p class="eyebrow">The ask</p>
-  <p class="ask">{ask}</p>
   <div class="ending-actions">
     <button type="button" class="btn primary" data-other-sc>
-      Play the other scenario
+      Play the other one
     </button>
     {nextHref && (
       <a class="btn" href={nextHref}>
@@ -39,14 +36,6 @@ const { ask, nextHref, nextLabel, allHref } = Astro.props;
   }
   .ending h3 {
     color: var(--yellow);
-  }
-  .ending .eyebrow {
-    color: var(--tarmac-muted);
-    margin-top: 10px;
-  }
-  .ask {
-    font-weight: 700;
-    font-size: 1.05rem;
   }
   .ending-actions {
     display: flex;

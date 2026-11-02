@@ -1,0 +1,183 @@
+---
+/**
+ * Small animated drawings for the scenario cards.
+ * hazard: cones close two lanes of a highway and a car passes in the open lane.
+ * map-issue: the route says turn right, a no-right-turn sign stands at the junction, and the car
+ * goes straight on.
+ * Each plays twice (under 5 s in all) and rests on its last frame; reduced motion shows that frame.
+ */
+interface Props {
+  id: string;
+  label: string;
+}
+const { id, label } = Astro.props;
+const cones = [
+  [46, 96],
+  [55, 88],
+  [64, 80],
+  [73, 72],
+  [82, 64],
+  [91, 56],
+  [96, 44],
+  [96, 30],
+  [96, 16],
+];
+---
+
+{id === 'hazard' && (
+  <svg class="sa" viewBox="0 0 160 112" role="img" aria-label={label}>
+    <rect class="sa-grass" width="160" height="112" />
+    <rect class="sa-road" x="38" width="84" height="112" />
+    <path class="sa-edge" d="M40 0V112M120 0V112" />
+    <path class="sa-lane" d="M66 0V112M94 0V112" />
+    <path class="sa-closed" d="M40 112 L40 104 L96 40 L96 0 L40 0 Z" />
+    {cones.map(([x, y], i) => (
+      <g transform={`translate(${x} ${y})`}>
+        <g class="sa-cone" style={`--i: ${i}`}>
+          <path d="M-4 4 L0 -6 L4 4 Z" />
+          <path class="sa-cone-band" d="M-2.4 0 H2.4" />
+        </g>
+      </g>
+    ))}
+    <g transform="translate(108 0)">
+      <g class="sa-car sa-car-a">
+        <rect x="-7" y="-11" width="14" height="22" rx="4" class="sa-body" />
+        <rect x="-5" y="-6" width="10" height="5" rx="1.5" class="sa-glass" />
+      </g>
+    </g>
+  </svg>
+)}
+
+{id === 'map-issue' && (
+  <svg class="sa" viewBox="0 0 160 112" role="img" aria-label={label}>
+    <rect class="sa-grass sa-town" width="160" height="112" />
+    <rect class="sa-road" x="56" width="40" height="112" />
+    <rect class="sa-road" y="30" width="160" height="34" />
+    <path class="sa-lane" d="M76 0V30M76 64V112M0 47H56M96 47H160" />
+    <path class="sa-route" d="M70 112 V52 Q70 47 75 47 H160" />
+    <g transform="translate(112 82)">
+      <path class="sa-post" d="M0 2V24" />
+      <circle class="sa-sign" r="11" />
+      <path class="sa-sign-arrow" d="M-5 3V-1Q-5 -4 -2 -4H4M1.5 -6.5L4 -4L1.5 -1.5" />
+      <path class="sa-sign-slash" d="M-7.5 -7.5L7.5 7.5" />
+    </g>
+    <g transform="translate(70 0)">
+      <g class="sa-car sa-car-b">
+        <rect x="-7" y="-11" width="14" height="22" rx="4" class="sa-body" />
+        <rect x="-5" y="-6" width="10" height="5" rx="1.5" class="sa-glass" />
+      </g>
+    </g>
+  </svg>
+)}
+
+<style>
+  .sa {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  .sa-grass {
+    fill: #cfe6c4;
+  }
+  .sa-town {
+    fill: #e3e5e1;
+  }
+  .sa-road {
+    fill: #fbfbf9;
+    stroke: #b9bfbd;
+    stroke-width: 1;
+  }
+  .sa-edge {
+    stroke: #b9bfbd;
+    stroke-width: 1.5;
+  }
+  .sa-lane {
+    stroke: #b9bfbd;
+    stroke-width: 1.5;
+    stroke-dasharray: 7 6;
+    fill: none;
+  }
+  .sa-closed {
+    fill: #f08a3c;
+    opacity: 0.14;
+  }
+  .sa-cone path:first-child {
+    fill: #f08a3c;
+    stroke: #8a4512;
+    stroke-width: 0.8;
+    stroke-linejoin: round;
+  }
+  .sa-cone-band {
+    stroke: #fff;
+    stroke-width: 1.4;
+  }
+  .sa-cone {
+    animation: sa-pop 0.3s ease calc(var(--i) * 60ms) both;
+  }
+  .sa-body {
+    fill: #19a7b8;
+    stroke: #0b5560;
+    stroke-width: 1.2;
+  }
+  .sa-glass {
+    fill: #0b3f47;
+  }
+  .sa-car {
+    transform: translateY(22px);
+  }
+  .sa-car-a {
+    animation: sa-drive 2.3s cubic-bezier(0.4, 0, 0.6, 1) 0.6s 2 both;
+  }
+  .sa-car-b {
+    animation: sa-drive 2.3s cubic-bezier(0.4, 0, 0.6, 1) 0.4s 2 both;
+  }
+  .sa-route {
+    fill: none;
+    stroke: #6a2bd8;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 2 7;
+    opacity: 0.85;
+  }
+  .sa-post {
+    stroke: #6c7479;
+    stroke-width: 2.4;
+  }
+  .sa-sign {
+    fill: #fff;
+    stroke: #d93036;
+    stroke-width: 3;
+  }
+  .sa-sign-arrow {
+    fill: none;
+    stroke: #14181a;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .sa-sign-slash {
+    stroke: #d93036;
+    stroke-width: 2.6;
+  }
+  @keyframes sa-drive {
+    from {
+      transform: translateY(130px);
+    }
+    to {
+      transform: translateY(22px);
+    }
+  }
+  @keyframes sa-pop {
+    from {
+      transform: scale(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sa-car,
+    .sa-cone {
+      animation: none;
+    }
+  }
+</style>

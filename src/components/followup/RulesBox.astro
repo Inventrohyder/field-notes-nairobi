@@ -1,42 +1,86 @@
 ---
-/** "Rules beside the phone" for the follow-up call (plan section 5). */
+/** The rules of the follow-up call, as icon rows (plan section 5). */
 
 interface Props {
   /** A collapsed version for the narrator column, beside the phone while playing. */
   compact?: boolean;
 }
 const { compact = false } = Astro.props;
-const RULES: [string, string][] = [
-  ['Opt-in.', 'Only drivers who switch it on.'],
-  ['Says it is AI.', 'Every call and text opens with “This is Waze’s AI assistant”.'],
-  ['Parked only.', 'Never while moving or waiting in traffic.'],
-  ['One callback.', 'If it is missed, one text follows, then nothing more.'],
-  ['Three questions.', 'Under a minute.'],
-  ['Questions that fit.', 'Lanes for roadworks, the turn for a map issue.'],
-  ['Not for police or traffic.', 'Those reports expire within minutes.'],
+
+const svg = (body: string) =>
+  `<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+
+const RULES: [string, string, string][] = [
+  [
+    'opt',
+    'Opt-in',
+    svg(
+      '<rect x="2" y="7" width="20" height="10" rx="5"/><circle cx="17" cy="12" r="2.6" fill="currentColor"/>',
+    ),
+  ],
+  [
+    'ai',
+    'Says it’s an AI',
+    svg(
+      '<path d="M3 5h18v11h-9l-5 4v-4H3z"/><text x="12" y="13.6" text-anchor="middle" font-size="7" font-weight="800" fill="currentColor" stroke="none" font-family="sans-serif">AI</text>',
+    ),
+  ],
+  [
+    'park',
+    'Parked only',
+    svg(
+      '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9.5 17V7h3.5a3 3 0 0 1 0 6H9.5"/>',
+    ),
+  ],
+  [
+    'once',
+    'One callback',
+    svg(
+      '<path d="M5 3.5h3l1.6 4.2-2 1.4a11 11 0 0 0 5.3 5.3l1.4-2 4.2 1.6v3a2 2 0 0 1-2 2A15 15 0 0 1 3 5.5a2 2 0 0 1 2-2z"/><path d="M16 3.5h3v5"/>',
+    ),
+  ],
+  [
+    'three',
+    'Three questions at most',
+    svg(
+      '<circle cx="5" cy="12" r="2.5"/><circle cx="12" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/>',
+    ),
+  ],
+  [
+    'fit',
+    'Questions fit the report',
+    svg(
+      '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
+    ),
+  ],
+  [
+    'police',
+    'No follow-up for police or traffic',
+    svg('<path d="M7 17v-4a5 5 0 0 1 10 0v4"/><path d="M5 17h14v3H5z"/><path d="M3 3l18 18"/>'),
+  ],
 ];
 ---
 
 {compact ? (
   <details class="rules compact">
-    <summary>Rules beside the phone</summary>
+    <summary>The rules</summary>
     <ul>
-      {RULES.map(([b, t]) => (
-        <li>
-          <b>{b}</b>
-          {` ${t}`}
+      {RULES.map(([k, t, ic]) => (
+        <li data-rule={k}>
+          <span class="ic" set:html={ic} />
+          <span>{t}</span>
         </li>
       ))}
     </ul>
   </details>
 ) : (
   <aside class="rules" aria-labelledby="rules-h">
-    <h3 id="rules-h">Rules beside the phone</h3>
+    <h3 id="rules-h">The rules</h3>
     <ul>
-      {RULES.map(([b, t]) => (
-        <li>
-          <b>{b}</b>
-          {` ${t}`}
+      {RULES.map(([k, t, ic]) => (
+        <li data-rule={k}>
+          <span class="ic" set:html={ic} />
+          <span>{t}</span>
         </li>
       ))}
     </ul>
@@ -48,13 +92,12 @@ const RULES: [string, string][] = [
     background: var(--surface);
     border: 2px dashed var(--sign);
     border-radius: 14px;
-    padding: 14px 16px 6px;
+    padding: 12px 14px;
     margin-top: 16px;
   }
   .rules.compact {
     padding: 0 14px;
     margin-top: 10px;
-    box-shadow: none;
   }
   .rules summary {
     min-height: 44px;
@@ -65,35 +108,42 @@ const RULES: [string, string][] = [
     cursor: pointer;
   }
   .rules.compact ul {
-    padding-bottom: 8px;
+    padding-bottom: 10px;
   }
   .rules h3 {
     font-size: 1.1rem;
     color: var(--green-ink);
+    margin: 0 0 8px;
   }
   .rules ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px 14px;
+  }
+  .rules.compact ul {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
   .rules li {
-    padding: 6px 0 6px 26px;
-    position: relative;
-    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
     font-size: 0.95rem;
+    line-height: 1.2;
   }
-  .rules li:first-child {
-    border-top: 0;
-  }
-  .rules li::before {
-    content: '';
-    position: absolute;
-    left: 2px;
-    top: 0.75em;
-    width: 12px;
-    height: 7px;
-    border-left: 3px solid var(--green-ink);
-    border-bottom: 3px solid var(--green-ink);
-    transform: rotate(-45deg);
+  .ic {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1.5px solid var(--sign);
+    color: var(--green-ink);
   }
 </style>

@@ -1,70 +1,94 @@
 ---
 import type { Scenario } from '../../scenario/types';
-import Tag from '../Tag.astro';
+import ScenarioArt from '../followup/ScenarioArt.astro';
 
 interface Props {
   intro: string;
   scenarios: Scenario[];
 }
 const { intro, scenarios } = Astro.props;
+const ART = new Set(['hazard', 'map-issue']);
 ---
 
 <div class="picker" data-picker>
   <p class="picker-intro">{intro}</p>
   <div class="picker-cards">
-    {scenarios.map((s, i) => (
-      <article class="pcard">
-        <p class="eyebrow">
-          Scenario {String.fromCharCode(65 + i)} <Tag kind="example" label="Example drive" />
-        </p>
-        <h3 tabindex="-1">{s.title}</h3>
-        <p>{s.who}</p>
-        <button type="button" class="btn primary" data-start={s.id}>
-          Play scenario {String.fromCharCode(65 + i)}
-        </button>
-      </article>
-    ))}
+    {scenarios.map((s, i) => {
+      const letter = String.fromCharCode(65 + i);
+      return (
+        <article class="pcard">
+          {ART.has(s.id) ? (
+            <ScenarioArt id={s.id} label={s.who} />
+          ) : (
+            <p class="pcard-who">{s.who}</p>
+          )}
+          <h3 tabindex="-1">
+            <span class="pcard-l" aria-hidden="true">
+              {letter}
+            </span>
+            <span class="visually-hidden">Scenario {letter}: </span>
+            <span class="pcard-t">{s.title}</span>
+          </h3>
+          <button type="button" class="btn primary" data-start={s.id}>
+            Play<span class="visually-hidden"> scenario</span> {letter}
+          </button>
+        </article>
+      );
+    })}
   </div>
+  <p class="picker-note">Example drives: places and times are examples.</p>
 </div>
 
 <style>
   .picker-intro {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
   .picker-cards {
     display: grid;
-    gap: 14px;
-  }
-  @media (min-width: 700px) {
-    .picker-cards {
-      grid-template-columns: 1fr 1fr;
-    }
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    max-width: 640px;
   }
   .pcard {
     background: var(--surface);
     border: 2px solid var(--ink);
-    border-radius: 16px;
-    padding: 16px;
+    border-radius: 14px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
-    box-shadow: 5px 5px 0 var(--sign);
+    gap: 8px;
+    box-shadow: 4px 4px 0 var(--sign);
   }
   .pcard h3 {
-    margin-bottom: 6px;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.15;
     outline: none;
+    flex: 1;
   }
-  .pcard p:not(.eyebrow) {
+  .pcard-l {
+    flex: none;
+    font: 700 0.8rem/1 var(--f-mono);
+    background: var(--tarmac);
+    color: var(--yellow);
+    border-radius: 4px;
+    padding: 4px 6px;
+  }
+  .pcard-who {
     flex: 1;
   }
   .pcard .btn {
-    align-self: flex-start;
+    width: 100%;
+    justify-content: center;
   }
-  .eyebrow {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
+  .picker-note {
+    margin: 8px 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 </style>

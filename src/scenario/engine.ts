@@ -351,7 +351,7 @@ export class Demo {
     const action = step.action
       ? fill(step.action, v)
       : step.end
-        ? 'The end of this scenario. What changed and the ask are below the phone.'
+        ? 'The end of this scenario. What changed is below the phone.'
         : '';
     this.els.narrAction.textContent = action;
     hide(this.els.narrAction, !action);

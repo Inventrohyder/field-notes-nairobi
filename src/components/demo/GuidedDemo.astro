@@ -31,7 +31,7 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
     <p class="play-title">
       <span class="eyebrow">Playing</span>
       <b data-sc-title></b>
-      <span class="tag tag-example">Example drive: places and times are examples</span>
+      <span class="tag tag-example">Example drive</span>
     </p>
     <div class="play-grid">
       <div class="play-narr">
@@ -44,7 +44,7 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
         <slot />
       </div>
     </div>
-    <Ending ask={ask} nextHref={nextHref} nextLabel={nextLabel} allHref={allHref} />
+    <Ending nextHref={nextHref} nextLabel={nextLabel} allHref={allHref} />
   </div>
 </section>
 
