@@ -177,3 +177,79 @@ test.describe('reduced motion', () => {
     await expect(block).toHaveAttribute('data-state', 'proposed');
   });
 });
+
+/* axe does not measure SVG text, so the verdict lines get their own check: the line's colour
+ * against the halo drawn behind it, and against the scene pixels under it with the line hidden. */
+async function verdictContrast(page: Page, state: 'today' | 'proposed'): Promise<string[]> {
+  const block = page.locator('.lg-scene .scene-block');
+  await block.locator(`.seg button[data-set="${state}"]`).click();
+  await page.waitForTimeout(1500);
+  const texts = block.locator(`.sv-verdict.sv-${state === 'today' ? 't' : 'p'} text`);
+  const out: string[] = [];
+  for (const t of await texts.all()) {
+    if (!(await t.isVisible())) continue;
+    const info = await t.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      const r = el.getBoundingClientRect();
+      return { fill: cs.fill, halo: cs.stroke, text: el.textContent || '', box: r.toJSON() };
+    });
+    const g = t.locator('xpath=..');
+    await g.evaluate((el) => ((el as SVGElement).style.visibility = 'hidden'));
+    const shot = await page.screenshot({ clip: info.box, animations: 'disabled' });
+    await g.evaluate((el) => ((el as SVGElement).style.visibility = ''));
+    const bg = await page.evaluate(async (b64) => {
+      const img = new Image();
+      img.src = 'data:image/png;base64,' + b64;
+      await img.decode();
+      const c = document.createElement('canvas');
+      c.width = img.width;
+      c.height = img.height;
+      const x = c.getContext('2d')!;
+      x.drawImage(img, 0, 0);
+      const d = x.getImageData(0, 0, c.width, c.height).data;
+      const n = new Map<string, number>();
+      for (let i = 0; i < d.length; i += 4) {
+        const k = `rgb(${d[i]}, ${d[i + 1]}, ${d[i + 2]})`;
+        n.set(k, (n.get(k) || 0) + 1);
+      }
+      return [...n.entries()].sort((a, b) => b[1] - a[1])[0][0];
+    }, shot.toString('base64'));
+    for (const [name, back] of [
+      ['halo', info.halo],
+      ['scene', bg],
+    ]) {
+      const ratio = contrast(info.fill, back);
+      if (ratio < 4.5) out.push(`${info.text} (${name}): ${info.fill} on ${back} = ${ratio}`);
+    }
+  }
+  return out;
+}
+function contrast(a: string, b: string): number {
+  const lum = (c: string) => {
+    const [r, g, bl] = (c.match(/[\d.]+/g) || ['0', '0', '0']).slice(0, 3).map(Number);
+    const f = (v: number) => {
+      const s = v / 255;
+      return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+    };
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(bl);
+  };
+  const [x, y] = [lum(a), lum(b)];
+  return Math.round(((Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05)) * 100) / 100;
+}
+
+for (const scheme of ['light', 'dark'] as const) {
+  test.describe(`verdict contrast (${scheme})`, () => {
+    test.use({ colorScheme: scheme });
+    for (const id of LEGACY) {
+      test(`${id}: Today and Proposed lines reach 4.5:1`, async ({ page }, info) => {
+        test.skip(info.project.name !== 'phone', 'colours do not depend on width');
+        await page.goto(`${id}/`);
+        const bad = [
+          ...(await verdictContrast(page, 'today')),
+          ...(await verdictContrast(page, 'proposed')),
+        ];
+        expect(bad).toEqual([]);
+      });
+    }
+  });
+}

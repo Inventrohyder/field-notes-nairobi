@@ -34,6 +34,9 @@
   --hud-ink: #f4f5f3;
   --hud-muted: #aeb7b9;
   --hot: #d2452b;
+  --verdict-x: #9e2b16;
+  --verdict-x-night: #ff7a5c;
+  --verdict-ok: #075c41;
   --water: #3b7db6;
   --night: #121820;
   --shade: rgba(20, 25, 27, 0.08);
@@ -80,6 +83,8 @@
     --hud-ink: #f4f5f3;
     --hud-muted: #98a2a5;
     --hot: #f0603f;
+    --verdict-x: #ff7a5c;
+    --verdict-ok: #4cc896;
     --water: #3c84c6;
     --night: #0a0e13;
     --shade: rgba(0, 0, 0, 0.3);
@@ -120,6 +125,8 @@
   --hud-ink: #f4f5f3;
   --hud-muted: #98a2a5;
   --hot: #f0603f;
+  --verdict-x: #ff7a5c;
+  --verdict-ok: #4cc896;
   --water: #3c84c6;
   --night: #0a0e13;
   --shade: rgba(0, 0, 0, 0.3);
@@ -777,20 +784,20 @@ html.lg-reduce .lg .motion-btn {
   font-family: var(--f-mono) !important;
 }
 .lg .sv-note {
-  fill: var(--hot);
+  fill: var(--verdict-x);
   font-size: 10px;
   font-weight: 700;
   font-family: var(--f-mono) !important;
 }
 .lg .vd-x {
   fill: none;
-  stroke: var(--hot);
+  stroke: var(--verdict-x);
   stroke-width: 1.9;
   stroke-linecap: round;
 }
 .lg .vd-ok {
   fill: none;
-  stroke: var(--green-ink);
+  stroke: var(--verdict-ok);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -806,6 +813,12 @@ html.lg-reduce .lg .motion-btn {
 }
 .lg .on-dark text {
   stroke: var(--night);
+}
+.lg .on-dark .sv-note {
+  fill: var(--verdict-x-night);
+}
+.lg .on-dark .vd-x {
+  stroke: var(--verdict-x-night);
 }
 .lg .on-dark .sv-okn {
   fill: #5bd69b;
@@ -1107,7 +1120,7 @@ html.lg-reduce .lg .motion-btn {
   font-weight: 700;
 }
 .lg .sv-okn {
-  fill: var(--green-ink);
+  fill: var(--verdict-ok);
   font-size: 10px;
   font-weight: 700;
   font-family: var(--f-mono) !important;
@@ -3202,6 +3215,8 @@ html.lg-reduce .lg .motion-btn {
     --hud-ink: #f4f5f3;
     --hud-muted: #aeb7b9;
     --hot: #d2452b;
+    --verdict-x: #9e2b16;
+    --verdict-ok: #075c41;
     --yellow: #f2b705;
     --yellow-ink: #7a5a00;
     --green-ink: #0a6b4c;
