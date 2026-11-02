@@ -1,0 +1,143 @@
+---
+/**
+ * Hero picture: the 21 lane markings on a road lift off and become the 21 ideas, landing in
+ * six coloured groups. Plays once (under 3 s); reduced motion shows the final frame.
+ */
+import { GROUPS, IDEAS } from '../../ideas/index';
+import { GROUP_COLOURS, GROUP_SHORT } from './group-colours';
+
+const TW = 24;
+const TH = 18;
+const GAP = 4;
+const PER_ROW = 4;
+const ROAD_Y = 132;
+
+let order = 0;
+const clusters = GROUPS.map((g, gi) => {
+  const col = gi % 3;
+  const row = Math.floor(gi / 3);
+  const x0 = 10 + col * 118;
+  const y0 = row === 0 ? 6 : 72;
+  const ideas = IDEAS.filter((i) => i.group === g.id);
+  const tiles = ideas.map((idea, k) => {
+    const x = x0 + (k % PER_ROW) * (TW + GAP);
+    const y = y0 + Math.floor(k / PER_ROW) * (TH + GAP);
+    const n = IDEAS.indexOf(idea);
+    const dashX = 6 + n * 16.6;
+    return { idea, x, y, dx: dashX - x, dy: ROAD_Y - y, i: order++ };
+  });
+  const rows = Math.ceil(ideas.length / PER_ROW);
+  return {
+    g,
+    tiles,
+    colour: GROUP_COLOURS[g.id],
+    label: GROUP_SHORT[g.id],
+    lx: x0,
+    ly: y0 + rows * (TH + GAP) + 9,
+  };
+});
+const summary = GROUPS.map(
+  (g) => `${GROUP_SHORT[g.id]} ${IDEAS.filter((i) => i.group === g.id).length}`,
+).join(', ');
+---
+
+<figure class="hr">
+  <svg
+    viewBox="0 0 360 158"
+    role="img"
+    aria-label={`The 21 lane markings on a road become 21 ideas in six groups: ${summary}.`}
+  >
+    <rect class="hr-road" x="0" y="116" width="360" height="36" rx="3"></rect>
+    <path class="hr-edge" d="M0 120H360M0 148H360"></path>
+    {clusters.map((c) => (
+      <g style={`--c: ${c.colour}`}>
+        {c.tiles.map((t) => (
+          <g transform={`translate(${t.x} ${t.y})`}>
+            <g class="hr-t" style={`--dx: ${t.dx}px; --dy: ${t.dy}px; --d: ${300 + t.i * 70}ms`}>
+              <rect class="hr-tile" width={TW} height={TH} rx="4" />
+              <text class="hr-n" x={TW / 2} y="12.6">
+                {t.idea.num}
+              </text>
+            </g>
+          </g>
+        ))}
+        <text class="hr-lab" x={c.lx} y={c.ly}>
+          {c.label}
+        </text>
+      </g>
+    ))}
+  </svg>
+  <figcaption>21 ideas from Kenyan roads, in six groups</figcaption>
+</figure>
+
+<style>
+  .hr {
+    margin: 0;
+    max-width: 480px;
+  }
+  .hr svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .hr-road {
+    fill: #3a4044;
+  }
+  .hr-edge {
+    stroke: #f0f2ef;
+    stroke-width: 1.5;
+    opacity: 0.5;
+  }
+  .hr-tile {
+    fill: var(--c);
+    animation: hr-fill 1.1s ease-in-out var(--d) both;
+  }
+  .hr-t {
+    animation: hr-lift 1.1s cubic-bezier(0.5, 0, 0.2, 1) var(--d) both;
+  }
+  .hr-n {
+    font: 700 9px var(--f-mono);
+    fill: #14181a;
+    text-anchor: middle;
+    animation: hr-show 0.4s ease calc(var(--d) + 0.9s) both;
+  }
+  .hr-lab {
+    font: 700 9.5px var(--f-body);
+    fill: var(--tarmac-ink);
+    animation: hr-show 0.6s ease 2.6s both;
+  }
+  .hr figcaption {
+    margin-top: 6px;
+    font: 700 0.78rem/1.3 var(--f-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--tarmac-muted);
+  }
+  @keyframes hr-lift {
+    from {
+      transform: translate(var(--dx), var(--dy)) scale(0.5, 0.22);
+    }
+    to {
+      transform: none;
+    }
+  }
+  @keyframes hr-fill {
+    0%,
+    30% {
+      fill: #f0f2ef;
+    }
+  }
+  @keyframes hr-show {
+    from {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hr-t,
+    .hr-tile,
+    .hr-n,
+    .hr-lab {
+      animation: none;
+    }
+  }
+</style>

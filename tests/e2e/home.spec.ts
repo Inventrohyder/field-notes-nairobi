@@ -11,6 +11,13 @@ for (const scheme of ['light', 'dark'] as const) {
       await expect(page.locator('h1')).toContainText('Field notes');
       await expect(page.getByText('Short on time? Start with these three')).toBeVisible();
       await expect(page.locator('#ideas [data-tile]')).toHaveCount(21);
+      // The hero carries a picture with a text equivalent, and the tiles carry no hook line.
+      await expect(page.locator('.hero svg[role="img"]')).toHaveAttribute(
+        'aria-label',
+        /21 ideas in six groups/,
+      );
+      await expect(page.locator('#ideas .tile-hook')).toHaveCount(0);
+      await expect(page.locator('.start-list [data-tile], .start-list li')).toHaveCount(3);
       await expect(page.locator('[data-presenter]')).toBeHidden();
       expect(await horizontalOverflow(page)).toBeLessThanOrEqual(0);
       expect(await seriousA11y(page)).toEqual([]);
@@ -122,4 +129,24 @@ test('print page renders every idea', async ({ page }) => {
   await page.emulateMedia({ media: 'print' });
   await expect(page.locator('.url').first()).toBeVisible();
   w.expectClean();
+});
+
+test('the page stays short: at most 350 visible words before the idea list', async ({ page }) => {
+  await page.goto('./');
+  const words = await page.evaluate(() => {
+    const main = document.querySelector('main')!;
+    const ideas = document.querySelector('#ideas')!;
+    let text = '';
+    const walk = document.createTreeWalker(main, NodeFilter.SHOW_TEXT);
+    let n: Node | null;
+    while ((n = walk.nextNode())) {
+      if (!(ideas.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING)) continue;
+      const el = n.parentElement;
+      if (!el || el.closest('[hidden], script, style, svg, .visually-hidden, [aria-hidden="true"]'))
+        continue;
+      text += ' ' + n.textContent;
+    }
+    return text.split(/\s+/).filter((w) => /[A-Za-z0-9]/.test(w)).length;
+  });
+  expect(words).toBeLessThanOrEqual(350);
 });

@@ -2,24 +2,14 @@
 import BaseLayout from '../components/BaseLayout.astro';
 import Picker from '../components/home/Picker.astro';
 import IdeaTile from '../components/home/IdeaTile.astro';
+import HeroRoad from '../components/home/HeroRoad.astro';
+import { GROUP_COLOURS } from '../components/home/group-colours';
+import LegacyThumb from '../legacy/LegacyThumb.astro';
 import { GROUPS, IDEAS, ideaById } from '../ideas/index';
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 
-const START = [
-  {
-    id: 'alert-timing',
-    line: 'Ask “Still there?” just after drivers pass a report, so the people who just saw it answer.',
-  },
-  {
-    id: 'police-undivided',
-    line: 'On a two-way road with no divider, warn drivers in both directions about police.',
-  },
-  {
-    id: 'mosques',
-    line: 'Mosque, church and temple sub-categories, as the first step to stops by time or distance.',
-  },
-].map((s) => ({ ...s, idea: ideaById(s.id)! }));
+const START = ['alert-timing', 'police-undivided', 'mosques'].map((id) => ideaById(id)!);
 ---
 
 <BaseLayout
@@ -47,44 +37,44 @@ const START = [
 
   <section class="hero" aria-labelledby="page-title">
     <div class="wrap hero-in">
-      <h1 id="page-title">
-        <span>Field notes</span>
-        <span>from Nairobi</span>
-      </h1>
-      <div class="lane-line" aria-hidden="true"></div>
-      <p class="thesis">
-        Twenty-one small proposals from a volunteer map editor in Nairobi to make Waze fit Kenyan
-        roads.
-      </p>
-      <p class="first">
-        First shown to Waze staff at the EMEA Mega Meetup in Berlin, October 2026.
-      </p>
-      <p class="byline">
-        <b>Haitham Alhad Hyder</b> · Volunteer map editor in Nairobi
-      </p>
-      <p class="hero-links">
-        <a class="hero-pick" href="#pick" data-hero-pick hidden>
-          Pick what you want to see
-        </a>
-        <a class="hero-all" href="#ideas">
-          See all 21 ideas
-        </a>
-      </p>
+      <div class="hero-text">
+        <h1 id="page-title">
+          <span>Field notes</span>
+          <span>from Nairobi</span>
+        </h1>
+        <p class="thesis">
+          Twenty-one small proposals from a volunteer map editor in Nairobi to make Waze fit Kenyan
+          roads.
+        </p>
+        <p class="byline">
+          <b>Haitham Alhad Hyder</b> · Volunteer map editor in Nairobi
+        </p>
+        <p class="hero-links">
+          <a class="hero-pick" href="#pick" data-hero-pick hidden>
+            Pick with stars
+          </a>
+          <a class="hero-all" href="#ideas">
+            See all 21 ideas
+          </a>
+        </p>
+      </div>
+      <HeroRoad />
     </div>
   </section>
 
   <div class="wrap home">
     <section class="start" id="start" aria-labelledby="start-h">
       <h2 id="start-h">Short on time? Start with these three</h2>
-      <p class="muted">Each is small, and each can be tested in Kenya first.</p>
       <ol class="start-list">
-        {START.map((s) => (
+        {START.map((idea) => (
           <li>
-            <a href={`${base}${s.idea.id}/`}>
-              <span class="num">{s.idea.num}</span>
-              <span>
-                <b>{s.idea.title}</b>
-                <span class="start-line">{s.line}</span>
+            <a href={`${base}${idea.id}/`}>
+              <div class="start-pic">
+                <LegacyThumb id={idea.id} />
+              </div>
+              <span class="start-t">
+                <span class="num">{idea.num}</span>
+                <b>{idea.title}</b>
               </span>
             </a>
           </li>
@@ -93,7 +83,7 @@ const START = [
       <p>
         <a
           class="btn"
-          href={`${base}${START[0].idea.id}/?tour=${START.map((s) => s.id).join(',')}`}
+          href={`${base}${START[0].id}/?tour=${START.map((s) => s.id).join(',')}`}
           data-start-tour
         >
           Walk me through these three
@@ -104,18 +94,15 @@ const START = [
     <Picker />
 
     <section class="all" id="ideas" aria-labelledby="ideas-h">
-      <h2 id="ideas-h">Twenty-one ideas in six groups</h2>
-      <p class="muted">
-        Each idea has its own page: what Waze does today, the idea, and a short walk-through.
-      </p>
+      <h2 id="ideas-h">All 21 ideas</h2>
       {GROUPS.map((g) => {
         const ideas = IDEAS.filter((i) => i.group === g.id);
         return (
           <section class="grp" id={`g-${g.id}`} aria-labelledby={`gh-${g.id}`}>
-            <div class="grp-sign">
-              <h3 id={`gh-${g.id}`}>{g.name}</h3>
-              <p>{g.summary}</p>
-            </div>
+            <h3 class="grp-h" id={`gh-${g.id}`}>
+              <span class="grp-chip" style={`--c: ${GROUP_COLOURS[g.id]}`} aria-hidden="true" />
+              {g.name}
+            </h3>
             <ul class="tiles">
               {ideas.map((i) => (
                 <IdeaTile idea={i} level={4} />
@@ -126,19 +113,6 @@ const START = [
       })}
     </section>
 
-    <section class="keep" aria-labelledby="keep-h">
-      <h2 id="keep-h">Keep a copy</h2>
-      <p>Every idea on one page, with its sources, ready to print or save.</p>
-      <p class="keep-links">
-        <a class="btn primary" href={`${base}field-notes-nairobi.pdf`}>
-          Download the PDF
-        </a>
-        <a class="btn" href={`${base}print/`}>
-          Open the printable page
-        </a>
-      </p>
-    </section>
-
     <section class="about" id="about" aria-labelledby="about-h">
       <h2 id="about-h">About</h2>
       <p>
@@ -146,22 +120,21 @@ const START = [
         and Waze Discuss: Inventrohyder). This is a community member's proposal and carries no Waze
         endorsement.
       </p>
-      <p>
-        Every screenshot here is my own, from my drives in Kenya. Number plates and other users'
-        names are blurred.
-      </p>
-      <p>
-        The scenes and phone screens are original drawings in the style of the app. None is a Waze
-        screen.
-      </p>
-      <p>
-        Numbers link to their sources, checked in October 2026. Anything made up to show an idea is
-        marked Illustration.
-      </p>
       <p>I would be glad to help test any of these with the Nairobi editing community.</p>
-      <p>
-        Contact:{' '}
-        <a href="https://github.com/Inventrohyder" rel="me">
+      <ul class="about-notes">
+        <li>First shown to Waze staff at the EMEA Mega Meetup in Berlin, October 2026.</li>
+        <li>Screenshots are my own, from drives in Kenya, with plates and names blurred.</li>
+        <li>Scenes and phone screens are original drawings. None is a Waze screen.</li>
+        <li>Numbers link to sources checked in October 2026. Made-up examples say Illustration.</li>
+      </ul>
+      <p class="keep-links">
+        <a class="btn primary" href={`${base}field-notes-nairobi.pdf`}>
+          Download the PDF
+        </a>
+        <a class="btn" href={`${base}print/`}>
+          Printable page
+        </a>
+        <a class="btn" href="https://github.com/Inventrohyder" rel="me">
           github.com/Inventrohyder
         </a>
       </p>
@@ -196,10 +169,24 @@ const START = [
   }
   .hero-in {
     display: grid;
-    gap: 14px;
-    padding-top: 28px;
-    padding-bottom: 30px;
+    gap: 18px;
+    padding-top: 24px;
+    padding-bottom: 22px;
     max-width: 1044px;
+  }
+  .hero-text {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+  }
+  @media (min-width: 900px) {
+    .hero-in {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 36px;
+      padding-top: 36px;
+      padding-bottom: 36px;
+    }
   }
   .hero h1 {
     margin: 0;
@@ -207,34 +194,23 @@ const START = [
     font-weight: 800;
     text-transform: uppercase;
     color: var(--yellow);
-    font-size: clamp(3.3rem, 16.5vw, 7.4rem);
+    font-size: clamp(3.1rem, 15vw, 6.4rem);
     line-height: 0.84;
     letter-spacing: 0.01em;
   }
   .hero h1 span {
     display: block;
   }
-  .lane-line {
-    height: 5px;
-    width: 100%;
-    max-width: 560px;
-    background: repeating-linear-gradient(90deg, var(--tarmac-ink) 0 30px, transparent 30px 50px);
-    opacity: 0.85;
-    border-radius: 2px;
-  }
   .thesis {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
     max-width: 34ch;
-    margin: 0;
-  }
-  .first {
-    color: var(--tarmac-muted);
     margin: 0;
   }
   .byline {
     margin: 0;
     color: var(--tarmac-muted);
+    font-size: 0.95rem;
   }
   .byline b {
     color: var(--tarmac-ink);
@@ -243,7 +219,7 @@ const START = [
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin: 6px 0 0;
+    margin: 0;
   }
   .hero-links a {
     display: inline-flex;
@@ -273,11 +249,8 @@ const START = [
   .home {
     max-width: 1044px;
     display: grid;
-    gap: 40px;
-    padding-top: 28px;
-  }
-  .muted {
-    color: var(--muted);
+    gap: 36px;
+    padding-top: 24px;
   }
   .greet {
     max-width: 1044px;
@@ -305,6 +278,9 @@ const START = [
   .greet-tiles {
     margin: 12px 0 14px;
   }
+  .start h2 {
+    margin-bottom: 12px;
+  }
   .start-list {
     list-style: none;
     padding: 0;
@@ -312,16 +288,13 @@ const START = [
     display: grid;
     gap: 10px;
   }
-  @media (min-width: 760px) {
-    .start-list {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
   .start-list a {
-    display: flex;
+    display: grid;
+    grid-template-columns: 128px 1fr;
     gap: 12px;
+    align-items: center;
     height: 100%;
-    padding: 14px;
+    padding: 8px;
     background: var(--surface);
     border: 1px solid var(--rule);
     border-left: 6px solid var(--yellow);
@@ -333,11 +306,37 @@ const START = [
     border-color: var(--sign);
     border-left-color: var(--yellow);
   }
-  .start-line {
+  .start-pic {
     display: block;
-    color: var(--muted);
-    font-size: 0.95rem;
-    margin-top: 4px;
+    min-width: 0;
+    aspect-ratio: 16 / 11;
+  }
+  .start-pic :global(.lg),
+  .start-pic :global(.lg-thumb),
+  .start-pic :global(.lg-thumb > div) {
+    height: 100%;
+  }
+  .start-pic :global(.lg-thumb svg) {
+    height: 100%;
+  }
+  .start-t {
+    display: grid;
+    gap: 6px;
+    justify-items: start;
+  }
+  .start-t b {
+    font: 800 1.15rem/1.1 var(--f-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  @media (min-width: 760px) {
+    .start-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .start-list a {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
   }
   .num {
     flex: none;
@@ -348,25 +347,31 @@ const START = [
     border-radius: 5px;
     padding: 6px;
   }
-  .grp {
-    margin-top: 26px;
+  .all h2 {
+    margin-bottom: 4px;
   }
-  .grp-sign {
+  .grp {
+    margin-top: 18px;
+  }
+  .grp-h {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+    padding: 8px 12px;
+    font-size: 1.3rem;
     background: var(--sign);
     color: var(--sign-ink);
-    border-radius: 12px;
-    padding: 12px 16px;
-    border: 3px solid var(--sign);
+    border-radius: 10px;
     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.85);
-    margin-bottom: 12px;
   }
-  .grp-sign h3 {
-    margin: 0 0 4px;
-    font-size: 1.5rem;
-  }
-  .grp-sign p {
-    margin: 0;
-    opacity: 0.92;
+  .grp-chip {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: var(--c);
+    box-shadow: 0 0 0 2px #fff;
   }
   .tiles,
   .home :global(.tiles) {
@@ -374,18 +379,20 @@ const START = [
     padding: 0;
     margin: 0;
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   @media (min-width: 760px) {
     .tiles,
     .home :global(.tiles) {
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
   }
   .greet :global(.tiles) {
     list-style: none;
     padding: 0;
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   @media (min-width: 760px) {
@@ -393,20 +400,23 @@ const START = [
       grid-template-columns: repeat(3, 1fr);
     }
   }
-  .keep {
-    background: var(--surface);
-    border: 1px solid var(--rule);
-    border-radius: 14px;
-    padding: 18px 16px 8px;
+  .about {
+    border-top: 3px dashed var(--rule);
+    padding-top: 20px;
+    max-width: 70ch;
+  }
+  .about-notes {
+    color: var(--muted);
+    font-size: 0.93rem;
+    padding-left: 1.1em;
+    margin: 0 0 12px;
+  }
+  .about-notes li {
+    margin-bottom: 2px;
   }
   .keep-links {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-  }
-  .about {
-    border-top: 3px dashed var(--rule);
-    padding-top: 22px;
-    max-width: 70ch;
   }
 </style>

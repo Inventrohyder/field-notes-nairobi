@@ -71,14 +71,7 @@ const PICKED = [1, 11, 19]; // tiles that receive stars
         </text>
       </svg>
     </div>
-    <p class="pk-lead">
-      Put your stars on the ideas you would like to see. Put them all on one idea, or spread them
-      out. Tap − to take a star back.
-    </p>
-    <p class="pk-lead">
-      Then "Walk me through my picks" shows only the ideas you starred, one at a time. The ideas
-      come in six small groups, so you never see all 21 at once.
-    </p>
+    <p class="pk-lead">Star what you want to see. Tap − to take one back.</p>
     <div class="pk-actions">
       <button type="button" class="btn primary" data-go="team">
         Next
@@ -92,9 +85,7 @@ const PICKED = [1, 11, 19]; // tiles that receive stars
   <!-- Step 2: optional team -->
   <div class="pk-step" data-pk-step="team" hidden>
     <h2 tabindex="-1">Which team are you closest to?</h2>
-    <p class="pk-lead">
-      Optional. I will suggest three ideas for that team. You can still put your stars anywhere.
-    </p>
+    <p class="pk-lead">Optional: three suggestions per team.</p>
     <div class="pk-chips" role="group" aria-label="Teams">
       {TEAMS.map((t, i) => (
         <button
@@ -140,8 +131,8 @@ const PICKED = [1, 11, 19]; // tiles that receive stars
 
   <!-- Step 3: the groups -->
   <div class="pk-step" data-pk-step="groups" hidden>
-    <h2 tabindex="-1">Put your stars on what you'd like to see</h2>
-    <p class="pk-lead">Tap a group to open it, then tap an idea to add a star.</p>
+    <h2 tabindex="-1">Star what you'd like to see</h2>
+    <p class="pk-lead">Open a group, then tap an idea.</p>
     <div class="pk-tray" data-tray>
       <span class="pk-meter" aria-hidden="true">
         {[0, 1, 2, 3, 4].map(() => (
@@ -174,7 +165,6 @@ const PICKED = [1, 11, 19]; // tiles that receive stars
                   <span class="pk-gsugg" data-gsugg hidden />
                   <span class="pk-gstars" data-gstars hidden />
                 </span>
-                <span class="pk-gsum">{g.summary}</span>
                 <svg class="chev" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
                   <path d="M4 6l4 4 4-4" />
                 </svg>
@@ -221,7 +211,7 @@ const PICKED = [1, 11, 19]; // tiles that receive stars
       })}
     </div>
     <p class="pk-full" data-full hidden>
-      All five stars are placed. Walk through your picks, or tap − on an idea to move a star.
+      All five stars placed. Tap − to move one.
     </p>
     <div class="pk-actions pk-walk">
       <button type="button" class="btn primary" data-walk-picks disabled>
@@ -848,10 +838,6 @@ const PICKED = [1, 11, 19]; // tiles that receive stars
   .pk-gstars {
     background: var(--yellow);
     color: #14181a;
-  }
-  .pk-gsum {
-    color: var(--muted);
-    font-size: 0.93rem;
   }
   .chev {
     position: absolute;
