@@ -60,7 +60,8 @@ export const followupIdea: Idea = {
     `Reporters rarely answer: the Australian editing guidance notes that “most URs do not return with a reply” (URs are update requests, the map issues drivers send).${fn(4)}`,
     `Waze already asks for details on map issues sent without a description; the reply depends on the driver opening the Inbox later.${fn(7)}${fn(8)}${fn(9)}`,
   ],
-  ask: 'Pilot an opt-in voice follow-up for closure reports and map issues with Nairobi reporters, with answers attached for local editors.',
+  knownShort: 'Waze already asks follow-ups while you report by voice.',
+  ask: 'Pilot an opt-in voice follow-up for hazard reports and map issues with Nairobi reporters, with answers attached for local editors.',
   sources: [
     {
       n: 1,
@@ -400,7 +401,7 @@ const mapIssue: Scenario = {
     'b-menu': {
       id: 'b-menu',
       tag: 'today',
-      screen: 'menu',
+      screen: 'menu-b',
       narrator: 'Today’s report menu. A wrong turn on the map is a Map issue.',
       action: 'Tap Map issue.',
       choices: [
@@ -436,7 +437,7 @@ const mapIssue: Scenario = {
       id: 'b-comment',
       tag: 'today',
       screen: 'comment',
-      narrator: 'No time to type at the wheel, so you send it without a comment.',
+      narrator: 'At the next red light there’s no time to type, so you send it without a comment.',
       action: 'Tap Send.',
       choices: [
         off('comment', 'Add a comment', 'Not while driving'),

@@ -29,14 +29,19 @@ const ART = new Set(['hazard', 'map-issue']);
             <span class="visually-hidden">Scenario {letter}: </span>
             <span class="pcard-t">{s.title}</span>
           </h3>
-          <button type="button" class="btn primary" data-start={s.id}>
-            Play<span class="visually-hidden"> scenario</span> {letter}
+          <button
+            type="button"
+            class="btn primary"
+            data-start={s.id}
+            aria-label={`Play ${letter}: ${s.title}`}
+          >
+            Play {letter}
           </button>
         </article>
       );
     })}
   </div>
-  <p class="picker-note">Example drives: places and times are examples.</p>
+  <p class="picker-note">Illustration: the drives, places and times are examples.</p>
 </div>
 
 <style>

@@ -31,7 +31,7 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
     <p class="play-title">
       <span class="eyebrow">Playing</span>
       <b data-sc-title></b>
-      <span class="tag tag-example">Example drive</span>
+      <span class="tag tag-illus">Illustration</span>
     </p>
     <div class="play-grid">
       <div class="play-narr">
@@ -55,7 +55,8 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
 
 <style>
   .demo {
-    margin: 8px 0 32px;
+    max-width: 828px;
+    margin: 24px auto 32px;
   }
   .demo-h {
     margin-bottom: 10px;
@@ -89,14 +90,29 @@ const data = JSON.stringify({ ideaId, scenarios, ask, nextHref, allHref });
     .play-narr :global(.narr-text) {
       font-size: 0.98rem;
     }
-  }
-  .play-aside {
-    display: none;
+    /* While the phone screen holds the controls, the narrator keeps to a line or two. */
+    .demo[data-on-phone] .play-narr :global(.narr-text:not(.is-open)) {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    @media (max-height: 760px) {
+      .demo[data-on-phone] .play-narr :global(.narr-text:not(.is-open)) {
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+      }
+    }
+    .demo[data-on-phone] .play-narr :global(.narr-action) {
+      display: none;
+    }
+    .demo[data-on-phone] .play-narr :global(.narr-top) {
+      margin-bottom: 4px;
+    }
   }
   @media (min-width: 900px) {
-    .play-aside {
-      display: block;
-    }
     .play-grid {
       grid-template-columns: minmax(300px, 1fr) minmax(340px, 400px);
       align-items: start;

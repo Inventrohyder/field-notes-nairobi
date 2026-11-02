@@ -2,13 +2,19 @@
 /** The rules of the follow-up call, as icon rows (plan section 5). */
 
 interface Props {
-  /** A collapsed version for the narrator column, beside the phone while playing. */
+  /** A compact strip of icons for beside the phone while playing, always open. */
   compact?: boolean;
 }
 const { compact = false } = Astro.props;
 
 const svg = (body: string) =>
   `<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+
+/** Shorter words for the strip beside the phone. */
+const SHORT: Record<string, string> = {
+  three: 'Three questions max',
+  police: 'Not for police or traffic',
+};
 
 const RULES: [string, string, string][] = [
   [
@@ -62,17 +68,19 @@ const RULES: [string, string, string][] = [
 ---
 
 {compact ? (
-  <details class="rules compact">
-    <summary>The rules</summary>
-    <ul>
+  <div class="rules-strip">
+    <p class="strip-h" id="rules-strip-h">
+      The rules
+    </p>
+    <ul aria-labelledby="rules-strip-h">
       {RULES.map(([k, t, ic]) => (
         <li data-rule={k}>
           <span class="ic" set:html={ic} />
-          <span>{t}</span>
+          <span>{SHORT[k] ?? t}</span>
         </li>
       ))}
     </ul>
-  </details>
+  </div>
 ) : (
   <aside class="rules" aria-labelledby="rules-h">
     <h3 id="rules-h">The rules</h3>
@@ -95,20 +103,53 @@ const RULES: [string, string, string][] = [
     padding: 12px 14px;
     margin-top: 16px;
   }
-  .rules.compact {
-    padding: 0 14px;
-    margin-top: 10px;
+  .rules-strip {
+    background: var(--surface);
+    border: 1.5px dashed var(--sign);
+    border-radius: 12px;
+    padding: 6px 8px 8px;
+    margin-top: 8px;
   }
-  .rules summary {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    font-weight: 700;
+  .strip-h {
+    margin: 0 0 4px;
+    font: 700 0.68rem/1 var(--f-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--green-ink);
-    cursor: pointer;
   }
-  .rules.compact ul {
-    padding-bottom: 10px;
+  .rules-strip ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .rules-strip li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    text-align: center;
+    font: 700 0.62rem/1.15 var(--f-body);
+  }
+  .rules-strip .ic {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+  }
+  .rules-strip .ic :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+  @media (min-width: 900px) {
+    .rules-strip ul {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px 6px;
+    }
+    .rules-strip li {
+      font-size: 0.72rem;
+    }
   }
   .rules h3 {
     font-size: 1.1rem;
@@ -122,10 +163,6 @@ const RULES: [string, string, string][] = [
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 8px 14px;
-  }
-  .rules.compact ul {
-    grid-template-columns: 1fr;
-    gap: 6px;
   }
   .rules li {
     display: flex;

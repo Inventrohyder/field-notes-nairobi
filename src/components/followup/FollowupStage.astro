@@ -30,11 +30,35 @@ const illus = '<span class="ph-tag illus">Illustration</span>';
     <EtaBar arrive="4:26 pm" mins="15 min · 6.2 km" to="Sarit Centre" />
   </div>
 
-  {/* Report menu, shared by both scenarios */}
+  {/* Report menu, scenario A */}
   <div class="ph-screen" data-screen="menu" hidden>
     <TurnBanner dist="600 m" street="Uhuru Highway" turn="straight" muted />
     <div class="ph-map">
       <DriveMap layout="highway" cones label="Map behind the report menu." />
+      <CategorySheet
+        title="What do you see?"
+        footer="none"
+        note="First rows of the menu. More report types follow below."
+        grab
+        tiles={[
+          { choice: 'traffic', label: 'Traffic', icon: 'traffic' },
+          { choice: 'police', label: 'Police', icon: 'police' },
+          { choice: 'crash', label: 'Crash', icon: 'crash' },
+          { choice: 'hazard', label: 'Hazard', icon: 'hazard' },
+          { choice: 'weather', label: 'Bad weather', icon: 'weather' },
+          { choice: 'blocked', label: 'Blocked lane', icon: 'blocked' },
+          { choice: 'mapissue', label: 'Map issue', icon: 'mapissue' },
+          { choice: 'closure', label: 'Closure', icon: 'closure' },
+        ]}
+      />
+    </div>
+  </div>
+
+  {/* The same report menu in scenario B, over its own junction */}
+  <div class="ph-screen" data-screen="menu-b" hidden>
+    <TurnBanner dist="200 m" street="Harambee Ave" turn="right" muted />
+    <div class="ph-map">
+      <DriveMap layout="junction" at="past" label="Map behind the report menu." />
       <CategorySheet
         title="What do you see?"
         footer="none"

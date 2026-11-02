@@ -428,6 +428,9 @@ export class Demo {
       box.appendChild(b);
     }
     hide(box, rest.length === 0);
+    // The phone holds every control: on a phone, the narrator shrinks to a line or two.
+    this.root.toggleAttribute('data-on-phone', rest.length === 0 && !step.end);
+    this.els.narrText.classList.remove('is-open');
   }
 
   private renderConversation(step: Step): void {
@@ -577,7 +580,14 @@ export function mountDemos(): void {
         b.addEventListener('click', () => demo.start(b.dataset.otherSc as string, true)),
       );
     demo.showPicker();
-    const narr = root.querySelector<HTMLElement>('[data-narrator]');
+    const narr =
+      root.querySelector<HTMLElement>('.play-narr') ??
+      root.querySelector<HTMLElement>('[data-narrator]');
+    root
+      .querySelector<HTMLElement>('[data-narr-text]')
+      ?.addEventListener('click', (e) =>
+        (e.currentTarget as HTMLElement).classList.toggle('is-open'),
+      );
     if (narr && 'ResizeObserver' in window) {
       new ResizeObserver(() =>
         root.style.setProperty('--narr-h', `${Math.ceil(narr.getBoundingClientRect().height)}px`),

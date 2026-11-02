@@ -66,6 +66,29 @@ for (const scheme of ['light', 'dark'] as const) {
       await checkA11y(page);
     });
 
+    test('a short loop tells the idea above the scenarios', async ({ page }) => {
+      const glance = page.locator('.lg-glance .scene-block');
+      const box = (await glance.locator('.scene').boundingBox())!;
+      const picker = (await page.locator('[data-picker]').boundingBox())!;
+      expect(box.y).toBeLessThan(picker.y);
+      await expect(glance.locator('svg[role="img"]')).toHaveAttribute('aria-label', /AI assistant/);
+      await expect(glance.locator('p.vh')).toContainText('Proposed:');
+      await expect(glance).toHaveAttribute('data-state', 'proposed', { timeout: 5000 });
+      const mb = glance.locator('[data-motion-btn]');
+      await expect(mb).toHaveText('Pause');
+      await mb.click();
+      await expect(mb).toHaveText('Play');
+      await expect(page.locator('.askcard .ask')).toContainText('hazard reports and map issues');
+    });
+
+    test('the rules stay in view beside the phone while playing', async ({ page }) => {
+      await page.click('[data-start="hazard"]');
+      const strip = page.locator('.rules-strip');
+      await expect(strip).toBeVisible();
+      await expect(strip.locator('li')).toHaveCount(7);
+      for (const li of await strip.locator('li').all()) await expect(li).toBeVisible();
+    });
+
     test('scenario A, hazard: main path to the ending', async ({ page }) => {
       await page.click('[data-start="hazard"]');
       await expectStep(page, 'a-drive');
