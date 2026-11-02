@@ -66,6 +66,9 @@ export const idea: Idea = {
     'About a tenth of it is paved: 24,868 km in 2024.<sup class="fn"><a href="#src-cabin-comfort-5" aria-label="Source 5">5</a></sup>',
     'Nairobi potholes made the news again in 2026: craters 15–17 cm deep on Wood Avenue in April, then on Tom Mboya and Ronald Ngala streets, both busy matatu routes, in August.<sup class="fn"><a href="#src-cabin-comfort-6" aria-label="Source 6">6</a></sup>',
   ],
+  knownShort: 'Route speed statistics stand in for road quality today.',
+  askShort:
+    'Score Nairobi’s roads from navigating phones for a month, and show local editors the roughest spots to check.',
   ask: 'Score Nairobi’s roads from navigating phones for one month and show local editors the roughest spots. Kenyan editors can check them on the ground before anyone builds a route option.',
   sources: [
     {

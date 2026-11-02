@@ -40,6 +40,7 @@ export const idea: Idea = {
     'On 9 April 2026 police restricted the Parliament roundabout, part of Wabera Street and City Hall Way “until the activities are over”.<sup class="fn"><a href="#src-closure-in-view-5" aria-label="Source 5">5</a></sup>',
     'At Waze’s April 2023 Office Hours an editor called it “a pity to see closed streets live and not be able to report them”; staff planned work on it that year.<sup class="fn"><a href="#src-closure-in-view-6" aria-label="Source 6">6</a></sup>',
   ],
+  knownShort: 'You can report a closure where you are.',
   ask: 'Let trusted editors mark a closure on a road in view, with a direction picker. Pilot it with EAC editors in Nairobi.',
   sources: [
     {

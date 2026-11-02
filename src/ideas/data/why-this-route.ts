@@ -35,6 +35,9 @@ export const idea: Idea = {
     '8 July 2025: a crash involving at least four trucks near KMTC Makindu caused queues several kilometres long on both sides, and some drivers looked for other routes.<sup class="fn"><a href="#src-why-this-route-3" aria-label="Source 3">3</a></sup>',
     '16 April 2024: a three-vehicle crash near Tsavo held motorists for over 7 hours.<sup class="fn"><a href="#src-why-this-route-4" aria-label="Source 4">4</a></sup>',
   ],
+  knownShort: 'Trip preview shows why a route was picked, before you start.',
+  askShort:
+    'When a route leaves a trunk road such as the A8, show why and the time it saves, before the turn.',
   ask: 'When a route leaves a trunk road such as the A8, show the reason and the time it saves before the turn. Try it on the Nairobi–Mombasa highway first.',
   sources: [
     {

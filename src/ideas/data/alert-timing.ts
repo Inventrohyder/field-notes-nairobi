@@ -46,6 +46,7 @@ export const idea: Idea = {
     'Removing a report takes several “Not there” taps, and notifications can take several minutes to arrive.<sup class="fn"><a href="#src-alert-timing-2" aria-label="Source 2">2</a></sup>',
     'In August 2026 drivers complained that police warnings arrived late, one with three or four seconds’ notice.<sup class="fn"><a href="#src-alert-timing-3" aria-label="Source 3">3</a></sup>',
   ],
+  knownShort: '“Not there” shortens how long a report stays on the map.',
   ask: 'Move the confirm prompt to just after the driver passes a report, and test it on police reports in Nairobi.',
   sources: [
     {

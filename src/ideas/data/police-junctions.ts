@@ -40,6 +40,7 @@ export const idea: Idea = {
   why: [
     'KURA plans to link 125 Nairobi junctions to a control centre, replacing manual control and reducing the officers stationed at intersections.<sup class="fn"><a href="#src-police-junctions-4" aria-label="Source 4">4</a></sup>',
   ],
+  knownShort: 'Waze times each exit of a junction from real speeds.',
   ask: 'Add “Officer directing traffic” as a report in Kenya, and use it to explain and speed up delay learning at those junctions.',
   sources: [
     {

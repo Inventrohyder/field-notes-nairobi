@@ -35,6 +35,7 @@ export const idea: Idea = {
   why: [
     'Pedestrians were 1,685 of the 4,458 road deaths NTSA counted in 2025, about 38%.<sup class="fn"><a href="#src-vendors-4" aria-label="Source 4">4</a></sup>',
   ],
+  knownShort: 'You can report hazards such as a pothole or an object.',
   ask: 'Add a “People on the road” hazard sub-type, starting in Kenya.',
   sources: [
     {

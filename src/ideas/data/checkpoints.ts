@@ -52,6 +52,7 @@ export const idea: Idea = {
   why: [
     'NTSA already announces planned checks: before Easter 2026 it said traffic officers, speed cameras and sobriety checkpoints would be deployed at strategic points with the National Police Service, to reduce fatal crashes.<sup class="fn"><a href="#src-checkpoints-4" aria-label="Source 4">4</a></sup>',
   ],
+  knownShort: 'Waze warns about crash-prone roads from history.',
   ask: 'Pilot a “frequent checks” safety note in Kenya, fed first by police or KeNHA data through a partnership, and worded to encourage compliance.',
   sources: [
     {

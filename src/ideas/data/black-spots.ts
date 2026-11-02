@@ -32,6 +32,7 @@ export const idea: Idea = {
     'NTSA counted 4,458 road deaths in 2025; the NCAJ report presented at State House gives 5,009.<sup class="fn"><a href="#src-black-spots-6" aria-label="Source 6">6</a>,<a href="#src-black-spots-7" aria-label="Source 7">7</a></sup>',
     'The World Bank turned Ma3Route reports into 31,064 geolocated Nairobi crashes; about 14% of crash clusters hold half of them.<sup class="fn"><a href="#src-black-spots-8" aria-label="Source 8">8</a></sup>',
   ],
+  knownShort: 'NTSA lists black spots, and Waze shows crash history alerts.',
   ask: 'Use the KeNHA partnership to load NTSA’s black-spot list into crash history alerts, starting with the A8.',
   sources: [
     {

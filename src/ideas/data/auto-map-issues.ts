@@ -34,6 +34,9 @@ export const idea: Idea = {
   why: [
     'KeNHA partly closed Mombasa Road at Cabanas for drain works from 17 September to 22 October 2026, with a diversion lane and marshals.<sup class="fn"><a href="#src-auto-map-issues-4" aria-label="Source 4">4</a></sup>',
   ],
+  knownShort: 'Waze flags a Missing Road when traces leave the map.',
+  askShort:
+    'Trial in Kenya for three months: raise GPS-trace mismatches, including roads drivers stopped using, as WME map issues.',
   ask: 'For a three-month trial in Kenya, raise GPS-trace mismatches as WME map issues, including a mapped road that drivers have stopped using for weeks, starting on single-carriageway roads outside Nairobi.',
   sources: [
     {

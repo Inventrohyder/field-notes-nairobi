@@ -35,6 +35,7 @@ export const idea: Idea = {
     '27% of Kenya’s 239,105 km road network was in poor condition in 2023.<sup class="fn"><a href="#src-partners-reach-6" aria-label="Source 6">6</a></sup>',
     'Waze’s first in-person Africa meetup was held in Nairobi on 18 April 2026, four days after the KeNHA announcement.<sup class="fn"><a href="#src-partners-reach-7" aria-label="Source 7">7</a></sup>',
   ],
+  knownShort: 'KeNHA partners with Waze on highway updates.',
   ask: 'A joint approach to KURA and KeRRA modelled on the KeNHA partnership, with Kenyan editors as the local contact.',
   sources: [
     {

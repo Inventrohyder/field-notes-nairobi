@@ -15,6 +15,10 @@ export interface Idea {
   problem: string; // HTML allowed (footnote <sup> markup)
   moment?: { text: string; shots?: { src: string; alt: string; caption: string }[] };
   known: string; // "You already know"
+  /** The scene's opening beat label in the Today frame (12 words or fewer, plain text). */
+  knownShort?: string;
+  /** The ask card under the scene (35 words or fewer); the full ask then sits under More. */
+  askShort?: string;
   today: string;
   proposed: string; // one-line captions
   howToday: string;

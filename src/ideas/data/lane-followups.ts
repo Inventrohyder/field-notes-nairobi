@@ -34,6 +34,7 @@ export const idea: Idea = {
   why: [
     'Partner feeds can already say which lanes are closed, lane by lane; drivers in the app cannot. Editors may not use a road closure for a lane closure.<sup class="fn"><a href="#src-lane-followups-3" aria-label="Source 3">3</a>,<a href="#src-lane-followups-4" aria-label="Source 4">4</a></sup>',
   ],
+  knownShort: 'A blocked-lane report can name one lane.',
   ask: 'After a “Blocked lane” or crash report, show the next few drivers a one-tap lane picker. Start on Mombasa Road and Thika Road.',
   sources: [
     {

@@ -31,6 +31,7 @@ export const idea: Idea = {
   why: [
     'Nairobi and the national government plan to revive 40,000 existing street lights and add 10,000 new ones (April 2026).<sup class="fn"><a href="#src-estate-bumps-6" aria-label="Source 6">6</a></sup>',
   ],
+  knownShort: 'Editors map speed bumps, and the app warns before them.',
   ask: 'When the unlit-street and flooding phases reach Kenya, include estate roads, and let local editors map their bumps and drains.',
   sources: [
     {

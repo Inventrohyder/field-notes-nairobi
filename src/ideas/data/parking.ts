@@ -35,6 +35,9 @@ export const idea: Idea = {
     'The county street fee is easy to seed and stable: KSh 300 a day, and in July 2026 the county denied a rise to KSh 535.<sup class="fn"><a href="#src-parking-1" aria-label="Source 1">1</a>,<a href="#src-parking-5" aria-label="Source 5">5</a></sup>',
     'A 2016 ITDP survey counted 5,098 street spaces in Nairobi’s CBD at 91–93% peak occupancy.<sup class="fn"><a href="#src-parking-6" aria-label="Source 6">6</a></sup>',
   ],
+  knownShort: 'Waze shows parking garage prices in the US and Canada.',
+  askShort:
+    'Add a price field to parking places in the editor, starting with Nairobi’s off-street car parks.',
   ask: 'Add a price field to parking places in the editor and let Kenyan editors fill it, starting with Nairobi’s off-street car parks. Street parking would need a new map item, such as a priced zone with the county fee.',
   sources: [
     {

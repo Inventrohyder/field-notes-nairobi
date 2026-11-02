@@ -42,6 +42,9 @@ export const idea: Idea = {
     'The “big or destructive speed bump” option exists in Mexico, India, Israel, Italy and other countries, but not in Kenya.<sup class="fn"><a href="#src-bump-speed-5" aria-label="Source 5">5</a></sup>',
     'KeNHA adds bumps after crashes, as on a Namanga Road black spot after at least 13 deaths in one month in 2025.<sup class="fn"><a href="#src-bump-speed-6" aria-label="Source 6">6</a></sup>',
   ],
+  knownShort: 'Waze warns of speed bumps and sharp curves ahead.',
+  askShort:
+    'In one pilot city, add “most drivers slow to X km/h” to mapped sharp curves, from speeds Waze already has.',
   ask: 'In one pilot city, add “most drivers slow to X km/h” to mapped sharp curves, from speeds Waze already has. A question for the team: is distance the only trigger for these alerts, or does speed play a part?',
   sources: [
     {

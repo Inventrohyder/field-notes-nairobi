@@ -30,6 +30,7 @@ export const idea: Idea = {
     },
   ],
   why: [],
+  knownShort: 'You can share your drive with a link.',
   ask: 'Pick one of the three for a Kenya beta.',
   sources: [
     {

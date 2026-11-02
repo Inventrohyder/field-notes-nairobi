@@ -45,6 +45,9 @@ export const idea: Idea = {
     'There were 2.0 billion Muslims in 2020, 25.6% of the world’s population.<sup class="fn"><a href="#src-mosques-5" aria-label="Source 5">5</a></sup>',
     '5.15 million Kenyans, 10.9%, are Muslim, including about 327,000 in Nairobi (2019 census).<sup class="fn"><a href="#src-mosques-6" aria-label="Source 6">6</a></sup>',
   ],
+  knownShort: 'Plan a drive to arrive on time, and Waze says when to leave.',
+  askShort:
+    'Pilot stops by arrival time or distance in Kenya, with mosque congregation times added by local editors.',
   ask: 'Pilot stops by arrival time or distance for Religious Center, fuel and food in Kenya, with mosque sub-categories and congregation times added by local editors.',
   sources: [
     {

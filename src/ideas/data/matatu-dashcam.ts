@@ -67,6 +67,9 @@ export const idea: Idea = {
     'In March 2026 NTSA announced plans for real-time monitoring of drivers through telematics, dash cams and GPS.<sup class="fn"><a href="#src-matatu-dashcam-9" aria-label="Source 9">9</a></sup>',
     'In a Nairobi trial of trackers on 255 matatus, owners who saw the data had about 45% lower repair costs, and 98% of drivers said they preferred being monitored.<sup class="fn"><a href="#src-matatu-dashcam-10" aria-label="Source 10">10</a></sup>',
   ],
+  knownShort: 'Waymo’s cars send potholes they detect to Waze.',
+  askShort:
+    'Pilot dash cams with one matatu SACCO, so detected changes reach WME as map issues for Nairobi editors to confirm.',
   ask: 'Pilot with one matatu SACCO using fleet dash cams that detect changes on repeat passes, as Bee Maps does. Change detections flow into WME as map issues for Nairobi editors to confirm.',
   sources: [
     {

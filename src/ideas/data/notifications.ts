@@ -29,6 +29,7 @@ export const idea: Idea = {
     },
   ],
   why: [],
+  knownShort: 'You swipe away old notifications by hand.',
   ask: 'Clear planned-drive reminders automatically once the leave-by time passes or the drive starts, and clear daily summaries the next day.',
   sources: [
     {
